@@ -38,7 +38,7 @@ export default function Hero() {
           animate="visible"
         >
           <motion.h2 variants={itemVariants} className="text-blue-500 font-mono font-medium mb-4 tracking-[0.3em]">
-            // FULLSTACK ENGINEER
+            // WEB APP ENGINEER
           </motion.h2>
 
           <motion.h1 variants={itemVariants} className="text-6xl md:text-8xl font-black tracking-tighter text-white leading-[0.9] mb-8">
