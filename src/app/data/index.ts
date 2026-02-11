@@ -193,7 +193,7 @@ export const hardskills = [
   { id: 17, name: 'Scikit-learn', icon: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg', type: 'Machine Learning' },
   { id: 18, name: 'Tailwind CSS', icon: 'https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg', type: 'Frontend' },
   { id: 19, name: 'Vue.js', icon: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original-wordmark.svg', type: 'Frontend' },
-  { id: 20, name: 'Microsoft Office', icon: 'https://cdn-icons-png.flaticon.com/512/732/732221.png', type: 'Productivity' },
+  { id: 20, name: 'Next.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg', type: 'Framework' },
 ];
 
 export const softskills = [
