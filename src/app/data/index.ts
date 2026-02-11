@@ -158,7 +158,7 @@ export const projects = [
     technologies: ['python', 'Streamlit', 'pandas', 'scikit-learn'],
     role: 'Fullstack Developer',
     colors: ['#FFC45C', '#0009FF', '#8A2A52'],
-    images: ['/projects/sentiment-analyzer.png'],
+    images: ['/projects/sentiment1.jpeg'],
     githubLink: 'https://github.com/ReyCannavaro'
   },
     {
@@ -168,7 +168,7 @@ export const projects = [
     technologies: ['python', 'React', 'JavaScript', 'pandas', 'scikit-learn'],
     role: 'Fullstack Developer',
     colors: ['#FFC45C', '#0009FF', '#8A2A52'],
-    images: ['/projects/veritas-ai.png'],
+    images: ['/projects/veritas1.png'],
     githubLink: 'https://github.com/ReyCannavaro/VeritasAI.git'
   },
 ];
