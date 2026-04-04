@@ -7,14 +7,18 @@ import Prestasi from "./components/Prestasi";
 import Footer from "./components/Footer";
 import TerminalWrapper from "./components/Terminal";
 import LoadingScreen from "./components/LoadingScreen";
+import CustomCursor from "./components/CustomCursor";
+import NowPlaying from "./components/NowPlaying";
 
 export default function Home() {
   return (
-    <main className="bg-[#07090f] min-h-screen">
+    <main style={{ background: "var(--bg)", minHeight: "100svh" }}>
       <LoadingScreen />
+      <CustomCursor />
+      <NowPlaying />
       <Navbar />
       <Hero />
-      <div className="space-y-0">
+      <div>
         <Skills />
         <TerminalWrapper />
         <Projects />

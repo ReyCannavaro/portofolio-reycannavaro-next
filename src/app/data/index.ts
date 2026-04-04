@@ -1,5 +1,3 @@
-// src/data/index.ts
-
 export const educationHistory = [
   {
     id: 1,
@@ -205,3 +203,10 @@ export const softskills = [
   { id: 6, name: 'Adaptasi & Belajar Cepat', icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135810.png', type: 'Cognitive' },
   { id: 7, name: 'Kreativitas', icon: 'https://cdn-icons-png.flaticon.com/512/3655/3655588.png', type: 'Creative' },
 ];
+export const nowStatus = {
+  available: true,
+  building:  "UrbanGrow v2 — IoT Dashboard",
+  learning:  "Next.js 15 + Hono.js",
+  location:  "Sidoarjo, Indonesia",
+  timezone:  "WIB (UTC+7)",
+};
