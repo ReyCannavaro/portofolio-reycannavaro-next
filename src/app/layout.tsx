@@ -1,21 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Syne, DM_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/app/components/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const dmMono = DM_Mono({
+  variable: "--font-dm-mono",
   subsets: ["latin"],
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Rey Cannavaro | Fullstack Innovation Engineer",
-  description: "Crafting high-performance digital solutions with Next.js, TypeScript, and Scalable Architectures.",
+  title: "Reyjuno Al Cannavaro — Fullstack Developer",
+  description: "Building scalable digital products. Fullstack Developer based in Sidoarjo, Indonesia.",
 };
 
 export default function RootLayout({
@@ -25,14 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#020617] text-white`}
-      >
-        <Navbar />
-        
-        <main>
-          {children}
-        </main>
+      <body className={`${syne.variable} ${dmMono.variable} antialiased`}>
+        {children}
       </body>
     </html>
   );
