@@ -1,115 +1,104 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  projects, 
-  educationHistory, 
-  prestasiData, 
-  hardskills, 
-  softskills 
-} from "@/app/data/index"; 
-import { 
-  FiTerminal, 
-  FiX, 
-  FiUser, 
-  FiAward, 
-  FiBookOpen, 
-  FiCode, 
-  FiActivity, 
-  FiStar,
-  FiGithub,
-  FiInstagram,
-  FiLinkedin
-} from "react-icons/fi";
+import { projects, educationHistory, prestasiData, hardskills, softskills } from "@/app/data/index";
+import { FiTerminal, FiX, FiUser, FiAward, FiBookOpen, FiCode, FiActivity, FiStar, FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
 
 export default function TerminalWidget() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [input, setInput] = useState("");
-  const [history, setHistory] = useState<{ cmd: string; res: React.ReactNode }[]>([]);
-  
+  const [isOpen, setIsOpen]     = useState(false);
+  const [isMounted, setMounted] = useState(false);
+  const [input, setInput]       = useState("");
+  const [history, setHistory]   = useState<{ cmd: string; res: React.ReactNode }[]>([]);
   const dummyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const asciiArt = `
-    ____                      ______                                              
-   / __ \\___  __  __         / ____/___ _____  ____  ____ __   ______ __________ 
-  / /_/ / _ \\/ / / /        / /   / __ \`/ __ \\/ __ \\/ __ \`/ | / / __ \`/ ___/ __ \\
- / _, _/  __/ /_/ /        / /___/ /_/ / / / / / / / /_/ /| |/ / /_/ / /  / /_/ /
-/_/ |_|\\___/\\__, /         \\____/\\__,_/_/ /_/_/ /_/\\__,_/ |___/\\__,_/_/   \\____/ 
-           /____/                                                                 
-  `;
+  const INIT_MSG = (
+    <div style={{ display:"flex", flexDirection:"column", gap:"0.75rem" }}>
+      <pre style={{
+        fontFamily:"var(--font-dm-mono)", fontSize:"clamp(4px,1.1vw,7px)",
+        color:"var(--accent)", lineHeight:1.35, whiteSpace:"pre",
+        textShadow:"0 0 12px rgba(99,102,241,0.35)",
+      }}>{`    ____               ______                                     
+   / __ \\___ _  __     / ____/___ _____  ____  ____ _   ______ __________ 
+  / /_/ / _ \\| |/ /    / /   / __ \\/ __ \\/ __ \\/ __ \\ | / / __ \\/ ___/ __ \\
+ / _, _/  __/>  <    / /___/ /_/ / / / / / / / /_/ /| |/ / /_/ / /  / /_/ /
+/_/ |_|\\___/_/|_|    \\____/\\__,_/_/ /_/_/ /_/\\__,_/ |___/\\__,_/_/   \\____/ `}</pre>
+      <div style={{ borderLeft:"2px solid rgba(99,102,241,0.4)", paddingLeft:"0.75rem" }}>
+        <p style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.62rem", color:"var(--accent)", letterSpacing:"0.15em", textTransform:"uppercase", marginBottom:"0.2rem" }}>
+          Rey-OS v2.1 // Sidoarjo_ID
+        </p>
+        <p style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.58rem", color:"var(--fg-3)" }}>
+          Type <span style={{ color:"#fbbf24", fontWeight:600 }}>&apos;help&apos;</span> to explore.
+        </p>
+      </div>
+    </div>
+  );
 
   useEffect(() => {
-    setIsMounted(true);
-    setHistory([
-      { cmd: "system_init", res: (
-          <div className="space-y-4">
-            <pre className="text-[4px] sm:text-[6px] text-blue-500 font-mono leading-tight whitespace-pre drop-shadow-[0_0_8px_rgba(59,130,246,0.4)]">
-              {asciiArt}
-            </pre>
-            <div className="border-l-2 border-blue-500/50 pl-3 py-1 font-mono">
-              <p className="text-blue-400 font-bold text-[10px] tracking-widest uppercase italic">Rey-OS Kernel 2.0.6 // Sidoarjo_ID</p>
-              <p className="text-slate-500 text-[9px]">Welcome, user. Type <span className="text-yellow-500 font-bold underline">'help'</span> to explore data.</p>
-            </div>
-          </div>
-        ) 
-      },
-    ]);
+    setMounted(true);
+    setHistory([{ cmd:"system_init", res: INIT_MSG }]);
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      const timer = setTimeout(() => inputRef.current?.focus(), 300);
-      return () => clearTimeout(timer);
-    }
+    if (isOpen) { const t = setTimeout(() => inputRef.current?.focus(), 300); return () => clearTimeout(t); }
   }, [isOpen]);
 
-  useEffect(() => {
-    dummyRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [history]);
+  useEffect(() => { dummyRef.current?.scrollIntoView({ behavior:"smooth" }); }, [history]);
+
+  const Tag = ({ c, children }: { c: string; children: React.ReactNode }) => (
+    <span style={{
+      fontFamily:"var(--font-dm-mono)", fontSize:"0.55rem", letterSpacing:"0.08em",
+      padding:"2px 7px", borderRadius:4,
+      background:`${c}10`, border:`1px solid ${c}30`, color:c,
+      textTransform:"uppercase",
+    }}>{children}</span>
+  );
 
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanInput = input.toLowerCase().trim();
-    if (!cleanInput) return;
+    const cmd = input.toLowerCase().trim();
+    if (!cmd) return;
+    let res: React.ReactNode;
 
-    let response: React.ReactNode;
-    switch (cleanInput) {
+    switch (cmd) {
       case "help":
-        response = (
-          <div className="grid grid-cols-1 gap-1 text-[10px] text-slate-400 border-l border-white/5 pl-3">
+        res = (
+          <div style={{ display:"grid", gridTemplateColumns:"auto 1fr", gap:"0.3rem 1.2rem", fontFamily:"var(--font-dm-mono)", fontSize:"0.6rem" }}>
             {[
-              ["projects", "Showcase of my builds"],
-              ["skills", "Tech stack & soft skills"],
-              ["prestasi", "Awards & leadership records"],
-              ["education", "Academic journey"],
-              ["whoami", "System architect info"],
-              ["clear", "Flush buffer"],
-            ].map(([c, d]) => (
-              <div key={c} className="flex gap-4">
-                <span className="text-blue-400 font-bold min-w-[70px]">{c}</span>
-                <span className="text-slate-600 italic"># {d}</span>
-              </div>
+              ["projects",   "Showcase of my builds"],
+              ["skills",     "Tech stack & soft skills"],
+              ["prestasi",   "Awards & leadership records"],
+              ["education",  "Academic journey"],
+              ["whoami",     "System architect info"],
+              ["clear",      "Flush buffer"],
+            ].map(([c,d]) => (
+              <>
+                <span key={`c-${c}`} style={{ color:"var(--accent)", fontWeight:600 }}>{c}</span>
+                <span key={`d-${c}`} style={{ color:"var(--fg-3)", fontStyle:"italic" }}># {d}</span>
+              </>
             ))}
           </div>
         );
         break;
 
       case "projects":
-        response = (
-          <div className="grid grid-cols-1 gap-3 mt-2">
-            {projects.map((p) => (
-              <div key={p.id} className="p-3 bg-white/[0.03] rounded-lg border border-white/5 hover:border-blue-500/40 transition-all group">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-blue-400 font-bold text-xs">./{p.name.replace(/\s+/g, '-').toLowerCase()}</span>
-                  <span className="text-[8px] px-1.5 py-0.5 bg-blue-500/10 text-blue-300 rounded uppercase">{p.role}</span>
+        res = (
+          <div style={{ display:"flex", flexDirection:"column", gap:"0.6rem" }}>
+            {projects.map(p => (
+              <div key={p.id} style={{
+                padding:"0.65rem 0.75rem", borderRadius:8,
+                background:"rgba(255,255,255,0.02)",
+                border:"1px solid rgba(255,255,255,0.05)",
+              }}>
+                <div style={{ display:"flex", justifyContent:"space-between", marginBottom:"0.25rem" }}>
+                  <span style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.65rem", color:"var(--accent)", fontWeight:600 }}>./{p.name.replace(/\s+/g,"-").toLowerCase()}</span>
+                  <span style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.5rem", color:"#a5b4fc", letterSpacing:"0.1em", textTransform:"uppercase" }}>{p.role}</span>
                 </div>
-                <p className="text-[9px] text-slate-500 mb-2 line-clamp-1 group-hover:line-clamp-none transition-all">{p.description}</p>
-                <div className="flex flex-wrap gap-1">
-                  {p.technologies.map(t => (
-                    <span key={t} className="text-[7px] text-slate-400 bg-white/5 px-1 rounded border border-white/5">{t}</span>
-                  ))}
+                <p style={{ fontFamily:"var(--font-syne)", fontSize:"0.65rem", color:"var(--fg-3)", lineHeight:1.5, marginBottom:"0.4rem",
+                  display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical", overflow:"hidden",
+                }}>{p.description}</p>
+                <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>
+                  {p.technologies.slice(0,4).map(t => <Tag key={t} c="var(--fg-3)">{t}</Tag>)}
                 </div>
               </div>
             ))}
@@ -118,26 +107,22 @@ export default function TerminalWidget() {
         break;
 
       case "skills":
-        response = (
-          <div className="space-y-4 mt-2">
+        res = (
+          <div style={{ display:"flex", flexDirection:"column", gap:"1rem" }}>
             <div>
-              <p className="text-[9px] text-yellow-500 font-bold uppercase mb-2 flex items-center gap-2"><FiCode /> Hardskills</p>
-              <div className="flex flex-wrap gap-1.5">
-                {hardskills.map(s => (
-                  <span key={s.id} className="px-2 py-0.5 bg-blue-500/5 border border-blue-500/20 text-blue-400 text-[9px] rounded uppercase font-bold tracking-tighter">
-                    {s.name}
-                  </span>
-                ))}
+              <p style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.55rem", color:"#fbbf24", textTransform:"uppercase", letterSpacing:"0.15em", marginBottom:"0.5rem", display:"flex", alignItems:"center", gap:4 }}>
+                <FiCode size={10}/> Hardskills
+              </p>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>
+                {hardskills.map(s => <Tag key={s.id} c="var(--accent)">{s.name}</Tag>)}
               </div>
             </div>
             <div>
-              <p className="text-[9px] text-green-500 font-bold uppercase mb-2 flex items-center gap-2"><FiStar /> Softskills</p>
-              <div className="flex flex-wrap gap-1.5">
-                {softskills.map(s => (
-                  <span key={s.id} className="px-2 py-0.5 bg-green-500/5 border border-green-500/20 text-green-400 text-[9px] rounded uppercase font-bold tracking-tighter">
-                    {s.name}
-                  </span>
-                ))}
+              <p style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.55rem", color:"#4ade80", textTransform:"uppercase", letterSpacing:"0.15em", marginBottom:"0.5rem", display:"flex", alignItems:"center", gap:4 }}>
+                <FiStar size={10}/> Softskills
+              </p>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>
+                {softskills.map(s => <Tag key={s.id} c="#4ade80">{s.name}</Tag>)}
               </div>
             </div>
           </div>
@@ -145,14 +130,19 @@ export default function TerminalWidget() {
         break;
 
       case "prestasi":
-        response = (
-          <div className="space-y-3 mt-2">
-            {prestasiData.map((pr) => (
-              <div key={pr.id} className="flex gap-3 items-start p-2 bg-white/[0.02] border-l border-yellow-500/40 rounded-r">
-                <FiAward className="text-yellow-500 shrink-0 mt-0.5" size={12} />
+        res = (
+          <div style={{ display:"flex", flexDirection:"column", gap:"0.5rem" }}>
+            {prestasiData.map(pr => (
+              <div key={pr.id} style={{
+                display:"flex", gap:"0.65rem", alignItems:"flex-start",
+                padding:"0.5rem 0.65rem", borderRadius:6,
+                background:"rgba(255,255,255,0.015)",
+                borderLeft:"2px solid rgba(251,191,36,0.3)",
+              }}>
+                <FiAward size={11} style={{ color:"#fbbf24", flexShrink:0, marginTop:2 }}/>
                 <div>
-                  <p className="text-[10px] text-white font-bold leading-tight">{pr.title}</p>
-                  <p className="text-[8px] text-slate-500 font-mono italic">{pr.organizer} — {pr.year}</p>
+                  <p style={{ fontFamily:"var(--font-syne)", fontSize:"0.65rem", color:"var(--fg)", fontWeight:600, lineHeight:1.4, marginBottom:2 }}>{pr.title}</p>
+                  <p style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.52rem", color:"var(--fg-3)", fontStyle:"italic" }}>{pr.organizer} — {pr.year}</p>
                 </div>
               </div>
             ))}
@@ -161,41 +151,50 @@ export default function TerminalWidget() {
         break;
 
       case "education":
-        response = (
-          <div className="space-y-4 mt-2 font-mono">
-             {educationHistory.map((ed) => (
-               <div key={ed.id} className="flex items-start gap-3">
-                 <FiBookOpen className="text-blue-500 mt-1 shrink-0" size={12} />
-                 <div>
-                   <p className="text-[11px] text-white font-bold">{ed.institution}</p>
-                   <p className="text-[9px] text-blue-400">{ed.degree} ({ed.graduationYear})</p>
-                   <ul className="mt-1">
-                     {ed.details.map((detail, idx) => (
-                       <li key={idx} className="text-[8px] text-slate-500 flex items-center gap-2">
-                         <span className="w-1 h-1 bg-slate-700 rounded-full" /> {detail}
-                       </li>
-                     ))}
-                   </ul>
-                 </div>
-               </div>
-             ))}
+        res = (
+          <div style={{ display:"flex", flexDirection:"column", gap:"0.75rem", fontFamily:"var(--font-dm-mono)" }}>
+            {educationHistory.map(ed => (
+              <div key={ed.id} style={{ display:"flex", gap:"0.65rem", alignItems:"flex-start" }}>
+                <FiBookOpen size={11} style={{ color:"var(--accent)", marginTop:3, flexShrink:0 }}/>
+                <div>
+                  <p style={{ fontSize:"0.68rem", color:"var(--fg)", fontWeight:600, marginBottom:2 }}>{ed.institution}</p>
+                  <p style={{ fontSize:"0.58rem", color:"var(--accent)", marginBottom:4 }}>{ed.degree} ({ed.graduationYear})</p>
+                  {ed.details.map((d,i) => (
+                    <p key={i} style={{ fontSize:"0.55rem", color:"var(--fg-3)", display:"flex", alignItems:"center", gap:4 }}>
+                      <span style={{ width:4, height:4, borderRadius:"50%", background:"var(--border-2)", display:"inline-block", flexShrink:0 }} /> {d}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         );
         break;
 
       case "whoami":
-        response = (
-          <div className="flex items-center gap-4 p-4 bg-blue-500/5 rounded-2xl border border-blue-500/10">
-            <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.5)] border-2 border-white/10 shrink-0">
-              <FiUser className="text-white" size={24} />
+        res = (
+          <div style={{
+            display:"flex", alignItems:"center", gap:"0.85rem",
+            padding:"0.85rem", borderRadius:12,
+            background:"rgba(99,102,241,0.05)",
+            border:"1px solid rgba(99,102,241,0.12)",
+          }}>
+            <div style={{
+              width:44, height:44, borderRadius:"50%",
+              background:"var(--accent)", flexShrink:0,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              boxShadow:"0 0 16px rgba(99,102,241,0.4)",
+              border:"2px solid rgba(255,255,255,0.1)",
+            }}>
+              <FiUser size={20} style={{ color:"#fff" }}/>
             </div>
             <div>
-              <p className="text-sm font-black text-white tracking-widest uppercase">Rey Cannavaro</p>
-              <p className="text-[9px] text-blue-400 font-mono italic mb-1">Informatics student @ SMK Telkom Sidoarjo</p>
-              <div className="flex gap-3 text-slate-500">
-                <FiGithub size={12} className="hover:text-white cursor-pointer" />
-                <FiInstagram size={12} className="hover:text-white cursor-pointer" />
-                <FiLinkedin size={12} className="hover:text-white cursor-pointer" />
+              <p style={{ fontFamily:"var(--font-syne)", fontWeight:800, fontSize:"0.82rem", color:"var(--fg)", letterSpacing:"-0.01em", marginBottom:2 }}>Rey Cannavaro</p>
+              <p style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.58rem", color:"var(--accent)", fontStyle:"italic", marginBottom:6 }}>Informatics @ SMK Telkom Sidoarjo</p>
+              <div style={{ display:"flex", gap:10 }}>
+                {[FiGithub, FiInstagram, FiLinkedin].map((Icon,i) => (
+                  <Icon key={i} size={12} style={{ color:"var(--fg-3)", cursor:"default" }}/>
+                ))}
               </div>
             </div>
           </div>
@@ -206,10 +205,10 @@ export default function TerminalWidget() {
         setHistory([]); setInput(""); return;
 
       default:
-        response = <p className="text-red-500 text-[10px] font-mono italic">bash: command not found: {input}</p>;
+        res = <p style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.6rem", color:"#f87171", fontStyle:"italic" }}>bash: command not found: {input}</p>;
     }
 
-    setHistory([...history, { cmd: input, res: response }]);
+    setHistory(h => [...h, { cmd:input, res }]);
     setInput("");
   };
 
@@ -217,76 +216,110 @@ export default function TerminalWidget() {
 
   return (
     <>
+      {/* Toggle button */}
       <motion.button
-        initial={{ scale: 0, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-[999] w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(37,99,235,0.6)] border border-white/20 text-white"
+        initial={{ scale:0, y:20 }} animate={{ scale:1, y:0 }}
+        whileHover={{ scale:1.08 }} whileTap={{ scale:0.92 }}
+        onClick={() => setIsOpen(o => !o)}
+        style={{
+          position:"fixed", bottom:"1.5rem", right:"1.5rem", zIndex:9990,
+          width:52, height:52, borderRadius:14,
+          background:"var(--accent)",
+          boxShadow:"0 12px 32px -4px rgba(99,102,241,0.55)",
+          border:"1px solid rgba(255,255,255,0.15)",
+          color:"#fff", display:"flex", alignItems:"center", justifyContent:"center",
+          cursor:"none",
+        }}
       >
         <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.div key="close" initial={{ opacity: 0, rotate: -90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: 90 }}>
-              <FiX size={24} />
-            </motion.div>
-          ) : (
-            <motion.div key="open" initial={{ opacity: 0, rotate: 90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: -90 }}>
-              <FiTerminal size={24} />
-            </motion.div>
-          )}
+          {isOpen
+            ? <motion.div key="x"   initial={{ opacity:0, rotate:-90 }} animate={{ opacity:1, rotate:0 }} exit={{ opacity:0, rotate:90  }}><FiX size={22}/></motion.div>
+            : <motion.div key="tm"  initial={{ opacity:0, rotate:90  }} animate={{ opacity:1, rotate:0 }} exit={{ opacity:0, rotate:-90 }}><FiTerminal size={20}/></motion.div>
+          }
         </AnimatePresence>
       </motion.button>
 
+      {/* Terminal panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.95, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: 40, scale: 0.95, filter: "blur(10px)" }}
-            className="fixed bottom-24 right-6 z-[998] w-[92vw] md:w-[450px] h-[600px] bg-[#020617]/90 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col font-mono ring-1 ring-white/5">
-            <div className="bg-white/[0.03] px-6 py-4 flex justify-between items-center border-b border-white/5 shrink-0">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-                <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
-              </div>
-              <div className="flex items-center gap-2 opacity-40">
-                <FiActivity size={12} className="text-blue-500 animate-pulse" />
-                <span className="text-[9px] font-black tracking-[0.4em] uppercase text-white">Shell.v2</span>
+            initial={{ opacity:0, y:32, scale:0.96, filter:"blur(8px)" }}
+            animate={{ opacity:1, y:0,  scale:1,    filter:"blur(0px)" }}
+            exit={   { opacity:0, y:32, scale:0.96, filter:"blur(8px)" }}
+            transition={{ duration:0.3, ease:[0.23,1,0.32,1] }}
+            style={{
+              position:"fixed", bottom:"4.75rem", right:"1.5rem", zIndex:9989,
+              width:"min(92vw, 440px)", height:560,
+              background:"rgba(7,9,15,0.94)", backdropFilter:"blur(24px)",
+              borderRadius:18, border:"1px solid rgba(99,102,241,0.18)",
+              boxShadow:"0 40px 80px -16px rgba(0,0,0,0.85), 0 0 0 1px rgba(99,102,241,0.06)",
+              display:"flex", flexDirection:"column", overflow:"hidden",
+              fontFamily:"var(--font-dm-mono)",
+            }}
+          >
+            {/* Title bar */}
+            <div style={{
+              display:"flex", alignItems:"center", gap:6,
+              padding:"10px 14px", flexShrink:0,
+              borderBottom:"1px solid rgba(255,255,255,0.04)",
+              background:"rgba(255,255,255,0.015)",
+            }}>
+              {["#ff5f56","#ffbd2e","#27c93f"].map(c => (
+                <span key={c} style={{ width:10, height:10, borderRadius:"50%", background:c, display:"block" }} />
+              ))}
+              <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:5, opacity:0.45 }}>
+                <FiActivity size={10} style={{ color:"var(--accent)", animation:"pulse 2s ease infinite" }}/>
+                <span style={{ fontSize:"0.55rem", letterSpacing:"0.3em", textTransform:"uppercase", color:"var(--fg)" }}>Shell.v2</span>
               </div>
             </div>
 
-            <div className="flex-grow p-6 overflow-y-auto custom-scrollbar bg-gradient-to-b from-transparent to-blue-500/[0.02]">
+            {/* Output */}
+            <div className="custom-scrollbar" style={{ flex:1, padding:"1rem 1.1rem", overflowY:"auto", overflowX:"hidden" }}>
               {history.map((item, i) => (
-                <div key={i} className="mb-8 last:mb-2 animate-in fade-in slide-in-from-left-4 duration-500">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-green-500 font-black text-xs">➜</span>
-                    <span className="text-blue-500 font-bold text-[10px]">~</span>
-                    <span className="text-[10px] text-white/40 tracking-wider font-bold">{item.cmd}</span>
+                <div key={i} style={{ marginBottom:"1.5rem" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:"0.6rem" }}>
+                    <span style={{ color:"#4ade80", fontWeight:700, fontSize:"0.7rem" }}>➜</span>
+                    <span style={{ color:"var(--accent)", fontSize:"0.65rem", fontWeight:600 }}>~</span>
+                    <span style={{ fontSize:"0.62rem", color:"rgba(255,255,255,0.3)", letterSpacing:"0.06em" }}>{item.cmd}</span>
                   </div>
-                  <div className="pl-5 border-l border-blue-500/10 ml-1.5 transition-all">{item.res}</div>
+                  <div style={{ paddingLeft:"1.1rem", borderLeft:"1px solid rgba(99,102,241,0.12)", marginLeft:4 }}>
+                    {item.res}
+                  </div>
                 </div>
               ))}
               <div ref={dummyRef} />
 
-              <form onSubmit={handleCommand} className="flex items-center gap-3 mt-8 pb-10 group">
-                <span className="text-green-500 font-black text-lg">➜</span>
-                <span className="text-blue-500 font-bold text-sm tracking-widest animate-pulse">~</span>
+              {/* Input */}
+              <form onSubmit={handleCommand} style={{ display:"flex", alignItems:"center", gap:8, marginTop:"1rem", paddingBottom:"0.5rem" }}>
+                <span style={{ color:"#4ade80", fontWeight:700, fontSize:"0.85rem" }}>➜</span>
+                <span style={{ color:"var(--accent)", fontSize:"0.72rem", fontWeight:600 }}>~</span>
                 <input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="bg-transparent border-none outline-none text-blue-400 flex-grow p-0 focus:ring-0 text-lg font-mono caret-white placeholder:text-slate-800"
-                  placeholder="type command..."
+                  ref={inputRef} type="text" value={input}
+                  onChange={e => setInput(e.target.value)}
+                  placeholder="type command…"
+                  style={{
+                    background:"transparent", border:"none", outline:"none",
+                    color:"var(--accent)", flex:1, padding:0,
+                    fontFamily:"var(--font-dm-mono)", fontSize:"0.78rem",
+                    caretColor:"var(--fg)",
+                  }}
                 />
               </form>
             </div>
 
-            <div className="p-3 bg-white/[0.02] border-t border-white/5 flex justify-between px-6">
-               <span className="text-[8px] text-slate-600 font-bold uppercase tracking-widest italic">Sidoarjo Location Service: Active</span>
-               <span className="text-[8px] text-blue-500 font-black animate-pulse">LIVE SESSION</span>
+            {/* Status bar */}
+            <div style={{
+              display:"flex", justifyContent:"space-between", alignItems:"center",
+              padding:"6px 14px", flexShrink:0,
+              borderTop:"1px solid rgba(255,255,255,0.04)",
+              background:"rgba(99,102,241,0.04)",
+            }}>
+              <span style={{ fontSize:"0.52rem", color:"var(--fg-3)", letterSpacing:"0.15em", textTransform:"uppercase", fontStyle:"italic" }}>
+                Sidoarjo · UTC+7
+              </span>
+              <span style={{ fontSize:"0.52rem", color:"var(--accent)", letterSpacing:"0.15em", textTransform:"uppercase", fontWeight:600 }}>
+                LIVE
+              </span>
             </div>
           </motion.div>
         )}
