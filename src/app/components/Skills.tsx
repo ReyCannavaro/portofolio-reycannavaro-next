@@ -2,10 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { hardskills, softskills } from "@/app/data/index";
 
-/* ── Category filter list ──────────────────────────────────────────────── */
 const CATEGORIES = ["All", "Frontend", "Backend", "Database", "Mobile Dev", "CLI", "UI/UX", "Version Control", "API Testing", "Data Science", "Machine Learning", "Framework"];
 
-/* ── Skill level map — add/adjust as needed ────────────────────────────── */
 const SKILL_LEVELS: Record<string, number> = {
   "HTML5": 92, "CSS3": 88, "JavaScript": 82, "React": 80, "Vue.js": 65,
   "Next.js": 75, "Tailwind CSS": 90, "Bootstrap": 78,
@@ -15,7 +13,6 @@ const SKILL_LEVELS: Record<string, number> = {
   "Android": 55, "React Native": 60,
 };
 
-/* ── Soft skill icon mapping — emoji as fallback ───────────────────────── */
 const SOFT_ICONS: Record<string, string> = {
   "Komunikasi":          "◎",
   "Kerja Sama Tim":      "◈",
@@ -338,8 +335,6 @@ export default function Skills() {
 
       <section ref={sectionRef} id="skills" className="skills-section">
         <div className="skills-inner">
-
-          {/* ── Editorial header ── */}
           <div className={`skills-header skills-reveal ${revealed ? "shown" : ""}`}>
             <div>
               <p style={{
@@ -370,7 +365,6 @@ export default function Skills() {
             </div>
           </div>
 
-          {/* ── Filter bar ── */}
           <div className={`filter-bar skills-reveal ${revealed ? "shown" : ""}`}
             style={{ transitionDelay:"0.1s" }}>
             {uniqueCats.map(cat => (
@@ -384,7 +378,6 @@ export default function Skills() {
             ))}
           </div>
 
-          {/* ── Hard skills grid ── */}
           <div className="skill-grid">
             {filtered.map((skill, i) => {
               const level = SKILL_LEVELS[skill.name] ?? 65;
@@ -410,7 +403,6 @@ export default function Skills() {
             })}
           </div>
 
-          {/* ── Soft skills ── */}
           <div className={`skills-reveal ${revealed ? "shown" : ""}`}
             style={{ transitionDelay:"0.3s" }}>
             <div className="soft-header">
