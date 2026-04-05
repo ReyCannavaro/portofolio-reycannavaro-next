@@ -196,12 +196,21 @@ export default function Projects() {
   const [inView, setInView]   = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => { setMounted(true); }, []);
+
   useEffect(() => {
-    setMounted(true);
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold:0.15 });
-    if (headerRef.current) obs.observe(headerRef.current);
-    return () => obs.disconnect();
-  }, []);
+    if (!mounted) return;
+    const id = setTimeout(() => {
+      const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold:0.05, rootMargin:"0px 0px -40px 0px" });
+      if (headerRef.current) obs.observe(headerRef.current);
+      if (headerRef.current) {
+        const r = headerRef.current.getBoundingClientRect();
+        if (r.top < window.innerHeight) setInView(true);
+      }
+      return () => obs.disconnect();
+    }, 50);
+    return () => clearTimeout(id);
+  }, [mounted]);
 
   if (!mounted) return null;
 
