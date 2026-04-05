@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects, educationHistory, prestasiData, hardskills, softskills } from "@/app/data/index";
 import { FiTerminal, FiX, FiUser, FiAward, FiBookOpen, FiCode, FiActivity, FiStar, FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
@@ -9,8 +9,19 @@ export default function TerminalWidget() {
   const [isMounted, setMounted] = useState(false);
   const [input, setInput]       = useState("");
   const [history, setHistory]   = useState<{ cmd: string; res: React.ReactNode }[]>([]);
+  const [termHeight, setTermHeight] = useState(520);
   const dummyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const calcHeight = () => {
+      const available = window.innerHeight - 64 - 80 - 24;
+      setTermHeight(Math.min(Math.max(available, 300), 620));
+    };
+    calcHeight();
+    window.addEventListener("resize", calcHeight);
+    return () => window.removeEventListener("resize", calcHeight);
+  }, []);
 
   const INIT_MSG = (
     <div style={{ display:"flex", flexDirection:"column", gap:"0.75rem" }}>
@@ -18,11 +29,7 @@ export default function TerminalWidget() {
         fontFamily:"var(--font-dm-mono)", fontSize:"clamp(4px,1.1vw,7px)",
         color:"var(--accent)", lineHeight:1.35, whiteSpace:"pre",
         textShadow:"0 0 12px rgba(99,102,241,0.35)",
-      }}>{`    ____               ______                                     
-   / __ \\___ _  __     / ____/___ _____  ____  ____ _   ______ __________ 
-  / /_/ / _ \\| |/ /    / /   / __ \\/ __ \\/ __ \\/ __ \\ | / / __ \\/ ___/ __ \\
- / _, _/  __/>  <    / /___/ /_/ / / / / / / / /_/ /| |/ / /_/ / /  / /_/ /
-/_/ |_|\\___/_/|_|    \\____/\\__,_/_/ /_/_/ /_/\\__,_/ |___/\\__,_/_/   \\____/ `}</pre>
+      }}>{`    ____               ______                                     \n   / __ \\___ _  __     / ____/___ _____  ____  ____ _   ______ __________ \n  / /_/ / _ \\| |/ /    / /   / __ \\/ __ \\/ __ \\/ __ \\ | / / __ \\/ ___/ __ \\\n / _, _/  __/>  <    / /___/ /_/ / / / / / / / /_/ /| |/ / /_/ / /  / /_/ /\n/_/ |_|\\___/_/|_|    \\____/\\__,_/_/ /_/_/ /_/\\__,_/ |___/\\__,_/_/   \\____/ `}</pre>
       <div style={{ borderLeft:"2px solid rgba(99,102,241,0.4)", paddingLeft:"0.75rem" }}>
         <p style={{ fontFamily:"var(--font-dm-mono)", fontSize:"0.62rem", color:"var(--accent)", letterSpacing:"0.15em", textTransform:"uppercase", marginBottom:"0.2rem" }}>
           Rey-OS v2.1 // Sidoarjo_ID
@@ -72,10 +79,10 @@ export default function TerminalWidget() {
               ["whoami",     "System architect info"],
               ["clear",      "Flush buffer"],
             ].map(([c,d]) => (
-              <>
-                <span key={`c-${c}`} style={{ color:"var(--accent)", fontWeight:600 }}>{c}</span>
-                <span key={`d-${c}`} style={{ color:"var(--fg-3)", fontStyle:"italic" }}># {d}</span>
-              </>
+              <React.Fragment key={c}>
+                <span style={{ color:"var(--accent)", fontWeight:600 }}>{c}</span>
+                <span style={{ color:"var(--fg-3)", fontStyle:"italic" }}># {d}</span>
+              </React.Fragment>
             ))}
           </div>
         );
@@ -216,7 +223,6 @@ export default function TerminalWidget() {
 
   return (
     <>
-      {/* Toggle button */}
       <motion.button
         initial={{ scale:0, y:20 }} animate={{ scale:1, y:0 }}
         whileHover={{ scale:1.08 }} whileTap={{ scale:0.92 }}
@@ -239,7 +245,6 @@ export default function TerminalWidget() {
         </AnimatePresence>
       </motion.button>
 
-      {/* Terminal panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -248,8 +253,13 @@ export default function TerminalWidget() {
             exit={   { opacity:0, y:32, scale:0.96, filter:"blur(8px)" }}
             transition={{ duration:0.3, ease:[0.23,1,0.32,1] }}
             style={{
-              position:"fixed", bottom:"4.75rem", right:"1.5rem", zIndex:9989,
-              width:"min(92vw, 440px)", height:560,
+              position:"fixed",
+              bottom:"4.75rem",
+              right:"1.5rem",
+              zIndex:9989,
+              width:"min(92vw, 440px)",
+              height:termHeight,
+              maxHeight:`calc(100vh - 64px - 5.5rem)`,
               background:"rgba(7,9,15,0.94)", backdropFilter:"blur(24px)",
               borderRadius:18, border:"1px solid rgba(99,102,241,0.18)",
               boxShadow:"0 40px 80px -16px rgba(0,0,0,0.85), 0 0 0 1px rgba(99,102,241,0.06)",
@@ -257,7 +267,6 @@ export default function TerminalWidget() {
               fontFamily:"var(--font-dm-mono)",
             }}
           >
-            {/* Title bar */}
             <div style={{
               display:"flex", alignItems:"center", gap:6,
               padding:"10px 14px", flexShrink:0,
@@ -273,7 +282,6 @@ export default function TerminalWidget() {
               </div>
             </div>
 
-            {/* Output */}
             <div className="custom-scrollbar" style={{ flex:1, padding:"1rem 1.1rem", overflowY:"auto", overflowX:"hidden" }}>
               {history.map((item, i) => (
                 <div key={i} style={{ marginBottom:"1.5rem" }}>
@@ -289,7 +297,6 @@ export default function TerminalWidget() {
               ))}
               <div ref={dummyRef} />
 
-              {/* Input */}
               <form onSubmit={handleCommand} style={{ display:"flex", alignItems:"center", gap:8, marginTop:"1rem", paddingBottom:"0.5rem" }}>
                 <span style={{ color:"#4ade80", fontWeight:700, fontSize:"0.85rem" }}>➜</span>
                 <span style={{ color:"var(--accent)", fontSize:"0.72rem", fontWeight:600 }}>~</span>
@@ -307,7 +314,6 @@ export default function TerminalWidget() {
               </form>
             </div>
 
-            {/* Status bar */}
             <div style={{
               display:"flex", justifyContent:"space-between", alignItems:"center",
               padding:"6px 14px", flexShrink:0,
