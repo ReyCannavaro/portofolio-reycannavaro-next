@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { FiInstagram, FiGithub, FiLinkedin, FiMail, FiArrowUpRight } from "react-icons/fi";
+import CodeRain from "./CodeRain";
 
 const ROLES = ["Fullstack Developer", "Laravel Craftsman", "React Enthusiast", "IoT Builder"];
 function useTypewriter(words: string[], speed = 75, pause = 1800) {
@@ -169,7 +170,8 @@ export default function Hero() {
       `}</style>
 
       <section ref={ref} id="about" className="hero-root">
-        <div className="hero-container">
+        <CodeRain />
+        <div className="hero-container" style={{ position:"relative", zIndex:1 }}>
           <div>
             <motion.div {...anim(0.1)} style={{ display:"flex", alignItems:"center", gap:"0.65rem", marginBottom:"1.4rem" }}>
               <span style={{ width:20, height:1, background:"var(--accent)", display:"block", flexShrink:0 }} />
