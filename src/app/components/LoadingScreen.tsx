@@ -136,7 +136,6 @@ export default function LoadingScreen() {
         setTimeout(scrambleFinal, 80);
         return;
       }
-      // Scramble ahead chars
       setChars(prev => {
         const n = [...prev];
         n[idx] = NAME[idx] === " " ? " " : rand();
@@ -281,7 +280,6 @@ export default function LoadingScreen() {
                   color: revealed[i] ? "#f1f5f9" : "#6366f1",
                   transform: revealed[i] ? "translateY(0) scaleY(1)" : "translateY(14px) scaleY(0.8)",
                   transition: revealed[i] ? "opacity 0.2s ease, transform 0.25s cubic-bezier(0.23,1,0.32,1), color 0.15s" : "none",
-                  display: NAME[i] === " " ? "inline-block" : "inline-block",
                   fontVariantNumeric:"tabular-nums",
                 }}>
                   {NAME[i] === " " ? "\u00a0" : char}

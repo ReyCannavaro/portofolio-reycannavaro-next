@@ -50,9 +50,9 @@ function Stat({ v, sx, label, trigger, delay = 0 }: { v: number; sx?: string; la
 
 const CODE_SNIPPETS = [
   { lang: "PHP",  line: "artisan make:model",  x: "-8%",  y: "18%",  delay: 0.8  },
-  { lang: "TSX",  line: "useState<T>(null)",   x: "82%",  y: "12%",  delay: 1.1  },
+  { lang: "TSX",  line: "useState<T>(null)",   x: "68%",  y: "12%",  delay: 1.1  },
   { lang: "SQL",  line: "SELECT * FROM users", x: "-10%", y: "72%",  delay: 1.4  },
-  { lang: "GIT",  line: "git push origin main",x: "78%",  y: "78%",  delay: 1.7  },
+  { lang: "GIT",  line: "git push origin main",x: "60%",  y: "78%",  delay: 1.7  },
 ];
 
 function FloatingBadge({ lang, line, x, y, delay }: { lang:string; line:string; x:string; y:string; delay:number }) {
@@ -171,7 +171,7 @@ export default function Hero() {
 
         /* Photo column */
         .hero-photo-col { display:none; }
-        @media(min-width:1024px){ .hero-photo-col{ display:block; position:relative; } }
+        @media(min-width:1024px){ .hero-photo-col{ display:block; position:relative; overflow:visible; } }
 
         .hero-photo-wrapper {
           position:relative; width:100%;
@@ -225,7 +225,7 @@ export default function Hero() {
         /* Name */
         .hero-name {
           font-family:var(--font-syne); font-weight:800;
-          font-size:clamp(2.6rem,5.5vw,4.8rem);
+          font-size:clamp(2rem,4vw,3.6rem);
           letter-spacing:-0.04em; line-height:0.9;
           color:var(--fg); margin:0 0 1.5rem; position:relative;
         }
