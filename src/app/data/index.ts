@@ -201,7 +201,6 @@ export const softskills = [
   { id: 4, name: 'Problem Solving', icon: 'https://cdn-icons-png.flaticon.com/512/8690/8690604.png', type: 'Cognitive' },
   { id: 5, name: 'Kepemimpinan', icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png', type: 'Interpersonal' },
   { id: 6, name: 'Adaptasi & Belajar Cepat', icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135810.png', type: 'Cognitive' },
-  { id: 7, name: 'Kreativitas', icon: 'https://cdn-icons-png.flaticon.com/512/3655/3655588.png', type: 'Creative' },
 ];
 export const nowStatus = {
   available: true,
