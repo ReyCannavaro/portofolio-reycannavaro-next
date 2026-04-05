@@ -13,6 +13,7 @@ import NowPlaying from "./components/NowPlaying";
 import CursorTrail from "./components/CursorTrail";
 import HireMeCTA from "./components/HireMeCTA";
 import BuildingTicker from "./components/BuildingTicker";
+import GlitchToggleBtn from "./components/GlitchToggleBtn";
 
 export const metadata: Metadata = {
   title: "Rey Cannavaro | Fullstack Developer Sidoarjo",
@@ -35,6 +36,7 @@ export default function Home() {
       <div>
         <Skills />
         <TerminalWrapper />
+        <GlitchToggleBtn />
         <Projects />
         <Education />
         <Prestasi />

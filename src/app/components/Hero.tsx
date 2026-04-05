@@ -4,6 +4,8 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import { FiInstagram, FiGithub, FiLinkedin, FiMail, FiArrowUpRight, FiCode } from "react-icons/fi";
 import CodeRain from "./CodeRain";
+import GlitchText from "./GlitchText";
+import { useGlitch } from "./GlitchContext";
 
 const ROLES = ["Fullstack Developer", "Laravel Craftsman", "React Enthusiast", "IoT Builder"];
 function useTypewriter(words: string[], speed = 72, pause = 2000) {
@@ -133,8 +135,96 @@ function useParallax() {
   return { ref, y };
 }
 
+const GCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&!?";
+const gRand  = () => GCHARS[Math.floor(Math.random() * GCHARS.length)];
+
+function HeroName({ mode }: { mode: string }) {
+  const AVARO = "AVARO";
+  const [chars, setChars] = useState<string[]>(AVARO.split(""));
+  const [flash, setFlash] = useState(false);
+  const tickRef  = useRef<ReturnType<typeof setInterval> | null>(null);
+  const flashRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (mode !== "glitch") {
+      if (tickRef.current)  clearInterval(tickRef.current);
+      if (flashRef.current) clearTimeout(flashRef.current);
+      setChars(AVARO.split(""));
+      setFlash(false);
+      return;
+    }
+
+    tickRef.current = setInterval(() => {
+      setChars(AVARO.split("").map(c => Math.random() < 0.09 ? gRand() : c));
+    }, 115);
+
+    const sched = () => {
+      flashRef.current = setTimeout(() => {
+        setFlash(true);
+        setTimeout(() => {
+          setFlash(false);
+          if (Math.random() > 0.45) {
+            setTimeout(() => {
+              setFlash(true);
+              setTimeout(() => { setFlash(false); sched(); }, 85);
+            }, 110);
+          } else {
+            sched();
+          }
+        }, 95);
+      }, 2800 + Math.random() * 4000);
+    };
+    sched();
+
+    return () => {
+      if (tickRef.current)  clearInterval(tickRef.current);
+      if (flashRef.current) clearTimeout(flashRef.current);
+      setChars(AVARO.split(""));
+      setFlash(false);
+    };
+  }, [mode]);
+
+  return (
+    <h1 className="hero-name" style={{ display: "block", marginBottom: "1.5rem" }}>
+      <div style={{ position: "relative", display: "inline-block" }}>
+        {mode === "glitch" && flash && (
+          <>
+            <span aria-hidden className="hero-glitch-r">REY</span>
+            <span aria-hidden className="hero-glitch-b">REY</span>
+          </>
+        )}
+        <span style={{
+          animation: mode === "glitch" && flash ? "hero-flicker 0.08s steps(1) 2" : "none",
+        }}>
+          REY
+        </span>
+      </div>
+      <br />
+      <span className="hero-name-outline">CANN</span>
+      {chars.map((ch, i) => {
+        const corrupted = mode === "glitch" && ch !== AVARO[i];
+        return (
+          <span
+            key={i}
+            className={corrupted ? undefined : "hero-name-shimmer"}
+            style={{
+              display: "inline-block",
+              color:              corrupted ? "#6366f1" : undefined,
+              WebkitTextFillColor: corrupted ? "#6366f1" : undefined,
+              transition: corrupted ? "none" : "color 0.1s",
+            }}
+          >
+            {ch}
+          </span>
+        );
+      })}
+    </h1>
+  );
+}
+
 export default function Hero() {
   const role = useTypewriter(ROLES);
+  const { mode } = useGlitch();
   const [inView, setInView] = useState(false);
   const [lineVisible, setLineVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -228,12 +318,12 @@ export default function Hero() {
           font-size:clamp(2rem,4vw,3.6rem);
           letter-spacing:-0.04em; line-height:0.9;
           color:var(--fg); margin:0 0 1.5rem; position:relative;
+          display:inline-block;
         }
         .hero-name-outline {
           -webkit-text-stroke:1.5px rgba(241,245,249,0.2);
           color:transparent;
         }
-        /* Shimmer on VARO */
         .hero-name-shimmer {
           background: linear-gradient(90deg, var(--fg) 0%, var(--accent) 45%, var(--cyan) 55%, var(--fg) 100%);
           background-size: 200% auto;
@@ -243,6 +333,37 @@ export default function Hero() {
           animation: hero-shimmer 5s linear infinite 2s;
         }
         @keyframes hero-shimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
+
+        /* Ghost glitch layers for hero name */
+        .hero-glitch-r {
+          position:absolute; inset:0; color:#ff3366; pointer-events:none;
+          font-family:var(--font-syne); font-weight:800;
+          font-size:clamp(2rem,4vw,3.6rem); letter-spacing:-0.04em; line-height:0.9;
+          white-space:pre; user-select:none;
+          animation: hg-r 0.12s steps(1) infinite;
+        }
+        .hero-glitch-b {
+          position:absolute; inset:0; color:#22d3ee; pointer-events:none;
+          font-family:var(--font-syne); font-weight:800;
+          font-size:clamp(2rem,4vw,3.6rem); letter-spacing:-0.04em; line-height:0.9;
+          white-space:pre; user-select:none;
+          animation: hg-b 0.12s steps(1) infinite 0.04s;
+        }
+        @keyframes hg-r {
+          0%,100%{clip-path:none;transform:none}
+          20%{clip-path:polygon(0 5%,100% 5%,100% 22%,0 22%);transform:translateX(3px)}
+          50%{clip-path:polygon(0 54%,100% 54%,100% 65%,0 65%);transform:translateX(-2px)}
+          75%{clip-path:polygon(0 78%,100% 78%,100% 88%,0 88%);transform:translateX(4px)}
+        }
+        @keyframes hg-b {
+          0%,100%{clip-path:none;transform:none}
+          20%{clip-path:polygon(0 12%,100% 12%,100% 28%,0 28%);transform:translateX(-3px)}
+          50%{clip-path:polygon(0 50%,100% 50%,100% 62%,0 62%);transform:translateX(2px)}
+          75%{clip-path:polygon(0 74%,100% 74%,100% 85%,0 85%);transform:translateX(-4px)}
+        }
+        @keyframes hero-flicker {
+          0%,100%{opacity:1} 48%{opacity:0.9} 50%{opacity:0.6} 52%{opacity:0.95}
+        }
 
         .hero-bio {
           font-family:var(--font-syne); font-size:clamp(0.88rem,1.1vw,0.97rem);
@@ -324,10 +445,9 @@ export default function Hero() {
                 </span>
               </motion.div>
 
-              <motion.h1 {...anim(0.22)} className="hero-name">
-                REY<br />
-                <span className="hero-name-outline">CANN</span><span className="hero-name-shimmer">AVARO</span>
-              </motion.h1>
+              <motion.div {...anim(0.22)}>
+                <HeroName mode={mode} />
+              </motion.div>
 
               <motion.p {...anim(0.32)} className="hero-bio">
                 Building scalable digital products with modern tech stacks. Based in{" "}

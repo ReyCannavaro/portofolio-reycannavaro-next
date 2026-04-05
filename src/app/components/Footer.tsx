@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { FiInstagram, FiGithub, FiLinkedin, FiMail, FiArrowUpRight, FiArrowUp } from "react-icons/fi";
+import GlitchText from "./GlitchText";
+import { useGlitch } from "./GlitchContext";
 
 const SOCIALS = [
   { icon: <FiGithub size={17}/>,    href:"https://github.com/ReyCannavaro",           label:"GitHub"    },
@@ -9,10 +11,100 @@ const SOCIALS = [
   { icon: <FiMail size={17}/>,      href:"mailto:reyjunoalcannavaro@gmail.com",        label:"Email"     },
 ];
 
+const FCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&!?";
+const fRand  = () => FCHARS[Math.floor(Math.random() * FCHARS.length)];
+const WORD   = "Project?";
+
+function FooterAccentWord({ mode }: { mode: string }) {
+  const [chars, setChars]   = useState<string[]>(WORD.split(""));
+  const [flash, setFlash]   = useState(false);
+  const tickRef  = useRef<ReturnType<typeof setInterval> | null>(null);
+  const flashRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (mode !== "glitch") {
+      if (tickRef.current)  clearInterval(tickRef.current);
+      if (flashRef.current) clearTimeout(flashRef.current);
+      setChars(WORD.split(""));
+      setFlash(false);
+      return;
+    }
+    tickRef.current = setInterval(() => {
+      setChars(WORD.split("").map(c => Math.random() < 0.09 ? fRand() : c));
+    }, 110);
+    const sched = () => {
+      flashRef.current = setTimeout(() => {
+        setFlash(true);
+        setTimeout(() => {
+          setFlash(false);
+          if (Math.random() > 0.45) {
+            setTimeout(() => { setFlash(true); setTimeout(() => { setFlash(false); sched(); }, 85); }, 110);
+          } else { sched(); }
+        }, 95);
+      }, 2500 + Math.random() * 4000);
+    };
+    sched();
+    return () => {
+      if (tickRef.current)  clearInterval(tickRef.current);
+      if (flashRef.current) clearTimeout(flashRef.current);
+      setChars(WORD.split(""));
+      setFlash(false);
+    };
+  }, [mode]);
+
+  const gradientStyle: React.CSSProperties = {
+    background: "linear-gradient(135deg, #6366f1, #22d3ee)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+    display: "inline-block",
+  };
+
+  const corruptedStyle: React.CSSProperties = {
+    color: "#6366f1",
+    WebkitTextFillColor: "#6366f1",
+    display: "inline-block",
+  };
+
+  const ghostStyle: React.CSSProperties = {
+    position: "absolute", inset: 0,
+    fontFamily: "inherit", fontWeight: "inherit",
+    fontSize: "inherit", letterSpacing: "inherit",
+    lineHeight: "inherit", pointerEvents: "none",
+    userSelect: "none", whiteSpace: "pre",
+  };
+
+  return (
+    <>
+      <style>{`
+        @keyframes fa-r{0%,100%{clip-path:none;transform:none}20%{clip-path:polygon(0 8%,100% 8%,100% 26%,0 26%);transform:translateX(3px)}50%{clip-path:polygon(0 52%,100% 52%,100% 64%,0 64%);transform:translateX(-2px)}75%{clip-path:polygon(0 76%,100% 76%,100% 87%,0 87%);transform:translateX(4px)}}
+        @keyframes fa-b{0%,100%{clip-path:none;transform:none}20%{clip-path:polygon(0 14%,100% 14%,100% 30%,0 30%);transform:translateX(-3px)}50%{clip-path:polygon(0 48%,100% 48%,100% 60%,0 60%);transform:translateX(2px)}75%{clip-path:polygon(0 72%,100% 72%,100% 84%,0 84%);transform:translateX(-4px)}}
+      `}</style>
+      <span style={{ position: "relative", display: "inline-block" }}>
+        {mode === "glitch" && flash && (
+          <>
+            <span aria-hidden style={{ ...ghostStyle, color: "#ff3366", animation: "fa-r 0.12s steps(1) infinite" }}>{WORD}</span>
+            <span aria-hidden style={{ ...ghostStyle, color: "#22d3ee", animation: "fa-b 0.12s steps(1) infinite 0.04s" }}>{WORD}</span>
+          </>
+        )}
+        {chars.map((ch, i) => {
+          const corrupted = mode === "glitch" && ch !== WORD[i];
+          return (
+            <span key={i} style={corrupted ? corruptedStyle : gradientStyle}>
+              {ch}
+            </span>
+          );
+        })}
+      </span>
+    </>
+  );
+}
+
 export default function Footer() {
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const year = new Date().getFullYear();
+  const { mode } = useGlitch();
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -78,6 +170,10 @@ export default function Footer() {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
+          display: inline-block;
+        }
+        .footer-heading-accent-glitch {
+          display: inline-block;
         }
 
         .footer-email-link {
@@ -230,7 +326,9 @@ export default function Footer() {
       `}</style>
 
       <footer ref={ref} className="footer-root" id="contact">
-        <div className="footer-watermark">REY CANNAVARO</div>
+        <div className="footer-watermark">
+          <GlitchText intensity={0.04} tickMs={160}>REY CANNAVARO</GlitchText>
+        </div>
 
         <div className="footer-cta">
 
@@ -245,8 +343,8 @@ export default function Footer() {
               Get in touch
             </p>
             <h2 className="footer-heading">
-              Have a<br />
-              <span className="footer-heading-accent">Project?</span>
+              <GlitchText intensity={0.06} tickMs={130}>Have a</GlitchText><br />
+              <FooterAccentWord mode={mode} />
             </h2>
             <a href="mailto:reyjunoalcannavaro@gmail.com" className="footer-email-link">
               Let&apos;s talk together

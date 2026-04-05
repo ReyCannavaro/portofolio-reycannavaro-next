@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import GlitchText from "./GlitchText";
 import { projects } from "@/app/data/index";
 import { FiGithub, FiArrowUpRight } from "react-icons/fi";
 import Image from "next/image";
@@ -254,10 +255,9 @@ export default function Projects() {
                 <span style={{ width:16, height:1, background:"var(--accent)", display:"block" }} />
                 Selected Works
               </p>
-              <h2 className="proj-heading">
-                Built &amp;<br />
-                <span className="proj-heading-ghost">Shipped.</span>
-              </h2>
+              <GlitchText as="h2" className="proj-heading" intensity={0.05} tickMs={150}>
+                Built and Shipped.
+              </GlitchText>
             </div>
             <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-start", gap:4 }} className="md:items-end">
               <span style={{

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, DM_Mono } from "next/font/google";
 import "./globals.css";
+import { GlitchProvider } from "./components/GlitchContext";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -67,7 +68,9 @@ export default function RootLayout({
   return (
     <html lang="id" className="scroll-smooth">
       <body className={`${syne.variable} ${dmMono.variable} antialiased`}>
-        {children}
+        <GlitchProvider>
+          {children}
+        </GlitchProvider>
       </body>
     </html>
   );

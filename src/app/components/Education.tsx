@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { educationHistory } from "@/app/data/index";
+import GlitchText from "./GlitchText";
 import { FiCheckCircle } from "react-icons/fi";
 
 export default function Education() {
@@ -185,10 +186,9 @@ export default function Education() {
                 <span style={{ width:16, height:1, background:"var(--accent)", display:"block" }} />
                 Academic Path
               </p>
-              <h2 className="edu-heading">
-                Where I<br />
-                <span className="edu-heading-ghost">Learned.</span>
-              </h2>
+              <GlitchText as="h2" className="edu-heading" intensity={0.05} tickMs={140}>
+                Where I Learned.
+              </GlitchText>
             </div>
             <div style={{ display:"flex", flexDirection:"column", justifyContent:"flex-end" }}>
               <p style={{

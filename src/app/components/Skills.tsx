@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { hardskills, softskills } from "@/app/data/index";
+import GlitchText from "./GlitchText";
 
 const CATEGORIES = ["All", "Frontend", "Backend", "Database", "Mobile Dev", "CLI", "UI/UX", "Version Control", "API Testing", "Data Science", "Machine Learning", "Framework"];
 
@@ -346,10 +347,9 @@ export default function Skills() {
                 <span style={{ width:16, height:1, background:"var(--accent)", display:"block" }} />
                 Capabilities
               </p>
-              <h2 className="skills-heading">
-                Tech Stack<br />
-                <span className="skills-heading-outline">&</span>{" "}Skills
-              </h2>
+              <GlitchText as="h2" className="skills-heading" intensity={0.05} tickMs={140}>
+                Tech Stack Skills
+              </GlitchText>
             </div>
             <div className="skills-meta">
               <p className="skills-desc">

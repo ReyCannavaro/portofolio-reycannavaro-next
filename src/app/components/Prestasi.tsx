@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { prestasiData } from "@/app/data/index";
 import Image from "next/image";
 import { FiAward, FiUsers } from "react-icons/fi";
+import GlitchText from "./GlitchText";
 
 function useTilt(strength = 12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -173,10 +174,9 @@ export default function Prestasi() {
               <span style={{ width:16, height:1, background:"var(--accent)", display:"block" }} />
               Honors &amp; Leadership
             </p>
-            <h2 className="pres-heading">
-              Milestones<br />
-              <span className="pres-heading-ghost">&amp; Impact.</span>
-            </h2>
+            <GlitchText as="h2" className="pres-heading" intensity={0.05} tickMs={145}>
+              Milestones and Impact.
+            </GlitchText>
           </div>
 
           <div className="pres-featured">
