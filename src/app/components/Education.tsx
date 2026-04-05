@@ -1,103 +1,238 @@
 "use client";
-import { motion, Variants } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { educationHistory } from "@/app/data/index";
-import { FiBookOpen, FiCalendar, FiCheckCircle } from "react-icons/fi";
+import { FiCheckCircle } from "react-icons/fi";
 
 export default function Education() {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.3 }
-    }
-  };
+  const [inView, setInView] = useState(false);
+  const ref = useRef<HTMLElement>(null);
 
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { 
-      opacity: 1, 
-      x: 0, 
-      transition: { duration: 0.6, ease: "easeOut" } 
-    }
-  };
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setInView(true); },
+      { threshold: 0.1 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id="education" className="py-32 px-6 bg-[#020617] relative">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col mb-20">
-          <motion.h2 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="text-blue-500 font-mono mb-4 tracking-[0.3em]"
-          >
-            // ACADEMIC PATH
-          </motion.h2>
-          <div className="flex items-center gap-6">
-            <h3 className="text-5xl md:text-7xl font-black tracking-tighter text-white">EDUCATION</h3>
-            <div className="h-[2px] flex-grow bg-gradient-to-r from-blue-600/50 to-transparent hidden md:block"></div>
+    <>
+      <style>{`
+        .edu-section {
+          padding: 7rem 2.5rem;
+          border-top: 1px solid var(--border);
+          position: relative;
+        }
+        .edu-inner { max-width: 1200px; margin: 0 auto; }
+
+        /* header */
+        .edu-header {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          margin-bottom: 4rem;
+          padding-bottom: 2.5rem;
+          border-bottom: 1px solid var(--border);
+        }
+        @media (min-width: 768px) {
+          .edu-header { grid-template-columns: 1fr 1fr; align-items: end; }
+        }
+        .edu-heading {
+          font-family: var(--font-syne);
+          font-weight: 800;
+          font-size: clamp(2.2rem, 5vw, 4rem);
+          letter-spacing: -0.04em;
+          line-height: 0.9;
+          color: var(--fg);
+          margin: 0;
+        }
+        .edu-heading-ghost {
+          -webkit-text-stroke: 1px rgba(241,245,249,0.14);
+          color: transparent;
+        }
+
+        /* cards */
+        .edu-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.25rem;
+        }
+        @media (min-width: 768px) { .edu-grid { grid-template-columns: 1fr 1fr; } }
+
+        .edu-card {
+          position: relative;
+          padding: 2rem;
+          border-radius: 18px;
+          background: var(--bg-2);
+          border: 1px solid var(--border);
+          overflow: hidden;
+          transition: border-color 0.25s, transform 0.25s;
+        }
+        .edu-card:hover {
+          border-color: rgba(99,102,241,0.35);
+          transform: translateY(-4px);
+        }
+        .edu-card-accent {
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, var(--accent), var(--cyan));
+          opacity: 0;
+          transition: opacity 0.25s;
+        }
+        .edu-card:hover .edu-card-accent { opacity: 1; }
+
+        .edu-year {
+          font-family: var(--font-dm-mono);
+          font-size: 0.58rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--accent);
+          margin-bottom: 1.25rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .edu-year::before {
+          content: '';
+          display: block;
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: var(--accent);
+          flex-shrink: 0;
+        }
+
+        .edu-institution {
+          font-family: var(--font-syne);
+          font-weight: 800;
+          font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+          letter-spacing: -0.03em;
+          line-height: 1.05;
+          color: var(--fg);
+          margin: 0 0 0.5rem;
+        }
+        .edu-degree {
+          font-family: var(--font-dm-mono);
+          font-size: 0.65rem;
+          letter-spacing: 0.08em;
+          color: var(--fg-3);
+          margin-bottom: 1.5rem;
+          line-height: 1.5;
+        }
+        .edu-divider {
+          height: 1px;
+          background: var(--border);
+          margin-bottom: 1.25rem;
+        }
+        .edu-details {
+          display: flex;
+          flex-direction: column;
+          gap: 0.55rem;
+        }
+        .edu-detail-item {
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          font-family: var(--font-syne);
+          font-size: 0.82rem;
+          color: var(--fg-2);
+        }
+        .edu-detail-icon {
+          color: var(--accent);
+          flex-shrink: 0;
+          opacity: 0.7;
+        }
+
+        /* big number bg */
+        .edu-card-number {
+          position: absolute;
+          bottom: -0.5rem;
+          right: 1rem;
+          font-family: var(--font-syne);
+          font-weight: 800;
+          font-size: 7rem;
+          line-height: 1;
+          color: rgba(99,102,241,0.04);
+          letter-spacing: -0.05em;
+          pointer-events: none;
+          user-select: none;
+          transition: color 0.25s;
+        }
+        .edu-card:hover .edu-card-number {
+          color: rgba(99,102,241,0.07);
+        }
+
+        /* reveal */
+        .edu-reveal {
+          opacity: 0; transform: translateY(24px);
+          transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .edu-reveal.shown { opacity: 1; transform: translateY(0); }
+      `}</style>
+
+      <section ref={ref} id="education" className="edu-section">
+        <div className="edu-inner">
+
+          <div className={`edu-header edu-reveal ${inView ? "shown" : ""}`}>
+            <div>
+              <p style={{
+                fontFamily:"var(--font-dm-mono)", fontSize:"0.6rem",
+                letterSpacing:"0.2em", textTransform:"uppercase",
+                color:"var(--accent)", marginBottom:"0.75rem",
+                display:"flex", alignItems:"center", gap:"0.5rem",
+              }}>
+                <span style={{ width:16, height:1, background:"var(--accent)", display:"block" }} />
+                Academic Path
+              </p>
+              <h2 className="edu-heading">
+                Where I<br />
+                <span className="edu-heading-ghost">Learned.</span>
+              </h2>
+            </div>
+            <div style={{ display:"flex", flexDirection:"column", justifyContent:"flex-end" }}>
+              <p style={{
+                fontFamily:"var(--font-syne)", fontSize:"0.9rem",
+                color:"var(--fg-2)", lineHeight:1.75, maxWidth:340,
+              }}>
+                Formal education combined with continuous self-learning — building a solid foundation for modern software development.
+              </p>
+            </div>
           </div>
-        </div>
 
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="relative space-y-16">
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-600 via-slate-800 to-transparent transform md:-translate-x-1/2 hidden sm:block"></div>
+          <div className="edu-grid">
+            {educationHistory.map((edu, i) => (
+              <div
+                key={edu.id}
+                className={`edu-card edu-reveal ${inView ? "shown" : ""}`}
+                style={{ transitionDelay: inView ? `${0.1 + i * 0.12}s` : "0s" }}
+              >
+                <div className="edu-card-accent" />
+                <div className="edu-card-number">0{i + 1}</div>
 
-          {educationHistory.map((edu, index) => (
-            <motion.div 
-              key={index}
-              variants={itemVariants}
-              className={`relative flex flex-col md:flex-row items-center gap-8 ${
-                index % 2 === 0 ? "md:flex-row-reverse" : ""
-              }`}>
-              <div className="absolute left-0 md:left-1/2 top-0 md:top-8 w-6 h-6 bg-[#020617] border-4 border-blue-600 rounded-full z-10 transform -translate-x-1/2 hidden sm:block shadow-[0_0_15px_rgba(37,99,235,0.8)]"></div>
+                <div className="edu-year">
+                  Class of {edu.graduationYear}
+                </div>
 
-              <div className="w-full md:w-[45%]">
-                <motion.div 
-                  whileHover={{ y: -10 }}
-                  className="p-8 rounded-3xl bg-slate-900/30 border border-slate-800 hover:border-blue-500/50 transition-all group relative overflow-hidden">
-                  <FiBookOpen className="absolute -right-4 -bottom-4 text-slate-800/20 text-9xl transform -rotate-12 group-hover:text-blue-500/10 transition-colors" />
+                <h3 className="edu-institution">{edu.institution}</h3>
+                <p className="edu-degree">{edu.degree}</p>
 
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 bg-blue-600/10 rounded-lg">
-                      <FiCalendar className="text-blue-500" />
+                <div className="edu-divider" />
+
+                <div className="edu-details">
+                  {edu.details.map((d, j) => (
+                    <div key={j} className="edu-detail-item">
+                      <FiCheckCircle size={13} className="edu-detail-icon" />
+                      {d}
                     </div>
-                    <span className="text-slate-500 font-mono text-xs uppercase tracking-widest font-bold">
-                      Class of {edu.graduationYear}
-                    </span>
-                  </div>
-
-                  <h4 className="text-2xl md:text-3xl font-black text-white group-hover:text-blue-400 transition-colors mb-2 leading-tight">
-                    {edu.institution}
-                  </h4>
-                  
-                  <p className="text-blue-500 font-mono text-sm mb-6 font-bold flex items-center gap-2">
-                    <span className="w-4 h-[1px] bg-blue-500"></span>
-                    {edu.degree}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 relative z-10">
-                    {edu.details.map((detail, i) => (
-                      <div 
-                        key={i} 
-                        className="flex items-center gap-2 text-xs font-medium px-3 py-2 bg-slate-950/50 text-slate-400 rounded-xl border border-slate-800 group-hover:border-slate-700 transition-all"
-                      >
-                        <FiCheckCircle className="text-blue-500/50" />
-                        {detail}
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
+                  ))}
+                </div>
               </div>
+            ))}
+          </div>
 
-              <div className="hidden md:block md:w-[45%]"></div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   );
 }
