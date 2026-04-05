@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
@@ -9,6 +10,13 @@ import TerminalWrapper from "./components/Terminal";
 import LoadingScreen from "./components/LoadingScreen";
 import CustomCursor from "./components/CustomCursor";
 import NowPlaying from "./components/NowPlaying";
+
+export const metadata: Metadata = {
+  title: "Rey Cannavaro | Fullstack Developer Sidoarjo",
+  alternates: {
+    canonical: "https://reycannavaro.vercel.app",
+  },
+};
 
 export default function Home() {
   return (
