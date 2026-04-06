@@ -169,6 +169,16 @@ export const projects = [
     images: ['/projects/veritas1.png'],
     githubLink: 'https://github.com/ReyCannavaro/VeritasAI.git'
   },
+    {
+    id: 'SIRA - Socratic Interactive RPG Academy',
+    name: 'SIRA - Socratic Interactive RPG Academy',
+    description: 'SIRA adalah game edukasi interaktif yang dirancang untuk meningkatkan keterampilan berpikir kritis dan pemecahan masalah siswa melalui pengalaman bermain yang menarik dan imersif.',
+    technologies: ['SupaBase', 'JavaScript','Next.js', 'Tailwind CSS'],
+    role: 'Project Manager & Backend Developer',
+    colors: ['#FFC45C', '#0009FF', '#8A2A52'],
+    images: ['/projects/sira1.jpeg', '/projects/sira2.jpeg', '/projects/sira3.jpeg'],
+    githubLink: 'https://github.com/ReyCannavaro/sira.git'
+  },
 ];
 
 export const hardskills = [
