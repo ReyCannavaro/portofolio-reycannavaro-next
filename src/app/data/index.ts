@@ -11,7 +11,7 @@ export const personalInfo = {
   age: calculateAge("2007-06-03"),
   yearsExperience: 2,
   
-  profileImage: "/images/profile.png",
+  profileImage: "/images/profile.jpeg",
   profileImageAlt: "Rey Cannavaro Profile Picture",
   
   aboutExtended: `Saya adalah seorang siswa SMK Telkom Sidoarjo yang passionate di bidang web development dan teknologi. Dengan pengalaman lebih dari 2 tahun dalam mengembangkan aplikasi web, saya fokus pada full-stack development menggunakan Laravel, React, dan Next.js. 
