@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { hardskills, softskills } from "@/app/data/index";
-import GlitchText from "./GlitchText";
+import { hardSkills, softSkills } from "@/app/data/index";
 
-const CATEGORIES = ["All", "Frontend", "Backend", "Database", "Mobile Dev", "CLI", "UI/UX", "Version Control", "API Testing", "Data Science", "Machine Learning", "Framework"];
-
+/* ── per-skill proficiency (0-100) ── */
 const SKILL_LEVELS: Record<string, number> = {
   "HTML5": 92, "CSS3": 88, "JavaScript": 82, "React": 80, "Vue.js": 65,
   "Next.js": 75, "Tailwind CSS": 90, "Bootstrap": 78,
@@ -14,434 +12,437 @@ const SKILL_LEVELS: Record<string, number> = {
   "Android": 55, "React Native": 60,
 };
 
-const SOFT_ICONS: Record<string, string> = {
-  "Komunikasi":          "◎",
-  "Kerja Sama Tim":      "◈",
-  "Manajemen Waktu":     "◷",
-  "Problem Solving":     "⬡",
-  "Kepemimpinan":        "◉",
-  "Adaptasi & Belajar Cepat": "◬",
-  "Kreativitas":         "✦",
+const LEVEL_LABEL = (n: number) =>
+  n >= 85 ? "Expert" : n >= 70 ? "Advanced" : n >= 55 ? "Intermediate" : "Beginner";
+
+const LEVEL_COLOR = (n: number) =>
+  n >= 85
+    ? { bg: "#EAFAF1", color: "#27AE60", bar: "#27AE60" }
+    : n >= 70
+    ? { bg: "#EEF2FD", color: "#4169E4", bar: "#4169E4" }
+    : n >= 55
+    ? { bg: "#F5EEF8", color: "#9B59B6", bar: "#9B59B6" }
+    : { bg: "#FFF3EE", color: "#C0570A", bar: "#FF9B71" };
+
+/* ── soft skill descriptions ── */
+const SOFT_DESC: Record<string, string> = {
+  "Komunikasi":               "Clear & concise in team or client settings",
+  "Kerja Sama Tim":           "Collaborative across cross-functional teams",
+  "Manajemen Waktu":          "Deadline-driven with structured prioritisation",
+  "Problem Solving":          "Analytical approach to technical challenges",
+  "Kepemimpinan":             "Scout leader, OSIS Secretary, event organiser",
+  "Adaptasi & Belajar Cepat": "Self-taught across multiple stacks",
+  "Kreativitas":              "UI/UX thinking + out-of-the-box solutions",
 };
 
-const SOFT_DESC: Record<string, string> = {
-  "Komunikasi":          "Clear & concise in team or client settings",
-  "Kerja Sama Tim":      "Collaborative across cross-functional teams",
-  "Manajemen Waktu":     "Deadline-driven with structured prioritisation",
-  "Problem Solving":     "Analytical approach to technical challenges",
-  "Kepemimpinan":        "Scout leader, OSIS Secretary, event organiser",
-  "Adaptasi & Belajar Cepat": "Self-taught across multiple stacks",
-  "Kreativitas":         "UI/UX thinking + out-of-the-box solutions",
+const SOFT_LEVEL_STYLE: Record<string, { bg: string; color: string }> = {
+  expert:       { bg: "#EAFAF1", color: "#27AE60" },
+  advanced:     { bg: "#EEF2FD", color: "#4169E4" },
+  intermediate: { bg: "#F5EEF8", color: "#9B59B6" },
 };
 
 export default function Skills() {
   const [activeFilter, setFilter] = useState("All");
-  const [revealed, setRevealed]   = useState(false);
-  const [hovered, setHovered]     = useState<number | null>(null);
+  const [revealed,     setRevealed] = useState(false);
+  const [hoveredId,    setHoveredId] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setRevealed(true); },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     if (sectionRef.current) obs.observe(sectionRef.current);
     return () => obs.disconnect();
   }, []);
 
-  const filtered = activeFilter === "All"
-    ? hardskills
-    : hardskills.filter(s => s.type === activeFilter);
+  const uniqueCats = ["All", ...Array.from(new Set(hardSkills.map(s => s.category ?? s.type)))];
 
-  const uniqueCats = ["All", ...Array.from(new Set(hardskills.map(s => s.type)))];
+  const filtered =
+    activeFilter === "All"
+      ? hardSkills
+      : hardSkills.filter(s => (s.category ?? s.type) === activeFilter);
 
   return (
-    <>
-      <style>{`
-        .skills-section {
-          padding: 7rem 2.5rem;
-          position: relative;
-          overflow: hidden;
-          border-top: 1px solid var(--border);
-        }
-        .skills-inner { max-width: 1200px; margin: 0 auto; }
+    <section
+      ref={sectionRef}
+      id="skills"
+      style={{
+        padding:         "5rem 24px",
+        background:      "#F0F2F5",
+        borderTop:       "1px solid #E8EAED",
+      }}
+    >
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
-        /* ── Header — editorial two-column ── */
-        .skills-header {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 2rem;
-          margin-bottom: 4rem;
-          padding-bottom: 2.5rem;
-          border-bottom: 1px solid var(--border);
-        }
-        @media (min-width: 768px) {
-          .skills-header { grid-template-columns: 1fr 1fr; align-items: end; }
-        }
-        .skills-heading {
-          font-family: var(--font-syne);
-          font-weight: 800;
-          font-size: clamp(2.2rem, 5vw, 4rem);
-          letter-spacing: -0.04em;
-          line-height: 0.92;
-          color: var(--fg);
-          margin: 0;
-        }
-        .skills-heading-outline {
-          -webkit-text-stroke: 1px rgba(241,245,249,0.18);
-          color: transparent;
-        }
-        .skills-meta {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          justify-content: flex-end;
-        }
-        .skills-desc {
-          font-family: var(--font-syne);
-          font-size: 0.92rem;
-          color: var(--fg-2);
-          line-height: 1.75;
-          max-width: 340px;
-        }
-        .skills-count {
-          font-family: var(--font-dm-mono);
-          font-size: 0.6rem;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--fg-3);
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .skills-count-num {
-          font-family: var(--font-syne);
-          font-weight: 800;
-          font-size: 1.4rem;
-          color: var(--accent);
-          letter-spacing: -0.04em;
-        }
-
-        /* ── Filter pills ── */
-        .filter-bar {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.4rem;
-          margin-bottom: 2.5rem;
-        }
-        .filter-pill {
-          font-family: var(--font-dm-mono);
-          font-size: 0.6rem;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          padding: 0.35rem 0.85rem;
-          border-radius: 999px;
-          border: 1px solid var(--border);
-          color: var(--fg-3);
-          background: transparent;
-          cursor: none;
-          transition: all 0.2s ease;
-        }
-        .filter-pill:hover { border-color: var(--border-2); color: var(--fg); }
-        .filter-pill.active {
-          background: var(--accent);
-          border-color: var(--accent);
-          color: #fff;
-        }
-
-        /* ── Hard skill grid ── */
-        .skill-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-          gap: 0.75rem;
-          margin-bottom: 5rem;
-        }
-        .skill-card {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 0.65rem;
-          padding: 1.25rem 0.75rem 1rem;
-          border-radius: 14px;
-          background: var(--bg-2);
-          border: 1px solid var(--border);
-          cursor: default;
-          transition: border-color 0.2s, background 0.2s, transform 0.2s;
-          overflow: hidden;
-        }
-        .skill-card:hover {
-          border-color: rgba(99,102,241,0.4);
-          background: var(--bg-3);
-          transform: translateY(-4px);
-        }
-        .skill-card img {
-          width: 36px;
-          height: 36px;
-          object-fit: contain;
-          filter: grayscale(1) brightness(0.7);
-          transition: filter 0.3s ease, transform 0.3s ease;
-        }
-        .skill-card:hover img {
-          filter: grayscale(0) brightness(1);
-          transform: scale(1.1);
-        }
-        .skill-name {
-          font-family: var(--font-dm-mono);
-          font-size: 0.55rem;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: var(--fg-3);
-          text-align: center;
-          transition: color 0.2s;
-          line-height: 1.3;
-        }
-        .skill-card:hover .skill-name { color: var(--accent); }
-
-        /* level bar — only visible on hover */
-        .skill-level-bar {
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          height: 2px;
-          background: var(--border);
-        }
-        .skill-level-fill {
-          height: 100%;
-          background: linear-gradient(90deg, var(--accent), var(--cyan));
-          border-radius: 2px;
-          width: 0;
-          transition: width 0.5s cubic-bezier(0.23,1,0.32,1);
-        }
-        .skill-card:hover .skill-level-fill { width: var(--level); }
-
-        /* type badge */
-        .skill-type {
-          position: absolute;
-          top: 6px; right: 6px;
-          font-family: var(--font-dm-mono);
-          font-size: 0.45rem;
-          padding: 2px 5px;
-          border-radius: 4px;
-          background: rgba(99,102,241,0.1);
-          color: var(--accent);
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          opacity: 0;
-          transition: opacity 0.2s;
-        }
-        .skill-card:hover .skill-type { opacity: 1; }
-
-        /* reveal animation */
-        .skill-card {
-          opacity: 0;
-          transform: translateY(16px);
-          transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s, background 0.2s;
-        }
-        .skill-card.shown {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .skill-card.shown:hover { transform: translateY(-4px); }
-
-        /* ── Soft skills — horizontal cards ── */
-        .soft-header {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          margin-bottom: 1.5rem;
-        }
-        .soft-title {
-          font-family: var(--font-syne);
-          font-weight: 700;
-          font-size: 0.8rem;
-          letter-spacing: -0.01em;
-          color: var(--fg);
-        }
-        .soft-line {
-          flex: 1;
-          height: 1px;
-          background: var(--border);
-        }
-        .soft-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 0.6rem;
-        }
-        @media (min-width: 640px) { .soft-grid { grid-template-columns: 1fr 1fr; } }
-        @media (min-width: 1024px) { .soft-grid { grid-template-columns: repeat(3, 1fr); } }
-
-        .soft-card {
-          display: flex;
-          align-items: center;
-          gap: 0.85rem;
-          padding: 0.9rem 1rem;
-          border-radius: 12px;
-          background: var(--bg-2);
-          border: 1px solid var(--border);
-          transition: border-color 0.2s, background 0.2s;
-          cursor: default;
-        }
-        .soft-card:hover {
-          border-color: rgba(99,102,241,0.3);
-          background: var(--bg-3);
-        }
-        .soft-icon-box {
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
-          background: rgba(99,102,241,0.08);
-          border: 1px solid rgba(99,102,241,0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1rem;
-          flex-shrink: 0;
-          transition: background 0.2s, border-color 0.2s;
-        }
-        .soft-card:hover .soft-icon-box {
-          background: rgba(99,102,241,0.15);
-          border-color: rgba(99,102,241,0.3);
-        }
-        .soft-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-        .soft-name {
-          font-family: var(--font-syne);
-          font-weight: 600;
-          font-size: 0.82rem;
-          color: var(--fg);
-          letter-spacing: -0.01em;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .soft-desc {
-          font-family: var(--font-dm-mono);
-          font-size: 0.55rem;
-          letter-spacing: 0.06em;
-          color: var(--fg-3);
-          line-height: 1.4;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        /* section reveal */
-        .skills-reveal {
-          opacity: 0;
-          transform: translateY(20px);
-          transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .skills-reveal.shown { opacity: 1; transform: translateY(0); }
-      `}</style>
-
-      <section ref={sectionRef} id="skills" className="skills-section">
-        <div className="skills-inner">
-          <div className={`skills-header skills-reveal ${revealed ? "shown" : ""}`}>
-            <div>
-              <p style={{
-                fontFamily:"var(--font-dm-mono)", fontSize:"0.6rem",
-                letterSpacing:"0.2em", textTransform:"uppercase",
-                color:"var(--accent)", marginBottom:"0.75rem",
-                display:"flex", alignItems:"center", gap:"0.5rem",
-              }}>
-                <span style={{ width:16, height:1, background:"var(--accent)", display:"block" }} />
-                Capabilities
-              </p>
-              <GlitchText as="h2" className="skills-heading" intensity={0.05} tickMs={140}>
-                Tech Stack Skills
-              </GlitchText>
-            </div>
-            <div className="skills-meta">
-              <p className="skills-desc">
-                Tools and technologies I work with daily — from backend systems to interactive frontends.
-              </p>
-              <div className="skills-count">
-                <span className="skills-count-num">{hardskills.length}</span>
-                technologies mastered
-                <span style={{ margin:"0 0.25rem", color:"var(--border-2)" }}>·</span>
-                <span className="skills-count-num">{softskills.length}</span>
-                soft skills
-              </div>
-            </div>
+        {/* ── Section header ── */}
+        <div
+          style={{
+            display:       "flex",
+            alignItems:    "flex-end",
+            justifyContent:"space-between",
+            flexWrap:      "wrap",
+            gap:           "16px",
+            marginBottom:  "32px",
+            opacity:       revealed ? 1 : 0,
+            transform:     revealed ? "translateY(0)" : "translateY(18px)",
+            transition:    "opacity 0.5s ease, transform 0.5s ease",
+          }}
+        >
+          <div>
+            <span
+              style={{
+                display:       "inline-block",
+                fontFamily:    "'Satoshi', sans-serif",
+                fontSize:      "18px",
+                fontWeight:    700,
+                color:         "#4169E4",
+                border:        "2px solid #4169E4",
+                borderRadius:  "8px",
+                padding:       "3px 14px",
+                background:    "#EEF2FD",
+                marginBottom:  "10px",
+              }}
+            >
+              Tech Stack
+            </span>
+            <p
+              style={{
+                fontFamily:  "'Satoshi', sans-serif",
+                fontSize:    "14px",
+                color:       "#6B7280",
+                lineHeight:  1.6,
+                maxWidth:    420,
+                margin:      0,
+              }}
+            >
+              Tools and technologies I work with — from backend systems to interactive frontends.
+            </p>
           </div>
+          <div
+            style={{
+              display:    "flex",
+              gap:        "16px",
+              alignItems: "center",
+            }}
+          >
+            {[
+              { num: hardSkills.length, label: "Technologies" },
+              { num: softSkills.length, label: "Soft Skills" },
+            ].map(({ num, label }) => (
+              <div
+                key={label}
+                style={{
+                  background:   "#FFFFFF",
+                  border:       "1.5px solid #E8EAED",
+                  borderRadius: "14px",
+                  padding:      "12px 20px",
+                  textAlign:    "center",
+                  boxShadow:    "0 2px 8px rgba(0,0,0,0.05)",
+                }}
+              >
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontWeight:900, fontSize:"22px", color:"#4169E4", lineHeight:1 }}>
+                  {num}
+                </div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:"10px", color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em", marginTop:3 }}>
+                  {label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-          <div className={`filter-bar skills-reveal ${revealed ? "shown" : ""}`}
-            style={{ transitionDelay:"0.1s" }}>
-            {uniqueCats.map(cat => (
+        {/* ── Filter pills ── */}
+        <div
+          style={{
+            display:    "flex",
+            flexWrap:   "wrap",
+            gap:        "8px",
+            marginBottom:"24px",
+            opacity:    revealed ? 1 : 0,
+            transform:  revealed ? "translateY(0)" : "translateY(12px)",
+            transition: "opacity 0.5s ease 0.08s, transform 0.5s ease 0.08s",
+          }}
+        >
+          {uniqueCats.map(cat => {
+            const isActive = activeFilter === cat;
+            return (
               <button
                 key={cat}
-                className={`filter-pill ${activeFilter === cat ? "active" : ""}`}
                 onClick={() => setFilter(cat)}
+                style={{
+                  fontFamily:    "'Satoshi', sans-serif",
+                  fontWeight:    isActive ? 700 : 500,
+                  fontSize:      "12px",
+                  padding:       "6px 14px",
+                  borderRadius:  "999px",
+                  border:        isActive ? "1.5px solid #4169E4" : "1.5px solid #E8EAED",
+                  background:    isActive ? "#4169E4" : "#FFFFFF",
+                  color:         isActive ? "#FFFFFF" : "#6B7280",
+                  cursor:        "pointer",
+                  transition:    "all 0.18s ease",
+                  whiteSpace:    "nowrap",
+                }}
               >
                 {cat}
               </button>
-            ))}
+            );
+          })}
+        </div>
+
+        {/* ── Hard skills grid ── */}
+        <div
+          style={{
+            display:               "grid",
+            gridTemplateColumns:   "repeat(auto-fill, minmax(110px, 1fr))",
+            gap:                   "12px",
+            marginBottom:          "48px",
+          }}
+        >
+          {filtered.map((skill, i) => {
+            const level  = SKILL_LEVELS[skill.name] ?? 65;
+            const colors = LEVEL_COLOR(level);
+            const isHov  = hoveredId === skill.id;
+
+            return (
+              <div
+                key={skill.id}
+                onMouseEnter={() => setHoveredId(skill.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                style={{
+                  position:      "relative",
+                  display:       "flex",
+                  flexDirection: "column",
+                  alignItems:    "center",
+                  gap:           "10px",
+                  padding:       "20px 12px 14px",
+                  borderRadius:  "16px",
+                  background:    isHov ? "#FFFFFF" : "#FFFFFF",
+                  border:        isHov ? `1.5px solid ${colors.bar}40` : "1.5px solid #E8EAED",
+                  boxShadow:     isHov ? `0 4px 20px rgba(0,0,0,0.08)` : "0 1px 4px rgba(0,0,0,0.04)",
+                  cursor:        "default",
+                  overflow:      "hidden",
+                  opacity:       revealed ? 1 : 0,
+                  transform:     revealed ? "translateY(0)" : "translateY(16px)",
+                  transition:    `opacity 0.4s ease ${0.12 + i * 0.025}s, transform 0.4s ease ${0.12 + i * 0.025}s, border-color 0.2s, box-shadow 0.2s`,
+                }}
+              >
+                {/* level badge — appears on hover */}
+                <span
+                  style={{
+                    position:      "absolute",
+                    top:           6,
+                    right:         6,
+                    fontFamily:    "'Satoshi', sans-serif",
+                    fontSize:      "9px",
+                    fontWeight:    700,
+                    padding:       "2px 7px",
+                    borderRadius:  "999px",
+                    background:    colors.bg,
+                    color:         colors.color,
+                    opacity:       isHov ? 1 : 0,
+                    transition:    "opacity 0.18s ease",
+                    pointerEvents: "none",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  {LEVEL_LABEL(level)}
+                </span>
+
+                <img
+                  src={skill.icon}
+                  alt={skill.name}
+                  loading="lazy"
+                  style={{
+                    width:      36,
+                    height:     36,
+                    objectFit:  "contain",
+                    filter:     isHov ? "none" : "grayscale(0.3) opacity(0.8)",
+                    transform:  isHov ? "scale(1.1)" : "scale(1)",
+                    transition: "filter 0.25s ease, transform 0.25s ease",
+                  }}
+                />
+
+                <span
+                  style={{
+                    fontFamily:  "'Satoshi', sans-serif",
+                    fontWeight:  600,
+                    fontSize:    "11px",
+                    color:       isHov ? "#1A1D23" : "#6B7280",
+                    textAlign:   "center",
+                    lineHeight:  1.3,
+                    transition:  "color 0.2s",
+                  }}
+                >
+                  {skill.name}
+                </span>
+
+                {/* progress bar at bottom */}
+                <div
+                  style={{
+                    position:     "absolute",
+                    bottom:       0,
+                    left:         0,
+                    right:        0,
+                    height:       3,
+                    background:   "#F0F2F5",
+                  }}
+                >
+                  <div
+                    style={{
+                      height:       "100%",
+                      width:        isHov ? `${level}%` : "0%",
+                      background:   `linear-gradient(90deg, ${colors.bar}, ${colors.bar}99)`,
+                      borderRadius: "0 2px 2px 0",
+                      transition:   "width 0.5s cubic-bezier(0.23,1,0.32,1)",
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ── Soft Skills ── */}
+        <div
+          style={{
+            opacity:    revealed ? 1 : 0,
+            transform:  revealed ? "translateY(0)" : "translateY(18px)",
+            transition: "opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s",
+          }}
+        >
+          {/* sub-header */}
+          <div style={{ display:"flex", alignItems:"center", gap:"12px", marginBottom:"16px" }}>
+            <span
+              style={{
+                display:      "inline-block",
+                fontFamily:   "'Satoshi', sans-serif",
+                fontSize:     "18px",
+                fontWeight:   700,
+                color:        "#9B59B6",
+                border:       "2px solid #9B59B6",
+                borderRadius: "8px",
+                padding:      "3px 14px",
+                background:   "#F5EEF8",
+              }}
+            >
+              Soft Skills
+            </span>
+            <div style={{ flex:1, height:1, background:"#E8EAED" }} />
+            <span
+              style={{
+                fontFamily:  "'Satoshi', sans-serif",
+                fontSize:    "11px",
+                color:       "#9CA3AF",
+                fontWeight:  600,
+              }}
+            >
+              {softSkills.length} traits
+            </span>
           </div>
 
-          <div className="skill-grid">
-            {filtered.map((skill, i) => {
-              const level = SKILL_LEVELS[skill.name] ?? 65;
+          <div
+            style={{
+              display:             "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gap:                 "10px",
+            }}
+          >
+            {softSkills.map((skill, i) => {
+              const lvlStyle = SOFT_LEVEL_STYLE[skill.level ?? "intermediate"] ?? SOFT_LEVEL_STYLE.intermediate;
               return (
                 <div
                   key={skill.id}
-                  className={`skill-card ${revealed ? "shown" : ""}`}
                   style={{
-                    transitionDelay: revealed ? `${0.15 + i * 0.03}s` : "0s",
-                    ["--level" as string]: `${level}%`,
+                    display:       "flex",
+                    alignItems:    "center",
+                    gap:           "12px",
+                    padding:       "14px 16px",
+                    borderRadius:  "14px",
+                    background:    "#FFFFFF",
+                    border:        "1.5px solid #E8EAED",
+                    boxShadow:     "0 1px 4px rgba(0,0,0,0.04)",
+                    cursor:        "default",
+                    opacity:       revealed ? 1 : 0,
+                    transform:     revealed ? "translateY(0)" : "translateY(12px)",
+                    transition:    `opacity 0.4s ease ${0.33 + i * 0.06}s, transform 0.4s ease ${0.33 + i * 0.06}s`,
                   }}
-                  onMouseEnter={() => setHovered(skill.id)}
-                  onMouseLeave={() => setHovered(null)}
                 >
-                  <span className="skill-type">{skill.type}</span>
-                  <img src={skill.icon} alt={skill.name} loading="lazy" />
-                  <span className="skill-name">{skill.name}</span>
-                  <div className="skill-level-bar">
-                    <div className="skill-level-fill" />
+                  {/* icon box */}
+                  <div
+                    style={{
+                      width:        42,
+                      height:       42,
+                      borderRadius: "12px",
+                      background:   "#F0F2F5",
+                      border:       "1.5px solid #E8EAED",
+                      display:      "flex",
+                      alignItems:   "center",
+                      justifyContent:"center",
+                      flexShrink:   0,
+                      overflow:     "hidden",
+                    }}
+                  >
+                    {skill.icon
+                      ? <img src={skill.icon} alt={skill.name} style={{ width:26, height:26, objectFit:"contain" }} />
+                      : <span style={{ fontSize:18 }}>—</span>
+                    }
                   </div>
+
+                  {/* text */}
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div
+                      style={{
+                        fontFamily:   "'Satoshi', sans-serif",
+                        fontWeight:   700,
+                        fontSize:     "13px",
+                        color:        "#1A1D23",
+                        marginBottom: "2px",
+                        whiteSpace:   "nowrap",
+                        overflow:     "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {skill.nameEn ?? skill.name}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily:   "'Satoshi', sans-serif",
+                        fontSize:     "11px",
+                        color:        "#9CA3AF",
+                        whiteSpace:   "nowrap",
+                        overflow:     "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {SOFT_DESC[skill.name] ?? skill.description}
+                    </div>
+                  </div>
+
+                  {/* level badge */}
+                  <span
+                    style={{
+                      flexShrink:    0,
+                      fontFamily:    "'Satoshi', sans-serif",
+                      fontSize:      "10px",
+                      fontWeight:    700,
+                      padding:       "3px 10px",
+                      borderRadius:  "999px",
+                      background:    lvlStyle.bg,
+                      color:         lvlStyle.color,
+                      textTransform: "capitalize",
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    {skill.level ?? "Intermediate"}
+                  </span>
                 </div>
               );
             })}
           </div>
-
-          <div className={`skills-reveal ${revealed ? "shown" : ""}`}
-            style={{ transitionDelay:"0.3s" }}>
-            <div className="soft-header">
-              <span style={{ width:16, height:1, background:"var(--border-2)", display:"block" }} />
-              <span className="soft-title">Soft Skills</span>
-              <div className="soft-line" />
-              <span style={{
-                fontFamily:"var(--font-dm-mono)", fontSize:"0.55rem",
-                letterSpacing:"0.15em", color:"var(--fg-3)", textTransform:"uppercase",
-              }}>
-                {softskills.length} traits
-              </span>
-            </div>
-
-            <div className="soft-grid">
-              {softskills.map((skill, i) => (
-                <div
-                  key={skill.id}
-                  className="soft-card"
-                  style={{
-                    opacity: revealed ? 1 : 0,
-                    transform: revealed ? "translateY(0)" : "translateY(12px)",
-                    transition: `opacity 0.4s ease ${0.35 + i * 0.06}s, transform 0.4s ease ${0.35 + i * 0.06}s, border-color 0.2s, background 0.2s`,
-                  }}
-                >
-                  <div className="soft-icon-box">
-                    {SOFT_ICONS[skill.name] ?? "◎"}
-                  </div>
-                  <div className="soft-info">
-                    <span className="soft-name">{skill.name}</span>
-                    <span className="soft-desc">{SOFT_DESC[skill.name] ?? skill.type}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
         </div>
-      </section>
-    </>
+
+      </div>
+    </section>
   );
 }
