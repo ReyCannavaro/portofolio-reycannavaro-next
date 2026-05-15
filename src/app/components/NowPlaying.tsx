@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { nowStatus } from "@/app/data/index";
+import { currentStatus, personalInfo } from "@/app/data/index";
 
 export default function NowPlaying() {
   const [expanded, setExpanded] = useState(false);
@@ -18,93 +18,94 @@ export default function NowPlaying() {
   return (
     <div
       style={{
-        position:   "fixed",
-        bottom:     "1.75rem",
-        left:       "1.75rem",
-        zIndex:     990,
-        display:    "flex",
+        position:      "fixed",
+        bottom:        "1.75rem",
+        left:          "1.75rem",
+        zIndex:        990,
+        display:       "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
-        gap:        "0.5rem",
+        alignItems:    "flex-start",
+        gap:           "0.5rem",
       }}
       className="hidden lg:flex"
     >
       <div
         style={{
-          background:     "rgba(12,16,24,0.92)",
-          border:         "1px solid rgba(99,102,241,0.2)",
-          borderRadius:   14,
-          backdropFilter: "blur(16px)",
-          padding:        expanded ? "1.1rem 1.25rem" : "0",
-          maxHeight:      expanded ? "320px" : "0",
-          overflow:       "hidden",
-          opacity:        expanded ? 1 : 0,
-          transition:     "max-height 0.4s cubic-bezier(0.23,1,0.32,1), opacity 0.3s ease, padding 0.35s ease",
-          minWidth:       "220px",
-          pointerEvents:  expanded ? "auto" : "none",
+          background:    "#fff",
+          border:        "1px solid rgba(0,0,0,0.09)",
+          borderRadius:  16,
+          boxShadow:     "0 4px 24px rgba(0,0,0,0.10)",
+          padding:       expanded ? "1.1rem 1.25rem" : "0",
+          maxHeight:     expanded ? "320px" : "0",
+          overflow:      "hidden",
+          opacity:       expanded ? 1 : 0,
+          transition:    "max-height 0.4s cubic-bezier(0.23,1,0.32,1), opacity 0.3s ease, padding 0.35s ease",
+          minWidth:      "220px",
+          pointerEvents: expanded ? "auto" : "none",
         }}
       >
         <div style={{
-          fontFamily:    "var(--font-dm-mono, monospace)",
-          fontSize:      "0.6rem",
-          letterSpacing: "0.2em",
+          fontFamily:    "var(--font-mono)",
+          fontSize:      "0.58rem",
+          letterSpacing: "0.18em",
           textTransform: "uppercase",
-          color:         "#6366f1",
+          color:         "var(--accent)",
           marginBottom:  "0.9rem",
         }}>
           Status — Live
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-          <Row icon="◉" label="Availability" value={nowStatus.available ? "Open to work" : "Not available"} valueColor={nowStatus.available ? "#4ade80" : "#f87171"} />
-          <Row icon="⬡" label="Currently Building" value={nowStatus.building} />
-          <Row icon="◈" label="Learning" value={nowStatus.learning} />
-          <Row icon="◎" label="Location" value={nowStatus.location} />
-          <Row icon="◷" label="Timezone" value={nowStatus.timezone} />
+          <Row label="Availability"       value={currentStatus.available ? "Open to work" : "Not available"} valueColor={currentStatus.available ? "#16a34a" : "#dc2626"} />
+          <Row label="Building"           value={currentStatus.currentlyBuilding.project} />
+          <Row label="Learning"           value={currentStatus.currentlyLearning.map(l => l.name).join(", ")} />
+          <Row label="Location"           value={personalInfo.location} />
+          <Row label="Timezone"           value={personalInfo.timezone} />
         </div>
       </div>
 
       <button
         onClick={() => setExpanded(e => !e)}
-        className="magnetic"
         style={{
-          display:        "flex",
-          alignItems:     "center",
-          gap:            "0.6rem",
-          background:     "rgba(12,16,24,0.9)",
-          border:         `1px solid ${expanded ? "rgba(99,102,241,0.4)" : "rgba(255,255,255,0.08)"}`,
-          borderRadius:   999,
-          padding:        "0.5rem 0.85rem",
-          backdropFilter: "blur(16px)",
-          cursor:         "none",
-          transition:     "border-color 0.25s ease",
+          display:       "flex",
+          alignItems:    "center",
+          gap:           "0.6rem",
+          background:    "#fff",
+          border:        `1px solid ${expanded ? "rgba(79,106,245,0.35)" : "rgba(0,0,0,0.10)"}`,
+          borderRadius:  999,
+          padding:       "0.45rem 0.85rem",
+          boxShadow:     "0 2px 10px rgba(0,0,0,0.07)",
+          cursor:        "pointer",
+          transition:    "border-color 0.25s ease, box-shadow 0.25s ease",
         }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(0,0,0,0.12)"; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 10px rgba(0,0,0,0.07)"; }}
       >
         <span style={{
           width:        7,
           height:       7,
           borderRadius: "50%",
-          background:   nowStatus.available ? "#4ade80" : "#f87171",
+          background:   currentStatus.available ? "#22c55e" : "#ef4444",
           display:      "block",
-          boxShadow:    `0 0 ${pulse ? "8px" : "3px"} ${nowStatus.available ? "#4ade80" : "#f87171"}`,
+          boxShadow:    `0 0 ${pulse ? "7px" : "2px"} ${currentStatus.available ? "#22c55e" : "#ef4444"}`,
           transition:   "box-shadow 0.9s ease",
           flexShrink:   0,
         }} />
 
         <span style={{
-          fontFamily:    "var(--font-dm-mono, monospace)",
-          fontSize:      "0.65rem",
-          letterSpacing: "0.1em",
-          color:         "#94a3b8",
+          fontFamily:    "var(--font-mono)",
+          fontSize:      "0.62rem",
+          letterSpacing: "0.08em",
+          color:         "var(--fg-2)",
           textTransform: "uppercase",
           userSelect:    "none",
         }}>
-          {nowStatus.available ? "Available" : "Busy"}
+          {currentStatus.available ? "Available" : "Busy"}
         </span>
 
         <span style={{
-          color:      "#475569",
-          fontSize:   "0.6rem",
+          color:      "var(--fg-3)",
+          fontSize:   "0.55rem",
           transform:  expanded ? "rotate(180deg)" : "rotate(0deg)",
           transition: "transform 0.3s ease",
           marginLeft: "0.1rem",
@@ -116,30 +117,25 @@ export default function NowPlaying() {
   );
 }
 
-function Row({ icon, label, value, valueColor }: {
-  icon: string; label: string; value: string; valueColor?: string;
+function Row({ label, value, valueColor }: {
+  label: string; value: string; valueColor?: string;
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
       <span style={{
-        fontFamily:    "var(--font-dm-mono, monospace)",
-        fontSize:      "0.58rem",
+        fontFamily:    "var(--font-mono)",
+        fontSize:      "0.56rem",
         letterSpacing: "0.15em",
         textTransform: "uppercase",
-        color:         "#475569",
-        display:       "flex",
-        alignItems:    "center",
-        gap:           "0.4rem",
+        color:         "var(--fg-3)",
       }}>
-        <span style={{ color: "#6366f1", fontSize: "0.65rem" }}>{icon}</span>
         {label}
       </span>
       <span style={{
-        fontFamily: "var(--font-syne, system-ui, sans-serif)",
+        fontFamily: "var(--font-display)",
         fontWeight: 600,
         fontSize:   "0.78rem",
-        color:      valueColor ?? "#f1f5f9",
-        paddingLeft:"1.05rem",
+        color:      valueColor ?? "var(--fg)",
       }}>
         {value}
       </span>
