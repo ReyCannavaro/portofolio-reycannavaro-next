@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Hanken_Grotesk, Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
-import "./global.css";
+import "./globals.css";
 import { GlitchProvider } from "./components/GlitchContext";
 
 const anton = Anton({
