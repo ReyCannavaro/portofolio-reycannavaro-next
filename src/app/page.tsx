@@ -6,14 +6,8 @@ import Skills from "./components/Skills";
 import Education from "./components/Education";
 import Prestasi from "./components/Prestasi";
 import Footer from "./components/Footer";
-import TerminalWrapper from "./components/Terminal";
-import LoadingScreen from "./components/LoadingScreen";
-import CustomCursor from "./components/CustomCursor";
 import NowPlaying from "./components/NowPlaying";
-import CursorTrail from "./components/CursorTrail";
 import HireMeCTA from "./components/HireMeCTA";
-import BuildingTicker from "./components/BuildingTicker";
-import GlitchToggleBtn from "./components/GlitchToggleBtn";
 
 export const metadata: Metadata = {
   title: "Rey Cannavaro | Fullstack Developer Sidoarjo",
@@ -25,18 +19,12 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main style={{ background: "var(--bg)", minHeight: "100svh" }}>
-      <LoadingScreen />
-      <CustomCursor />
-      <CursorTrail />
       <HireMeCTA />
       <NowPlaying />
       <Navbar />
       <Hero />
-      <BuildingTicker />
       <div>
         <Skills />
-        <TerminalWrapper />
-        <GlitchToggleBtn />
         <Projects />
         <Education />
         <Prestasi />
