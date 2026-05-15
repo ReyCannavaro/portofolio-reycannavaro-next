@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { educationHistory } from "@/app/data/index";
-import GlitchText from "./GlitchText";
-import { FiCheckCircle } from "react-icons/fi";
+import { educationHistory, achievements } from "@/app/data/index";
+
+const organizations = achievements.filter(a => a.type === "position").slice(0, 3);
 
 export default function Education() {
   const [inView, setInView] = useState(false);
@@ -18,221 +18,143 @@ export default function Education() {
   }, []);
 
   return (
-    <>
-      <style>{`
-        .edu-section {
-          padding: 7rem 2.5rem;
-          border-top: 1px solid var(--border);
-          position: relative;
-        }
-        .edu-inner { max-width: 1200px; margin: 0 auto; }
+    <section ref={ref} id="education" style={{ padding: "4rem 1rem", background: "var(--bg)" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 22,
+              border: "1px solid rgba(0,0,0,0.07)",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 6px 20px rgba(0,0,0,0.05)",
+              padding: "1.75rem 2rem",
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateY(0)" : "translateY(20px)",
+              transition: "opacity 0.6s ease, transform 0.6s ease",
+            }}
+          >
+            <span className="section-label section-label--blue" style={{ marginBottom: "1.5rem", display: "inline-flex" }}>
+              Education
+            </span>
 
-        /* header */
-        .edu-header {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 2rem;
-          margin-bottom: 4rem;
-          padding-bottom: 2.5rem;
-          border-bottom: 1px solid var(--border);
-        }
-        @media (min-width: 768px) {
-          .edu-header { grid-template-columns: 1fr 1fr; align-items: end; }
-        }
-        .edu-heading {
-          font-family: var(--font-syne);
-          font-weight: 800;
-          font-size: clamp(2.2rem, 5vw, 4rem);
-          letter-spacing: -0.04em;
-          line-height: 0.9;
-          color: var(--fg);
-          margin: 0;
-        }
-        .edu-heading-ghost {
-          -webkit-text-stroke: 1px rgba(241,245,249,0.14);
-          color: transparent;
-        }
+            <div style={{ display: "flex", flexDirection: "column", gap: 20, marginTop: 8 }}>
+              {educationHistory.map((edu) => (
+                <div key={edu.id} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{ minWidth: 56, textAlign: "right" }}>
+                    <div style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)", color: "var(--fg-3)", lineHeight: 1.4 }}>
+                      {edu.startYear}–
+                    </div>
+                    <div style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)", color: "var(--fg-3)", lineHeight: 1.4, fontWeight: 700 }}>
+                      {edu.graduationYear}
+                    </div>
+                  </div>
 
-        /* cards */
-        .edu-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1.25rem;
-        }
-        @media (min-width: 768px) { .edu-grid { grid-template-columns: 1fr 1fr; } }
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 3 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
+                    <div style={{ width: 1, flex: 1, background: "rgba(0,0,0,0.08)", marginTop: 4 }} />
+                  </div>
 
-        .edu-card {
-          position: relative;
-          padding: 2rem;
-          border-radius: 18px;
-          background: var(--bg-2);
-          border: 1px solid var(--border);
-          overflow: hidden;
-          transition: border-color 0.25s, transform 0.25s;
-        }
-        .edu-card:hover {
-          border-color: rgba(99,102,241,0.35);
-          transform: translateY(-4px);
-        }
-        .edu-card-accent {
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 2px;
-          background: linear-gradient(90deg, var(--accent), var(--cyan));
-          opacity: 0;
-          transition: opacity 0.25s;
-        }
-        .edu-card:hover .edu-card-accent { opacity: 1; }
-
-        .edu-year {
-          font-family: var(--font-dm-mono);
-          font-size: 0.58rem;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--accent);
-          margin-bottom: 1.25rem;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .edu-year::before {
-          content: '';
-          display: block;
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          background: var(--accent);
-          flex-shrink: 0;
-        }
-
-        .edu-institution {
-          font-family: var(--font-syne);
-          font-weight: 800;
-          font-size: clamp(1.3rem, 2.5vw, 1.75rem);
-          letter-spacing: -0.03em;
-          line-height: 1.05;
-          color: var(--fg);
-          margin: 0 0 0.5rem;
-        }
-        .edu-degree {
-          font-family: var(--font-dm-mono);
-          font-size: 0.65rem;
-          letter-spacing: 0.08em;
-          color: var(--fg-3);
-          margin-bottom: 1.5rem;
-          line-height: 1.5;
-        }
-        .edu-divider {
-          height: 1px;
-          background: var(--border);
-          margin-bottom: 1.25rem;
-        }
-        .edu-details {
-          display: flex;
-          flex-direction: column;
-          gap: 0.55rem;
-        }
-        .edu-detail-item {
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          font-family: var(--font-syne);
-          font-size: 0.82rem;
-          color: var(--fg-2);
-        }
-        .edu-detail-icon {
-          color: var(--accent);
-          flex-shrink: 0;
-          opacity: 0.7;
-        }
-
-        /* big number bg */
-        .edu-card-number {
-          position: absolute;
-          bottom: -0.5rem;
-          right: 1rem;
-          font-family: var(--font-syne);
-          font-weight: 800;
-          font-size: 7rem;
-          line-height: 1;
-          color: rgba(99,102,241,0.04);
-          letter-spacing: -0.05em;
-          pointer-events: none;
-          user-select: none;
-          transition: color 0.25s;
-        }
-        .edu-card:hover .edu-card-number {
-          color: rgba(99,102,241,0.07);
-        }
-
-        /* reveal */
-        .edu-reveal {
-          opacity: 0; transform: translateY(24px);
-          transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .edu-reveal.shown { opacity: 1; transform: translateY(0); }
-      `}</style>
-
-      <section ref={ref} id="education" className="edu-section">
-        <div className="edu-inner">
-
-          <div className={`edu-header edu-reveal ${inView ? "shown" : ""}`}>
-            <div>
-              <p style={{
-                fontFamily:"var(--font-dm-mono)", fontSize:"0.6rem",
-                letterSpacing:"0.2em", textTransform:"uppercase",
-                color:"var(--accent)", marginBottom:"0.75rem",
-                display:"flex", alignItems:"center", gap:"0.5rem",
-              }}>
-                <span style={{ width:16, height:1, background:"var(--accent)", display:"block" }} />
-                Academic Path
-              </p>
-              <GlitchText as="h2" className="edu-heading" intensity={0.05} tickMs={140}>
-                Where I Learned.
-              </GlitchText>
-            </div>
-            <div style={{ display:"flex", flexDirection:"column", justifyContent:"flex-end" }}>
-              <p style={{
-                fontFamily:"var(--font-syne)", fontSize:"0.9rem",
-                color:"var(--fg-2)", lineHeight:1.75, maxWidth:340,
-              }}>
-                Formal education combined with continuous self-learning — building a solid foundation for modern software development.
-              </p>
+                  <div style={{ paddingBottom: 16 }}>
+                    <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "var(--fg)", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                      {edu.institution}
+                    </div>
+                    <div style={{ fontSize: "0.72rem", color: "var(--fg-2)", marginTop: 3 }}>
+                      {edu.degree}
+                    </div>
+                    <div style={{ fontSize: "0.68rem", color: "var(--fg-3)", marginTop: 2, fontFamily: "var(--font-mono)" }}>
+                      {edu.location}
+                    </div>
+                    {edu.highlights && (
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 8 }}>
+                        {edu.highlights.slice(0, 2).map((h, i) => (
+                          <span
+                            key={i}
+                            style={{
+                              fontSize: "0.6rem",
+                              padding: "2px 8px",
+                              background: "#EEF0FF",
+                              color: "var(--accent)",
+                              borderRadius: 6,
+                              fontWeight: 600,
+                            }}
+                          >
+                            {h}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="edu-grid">
-            {educationHistory.map((edu, i) => (
-              <div
-                key={edu.id}
-                className={`edu-card edu-reveal ${inView ? "shown" : ""}`}
-                style={{ transitionDelay: inView ? `${0.1 + i * 0.12}s` : "0s" }}
-              >
-                <div className="edu-card-accent" />
-                <div className="edu-card-number">0{i + 1}</div>
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 22,
+              border: "1px solid rgba(0,0,0,0.07)",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 6px 20px rgba(0,0,0,0.05)",
+              padding: "1.75rem 2rem",
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateY(0)" : "translateY(20px)",
+              transition: "opacity 0.6s ease 0.12s, transform 0.6s ease 0.12s",
+            }}
+          >
+            <span className="section-label section-label--orange" style={{ marginBottom: "1.5rem", display: "inline-flex" }}>
+              Organization
+            </span>
 
-                <div className="edu-year">
-                  Class of {edu.graduationYear}
-                </div>
-
-                <h3 className="edu-institution">{edu.institution}</h3>
-                <p className="edu-degree">{edu.degree}</p>
-
-                <div className="edu-divider" />
-
-                <div className="edu-details">
-                  {edu.details.map((d, j) => (
-                    <div key={j} className="edu-detail-item">
-                      <FiCheckCircle size={13} className="edu-detail-icon" />
-                      {d}
+            <div style={{ display: "flex", flexDirection: "column", gap: 20, marginTop: 8 }}>
+              {organizations.map((org, i) => (
+                <div key={org.id} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{ minWidth: 56, textAlign: "right" }}>
+                    <div style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)", color: "var(--fg-3)", lineHeight: 1.4 }}>
+                      {org.date?.split("-")[0]}–
                     </div>
-                  ))}
+                    <div style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)", color: "var(--fg-3)", lineHeight: 1.4, fontWeight: 700 }}>
+                      Now
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 3 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent-2)", flexShrink: 0 }} />
+                    {i < organizations.length - 1 && (
+                      <div style={{ width: 1, flex: 1, background: "rgba(0,0,0,0.08)", marginTop: 4 }} />
+                    )}
+                  </div>
+
+                  <div style={{ paddingBottom: i < organizations.length - 1 ? 16 : 0 }}>
+                    <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "var(--fg)", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                      {org.titleShort}
+                    </div>
+                    <div style={{ fontSize: "0.72rem", color: "var(--fg-2)", marginTop: 3 }}>
+                      {org.organizer}
+                    </div>
+                    <div
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        marginTop: 6,
+                        fontSize: "0.6rem",
+                        padding: "2px 8px",
+                        background: org.level === "national" ? "#FFF0E6" : "#F4F4F2",
+                        color: org.level === "national" ? "var(--accent-2)" : "var(--fg-3)",
+                        borderRadius: 6,
+                        fontWeight: 600,
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {org.level}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
