@@ -1,44 +1,53 @@
 import type { Metadata } from "next";
-import { Syne, DM_Mono } from "next/font/google";
-import "./globals.css";
+import { Anton, Hanken_Grotesk, Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
+import "./global.css";
 import { GlitchProvider } from "./components/GlitchContext";
 
-const syne = Syne({
-  variable: "--font-syne",
+const anton = Anton({
+  variable: "--font-anton",
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400"],
 });
 
-const dmMono = DM_Mono({
-  variable: "--font-dm-mono",
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
-  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Rey Cannavaro | Fullstack Developer Sidoarjo",
+  title: "Rey Cannavaro | Fullstack Developer & Designer",
   description:
-    "Portfolio Rey Cannavaro (Reyjuno Al Cannavaro) — Fullstack Developer berbasis di Sidoarjo, Indonesia. Spesialis Laravel, React, Next.js, dan IoT.",
+    "Portfolio Rey Cannavaro — Fullstack Developer & Designer berbasis di Sidoarjo, Indonesia. Spesialis Laravel, React, Next.js, IoT, dan AI.",
   keywords: [
     "Rey Cannavaro",
     "Reyjuno Al Cannavaro",
-    "Reyjuno Cannavaro",
-    "Rey Cannavaro developer",
     "fullstack developer Sidoarjo",
+    "designer developer Indonesia",
     "Laravel developer Indonesia",
     "React developer Sidoarjo",
     "Next.js developer Indonesia",
     "portfolio Rey Cannavaro",
-    "portofolio Reyjuno Al Cannavaro",
     "SMK Telkom Sidoarjo",
   ],
   authors: [{ name: "Rey Cannavaro", url: "https://reycannavaro.vercel.app" }],
   creator: "Rey Cannavaro",
   openGraph: {
-    title: "Rey Cannavaro | Fullstack Developer",
+    title: "Rey Cannavaro | Fullstack Developer & Designer",
     description:
-      "Portfolio Rey Cannavaro (Reyjuno Al Cannavaro) — Fullstack Developer berbasis di Sidoarjo, Indonesia.",
+      "Portfolio Rey Cannavaro — Fullstack Developer & Designer berbasis di Sidoarjo, Indonesia.",
     url: "https://reycannavaro.vercel.app",
     siteName: "Rey Cannavaro Portfolio",
     locale: "id_ID",
@@ -46,18 +55,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rey Cannavaro | Fullstack Developer",
-    description:
-      "Portfolio Rey Cannavaro (Reyjuno Al Cannavaro) — Fullstack Developer berbasis di Sidoarjo, Indonesia.",
+    title: "Rey Cannavaro | Fullstack Developer & Designer",
+    description: "Portfolio Rey Cannavaro — Fullstack Developer & Designer berbasis di Sidoarjo, Indonesia.",
     creator: "@reycannavaro",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "https://reycannavaro.vercel.app",
-  },
+  robots: { index: true, follow: true },
+  alternates: { canonical: "https://reycannavaro.vercel.app" },
 };
 
 export default function RootLayout({
@@ -67,10 +70,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="scroll-smooth">
-      <body className={`${syne.variable} ${dmMono.variable} antialiased`}>
-        <GlitchProvider>
-          {children}
-        </GlitchProvider>
+      <body
+        className={`${anton.variable} ${hanken.variable} ${bricolage.variable} ${jetbrainsMono.variable} antialiased`}
+      >
+        <GlitchProvider>{children}</GlitchProvider>
       </body>
     </html>
   );
