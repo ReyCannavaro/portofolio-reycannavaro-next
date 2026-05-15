@@ -11,7 +11,7 @@ type Strip = {
   shadow: string;
   items: typeof hardSkills;
   dir: "ltr" | "rtl";
-  speed: number; // seconds for one full cycle
+  speed: number;
 };
 
 const ROWS: Strip[] = [
