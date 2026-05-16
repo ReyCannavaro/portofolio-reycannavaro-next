@@ -4,23 +4,19 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
-  FiMapPin, FiClock, FiGithub, FiLinkedin, FiInstagram, FiMail,
-  FiAward, FiGitCommit, FiBriefcase, FiCode, FiTarget, FiEye,
-  FiZap, FiBarChart2, FiFolder, FiBookOpen, FiTrendingUp,
+  FiMapPin, FiClock, FiGithub, FiLinkedin,
+  FiInstagram, FiMail, FiAward, FiGitCommit,
+  FiBriefcase, FiCode, FiTrendingUp,
 } from "react-icons/fi";
 import {
-  personalInfo,
-  socialLinks,
-  statistics,
-  currentStatus,
-  achievements,
+  personalInfo, socialLinks, statistics, currentStatus, achievements,
 } from "../data/index";
 
+/* ─────────── constants ─────────── */
 const EASE = [0.22, 1, 0.36, 1] as const;
-
 const fadeUp = (delay = 0) => ({
-  initial:    { opacity: 0, y: 28 },
-  animate:    { opacity: 1, y: 0  },
+  initial:    { opacity: 0, y: 24 },
+  animate:    { opacity: 1, y: 0 },
   transition: { duration: 0.55, delay, ease: EASE },
 });
 
@@ -28,67 +24,21 @@ const nationalWins = achievements.filter(
   (a) => a.level === "national" && a.type === "competition"
 ).length;
 
-function Sticker({
-  children,
-  rotate = 0,
-  variant = "white",
-  style,
-}: {
-  children: React.ReactNode;
-  rotate?: number;
-  variant?: "white" | "navy" | "sky" | "orange" | "red" | "green";
-  style?: React.CSSProperties;
-}) {
-  return (
-    <div
-      className={`sticker sticker--${variant}`}
-      style={{ transform: `rotate(${rotate}deg)`, ...style }}
-    >
-      {children}
-    </div>
-  );
-}
+const SOCIAL = [
+  { label: "GitHub",    href: socialLinks.github.url,        icon: <FiGithub size={14} />,    v: "navy"   },
+  { label: "LinkedIn",  href: socialLinks.linkedin.url,       icon: <FiLinkedin size={14} />,  v: "sky"    },
+  { label: "Instagram", href: socialLinks.instagram.url,      icon: <FiInstagram size={14} />, v: "orange" },
+  { label: "Email",     href: `mailto:${personalInfo.email}`, icon: <FiMail size={14} />,      v: "navy"   },
+] as const;
 
-function StatBlock({
-  value, label, icon, bg, color, shadow, delay,
-}: {
-  value: string; label: string; icon: React.ReactNode;
-  bg: string; color: string; shadow: string; delay: number;
-}) {
-  return (
-    <motion.div
-      {...fadeUp(delay)}
-      style={{
-        background: bg, border: "2px solid #000", boxShadow: shadow,
-        padding: "18px 20px", display: "flex", flexDirection: "column",
-        gap: 6, flex: 1, minWidth: 100,
-      }}
-    >
-      <span style={{ color, opacity: 0.7 }}>{icon}</span>
-      <span style={{
-        fontFamily: "var(--font-display)", fontSize: "clamp(28px, 4vw, 44px)",
-        fontWeight: 400, lineHeight: 1, color, letterSpacing: "-0.02em",
-      }}>
-        {value}
-      </span>
-      <span style={{
-        fontFamily: "var(--font-mono)", fontSize: "10px",
-        letterSpacing: "0.12em", textTransform: "uppercase", color, opacity: 0.65,
-      }}>
-        {label}
-      </span>
-    </motion.div>
-  );
-}
+const STATS = [
+  { value: `${statistics.totalProjects}`,       label: "Projects",   icon: <FiBriefcase size={15} />, bg: "var(--navy)",         color: "#fff",              shadow: "4px 4px 0 var(--sky)"         },
+  { value: `${personalInfo.yearsExperience}+`,  label: "Yrs Exp",    icon: <FiTrendingUp size={15} />,bg: "var(--orange-light)", color: "var(--orange)",     shadow: "4px 4px 0 var(--orange)"      },
+  { value: `${statistics.achievements}`,        label: "Awards",     icon: <FiAward size={15} />,     bg: "var(--rose)",         color: "var(--red)",        shadow: "4px 4px 0 var(--red)"         },
+  { value: `${statistics.githubCommits}+`,      label: "Commits",    icon: <FiGitCommit size={15} />, bg: "var(--lime)",         color: "var(--green-dark)", shadow: "4px 4px 0 var(--green-dark)"  },
+] as const;
 
-const FUN_FACT_ICONS: Record<string, React.ReactNode> = {
-  "Critical Thinking": <FiTarget size={12} />,
-  "Visual Aesthetic":  <FiEye size={12} />,
-  "Creativity":        <FiZap size={12} />,
-  "Attention to Detail": <FiBarChart2 size={12} />,
-  "Organized":         <FiFolder size={12} />,
-};
-
+/* ═══════════════════════════════════════ */
 export default function Hero() {
   const [mounted,  setMounted]  = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -100,330 +50,308 @@ export default function Hero() {
     <section
       id="about"
       style={{
-        minHeight: "100svh",
-        padding:   "clamp(80px,10vw,120px) var(--gutter) 60px",
-        background:"var(--bg)",
-        position:  "relative",
-        overflow:  "hidden",
+        background: "var(--bg)",
+        position: "relative",
+        overflow: "hidden",
+        paddingTop:    "clamp(80px, 11vw, 112px)",
+        paddingBottom: "clamp(48px,  7vw,  72px)",
       }}
     >
+      {/* Ghost watermark — pure decoration, behind everything */}
       <div aria-hidden style={{
-        position: "absolute", top: -20, left: -10,
+        position: "absolute", inset: 0, zIndex: 0,
+        display: "flex", alignItems: "flex-start",
         fontFamily: "var(--font-display)",
-        fontSize:   "clamp(120px, 22vw, 260px)",
-        fontWeight: 400, lineHeight: 1,
+        fontSize: "clamp(160px, 30vw, 380px)",
+        fontWeight: 400, lineHeight: 0.82, letterSpacing: "-0.04em",
         color: "transparent",
-        WebkitTextStroke: "1px rgba(26,35,126,0.06)",
+        WebkitTextStroke: "1.5px rgba(26,35,126,0.052)",
         pointerEvents: "none", userSelect: "none",
-        whiteSpace: "nowrap", zIndex: 0,
-      }}>
-        REY
-      </div>
+        paddingLeft: "var(--gutter)", paddingTop: "clamp(80px,11vw,112px)",
+        overflow: "hidden",
+      }}>REY</div>
 
-      <div aria-hidden style={{
-        position: "absolute", top: 60, right: -80,
-        width: 320, height: 320, borderRadius: "50%",
-        border: "2px dashed rgba(79,195,247,0.25)",
-        pointerEvents: "none", zIndex: 0,
-      }} />
-      <div aria-hidden style={{
-        position: "absolute", top: 100, right: -40,
-        width: 220, height: 220, borderRadius: "50%",
-        border: "2px dashed rgba(230,81,0,0.15)",
-        pointerEvents: "none", zIndex: 0,
-      }} />
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 var(--gutter)", position: "relative", zIndex: 1 }}>
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <motion.div
-          {...fadeUp(0.05)}
-          style={{
-            display: "flex", alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: "clamp(24px, 4vw, 40px)",
-            flexWrap: "wrap", gap: 12,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        {/* ─────────────────────────────────
+            STATUS BAR
+        ───────────────────────────────── */}
+        <motion.div {...fadeUp(0)} style={{
+          display: "flex", alignItems: "center",
+          justifyContent: "space-between", flexWrap: "wrap", gap: 10,
+          marginBottom: "clamp(28px, 4.5vw, 48px)",
+        }}>
+          {/* Available pill */}
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            border: "2px solid #000", boxShadow: "3px 3px 0 var(--green-dark)",
+            background: "var(--bg-3)", padding: "6px 14px",
+          }}>
             <span className="status-dot" />
             <span style={{
-              fontFamily: "var(--font-mono)", fontSize: "11px",
-              letterSpacing: "0.12em", textTransform: "uppercase",
-              color: "var(--green-dark)",
+              fontFamily: "var(--font-mono)", fontSize: 10,
+              letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--green-dark)",
             }}>
               {currentStatus.availableForWork}
             </span>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ display: "flex", alignItems: "center", gap: 5,
-              fontFamily: "var(--font-mono)", fontSize: "11px",
-              color: "var(--fg-3)", letterSpacing: "0.06em",
-            }}>
-              <FiMapPin size={11} /> {personalInfo.location}
-            </span>
-            <span style={{ display: "flex", alignItems: "center", gap: 5,
-              fontFamily: "var(--font-mono)", fontSize: "11px",
-              color: "var(--fg-3)", letterSpacing: "0.06em",
-            }}>
-              <FiClock size={11} /> {personalInfo.timezone}
-            </span>
+
+          {/* Meta info */}
+          <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+            {[
+              { icon: <FiMapPin size={10} />, text: personalInfo.location },
+              { icon: <FiClock  size={10} />, text: personalInfo.timezone },
+            ].map(({ icon, text }) => (
+              <span key={text} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                <span style={{ color: "var(--fg-3)", display: "flex" }}>{icon}</span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.11em", textTransform: "uppercase", color: "var(--fg-3)" }}>
+                  {text}
+                </span>
+              </span>
+            ))}
           </div>
         </motion.div>
 
-        <div
-          className="hero-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gridTemplateAreas: `"headline" "photo" "bio" "stats"`,
-            gap: "clamp(16px, 3vw, 24px)",
-          }}
-        >
+        {/* ─────────────────────────────────
+            MAIN CONTENT: left + right
+        ───────────────────────────────── */}
+        <div className="hero-main">
 
-          <motion.div {...fadeUp(0.1)} style={{ gridArea: "headline", position: "relative" }}>
-            <div className="section-tag" style={{ marginBottom: 16 }}>
-              <FiCode size={11} style={{ marginRight: 4 }} />
-              Fullstack Developer & Designer
-            </div>
+          {/* ══════════════════════
+              LEFT — name / bio / connect
+          ══════════════════════ */}
+          <div className="hero-left">
 
-            <h1 style={{
+            {/* Role tag */}
+            <motion.div {...fadeUp(0.06)}>
+              <div className="section-tag" style={{ marginBottom: 16 }}>
+                <FiCode size={11} style={{ marginRight: 2 }} />
+                Fullstack Developer &amp; Designer
+              </div>
+            </motion.div>
+
+            {/* NAME: REY / CANNAVARO */}
+            <motion.h1 {...fadeUp(0.10)} style={{
               fontFamily: "var(--font-display)",
-              fontSize:   "clamp(56px, 11vw, 140px)",
-              fontWeight: 400, lineHeight: 0.9,
-              letterSpacing: "-0.03em",
-              color: "var(--navy)", margin: 0, position: "relative",
+              fontSize: "clamp(64px, 12vw, 148px)",
+              fontWeight: 400, lineHeight: 0.88, letterSpacing: "-0.03em",
+              color: "var(--navy)", margin: "0 0 20px",
             }}>
               REY
               <br />
-              <span style={{
-                WebkitTextStroke: "3px var(--navy)",
-                color: "transparent", display: "block",
-              }}>
-                CAN
+              <span style={{ color: "var(--orange)" }}>CANNAVARO</span>
+            </motion.h1>
+
+            {/* Stickers row */}
+            <motion.div {...fadeUp(0.14)} style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 28 }}>
+              <span className="sticker sticker--orange" style={{ transform: "rotate(-2deg)" }}>
+                🏫 SMK Telkom Sidoarjo
               </span>
-              <span style={{ color: "var(--orange)" }}>NAVARO</span>
-            </h1>
+              <span className="sticker sticker--sky" style={{ transform: "rotate(2deg)" }}>
+                <FiTrendingUp size={11} /> {personalInfo.age} y.o.
+              </span>
+              <span className="sticker sticker--red" style={{ transform: "rotate(-1.5deg)" }}>
+                <FiAward size={11} />
+                {nationalWins > 0 ? `${nationalWins}× National Winner` : "Award Winner"}
+              </span>
+            </motion.div>
 
-            <Sticker variant="orange" rotate={-4} style={{ position: "absolute", top: 0, right: 0, fontSize: 12 }}>
-              <FiBookOpen size={11} /> SMK Telkom Sidoarjo
-            </Sticker>
-            <Sticker variant="sky" rotate={3} style={{ position: "absolute", bottom: "10%", right: "5%", fontSize: 12 }}>
-              <FiTrendingUp size={11} /> {personalInfo.age} y.o.
-            </Sticker>
-          </motion.div>
+            {/* Divider */}
+            <motion.div {...fadeUp(0.16)} style={{
+              height: 2, background: "#000",
+              marginBottom: 24, opacity: 0.08,
+            }} />
 
-          <motion.div {...fadeUp(0.18)} style={{ gridArea: "photo", position: "relative" }}>
-            <div style={{
-              position: "relative", background: "var(--sky-light)",
-              border: "2px solid #000", boxShadow: "var(--shadow-navy)",
-              aspectRatio: "4/5", overflow: "hidden", maxWidth: 360,
-            }}>
-              {!imgError ? (
-                <Image
-                  src={personalInfo.profileImage}
-                  alt={personalInfo.profileImageAlt}
-                  fill
-                  style={{ objectFit: "cover", objectPosition: "top" }}
-                  onError={() => setImgError(true)}
-                />
-              ) : (
-                <div style={{
-                  inset: 0, position: "absolute",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  background: "linear-gradient(135deg, var(--sky-light), var(--orange-pale))",
-                }}>
-                  <span style={{
-                    fontFamily: "var(--font-display)", fontSize: "80px",
-                    color: "var(--navy)", opacity: 0.3,
-                  }}>RC</span>
-                </div>
-              )}
-
-              <div style={{
-                position: "absolute", bottom: 0, left: 0, right: 0,
-                background: "var(--navy)", padding: "10px 14px",
-                display: "flex", alignItems: "center", justifyContent: "space-between",
-              }}>
-                <span style={{
-                  fontFamily: "var(--font-display)", fontSize: "16px",
-                  color: "var(--sky)", letterSpacing: "0.02em",
-                }}>
-                  {personalInfo.name}
-                </span>
-                <span style={{
-                  fontFamily: "var(--font-mono)", fontSize: "10px",
-                  color: "rgba(255,255,255,0.5)", letterSpacing: "0.1em",
-                  textTransform: "uppercase", display: "flex", alignItems: "center", gap: 4,
-                }}>
-                  <FiBriefcase size={9} /> {personalInfo.title}
-                </span>
-              </div>
-            </div>
-
-            <Sticker variant="red" rotate={-6} style={{ position: "absolute", top: -12, left: -8, zIndex: 2 }}>
-              <FiAward size={11} />
-              {nationalWins > 0 ? `${nationalWins}× National Winner` : "Award Winner"}
-            </Sticker>
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16, maxWidth: 360 }}>
-              {personalInfo.funFacts.map((fact, i) => (
-                <Sticker
-                  key={fact.label}
-                  variant={(["white", "navy", "sky", "orange", "green"] as const)[i % 5]}
-                  rotate={[-3, 2, -1, 4, -2][i % 5]}
-                >
-                  {FUN_FACT_ICONS[fact.label] ?? <FiZap size={11} />}
-                  {fact.label}
-                </Sticker>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div {...fadeUp(0.24)} style={{ gridArea: "bio" }}>
-            <div className="card-raw card-raw--orange" style={{ padding: "24px", marginBottom: 20 }}>
-              <div className="section-tag" style={{ marginBottom: 12 }}>About</div>
+            {/* Bio */}
+            <motion.div {...fadeUp(0.18)} style={{ marginBottom: 28 }}>
+              <div className="section-tag" style={{ marginBottom: 10 }}>About</div>
               <p style={{
                 fontFamily: "var(--font-body)",
-                fontSize:   "clamp(15px, 2vw, 18px)",
-                lineHeight: 1.7, color: "var(--fg)", margin: 0,
+                fontSize: "clamp(14px, 1.6vw, 16px)",
+                lineHeight: 1.78, color: "var(--fg-2)", margin: 0,
               }}>
                 {personalInfo.bio}
               </p>
-            </div>
+            </motion.div>
 
-            <div style={{
-              background: "var(--navy)", border: "2px solid #000",
-              boxShadow: "4px 4px 0 var(--sky)",
-              padding: "18px 20px", marginBottom: 20,
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                <span className="status-dot" />
-                <span style={{
-                  fontFamily: "var(--font-mono)", fontSize: "10px",
-                  letterSpacing: "0.14em", textTransform: "uppercase",
-                  color: "var(--lime)",
-                }}>
-                  Currently Building
-                </span>
-              </div>
-              <div style={{
-                fontFamily: "var(--font-display)", fontSize: "22px",
-                color: "#fff", letterSpacing: "0.01em", marginBottom: 4,
-              }}>
-                {currentStatus.currentlyBuilding.project}
-              </div>
-              <div style={{
-                fontFamily: "var(--font-body)", fontSize: "13px",
-                color: "rgba(255,255,255,0.6)", marginBottom: 12,
-              }}>
-                {currentStatus.currentlyBuilding.description}
-              </div>
-              <div className="progress-raw">
-                <motion.div
-                  className="progress-raw__fill"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${currentStatus.currentlyBuilding.progress}%` }}
-                  transition={{ duration: 1.4, delay: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
-                  style={{ background: "var(--sky)" }}
-                />
-              </div>
-              <div style={{
-                textAlign: "right", fontFamily: "var(--font-mono)", fontSize: "11px",
-                color: "var(--sky)", marginTop: 6, letterSpacing: "0.08em",
-              }}>
-                {currentStatus.currentlyBuilding.progress}%
-              </div>
-            </div>
+            {/* Divider */}
+            <motion.div {...fadeUp(0.20)} style={{
+              height: 2, background: "#000",
+              marginBottom: 24, opacity: 0.08,
+            }} />
 
-            <div style={{ marginBottom: 20 }}>
-              <div className="section-tag" style={{ marginBottom: 10 }}>Currently Learning</div>
+            {/* Connect */}
+            <motion.div {...fadeUp(0.22)}>
+              <div className="section-tag" style={{ marginBottom: 12 }}>Connect</div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {currentStatus.currentlyLearning.map((item, i) => (
-                  <Sticker
-                    key={item.name}
-                    variant={(["navy", "orange", "sky"] as const)[i % 3]}
-                    rotate={[-2, 2, -1][i % 3]}
-                  >
-                    <FiZap size={11} /> {item.name}
-                  </Sticker>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="section-tag" style={{ marginBottom: 10 }}>Connect</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {[
-                  { label: "GitHub",    href: socialLinks.github.url,    icon: <FiGithub size={13} />,   v: "navy"   },
-                  { label: "LinkedIn",  href: socialLinks.linkedin.url,  icon: <FiLinkedin size={13} />, v: "sky"    },
-                  { label: "Instagram", href: socialLinks.instagram.url, icon: <FiInstagram size={13}/>, v: "orange" },
-                  { label: "Email",     href: `mailto:${personalInfo.email}`, icon: <FiMail size={13}/>, v: "navy"   },
-                ].map((s) => (
+                {SOCIAL.map((s) => (
                   <a
                     key={s.label}
                     href={s.href}
                     target={s.href.startsWith("mailto") ? undefined : "_blank"}
                     rel="noreferrer"
-                    className={`btn-raw btn-raw--${s.v as "navy" | "sky" | "orange"}`}
-                    style={{ fontSize: 12, padding: "8px 14px", gap: 6 }}
+                    className={`btn-raw btn-raw--${s.v}`}
+                    style={{ fontSize: 12, padding: "9px 16px" }}
                   >
                     {s.icon} {s.label}
                   </a>
                 ))}
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          <motion.div {...fadeUp(0.3)} style={{ gridArea: "stats" }}>
-            <div className="section-tag" style={{ marginBottom: 12 }}>By the numbers</div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              <StatBlock
-                value={`${statistics.totalProjects}`} label="Projects"
-                icon={<FiBriefcase size={16} />}
-                bg="var(--navy)" color="#fff"
-                shadow="4px 4px 0 var(--sky)" delay={0.32}
-              />
-              <StatBlock
-                value={`${personalInfo.yearsExperience}+`} label="Yrs Experience"
-                icon={<FiTrendingUp size={16} />}
-                bg="var(--orange-light)" color="var(--orange)"
-                shadow="4px 4px 0 var(--orange)" delay={0.36}
-              />
-              <StatBlock
-                value={`${statistics.achievements}`} label="Awards"
-                icon={<FiAward size={16} />}
-                bg="var(--rose)" color="var(--red)"
-                shadow="4px 4px 0 var(--red)" delay={0.4}
-              />
-              <StatBlock
-                value={`${statistics.githubCommits}+`} label="Commits"
-                icon={<FiGitCommit size={16} />}
-                bg="var(--lime)" color="var(--green-dark)"
-                shadow="4px 4px 0 var(--green-dark)" delay={0.44}
-              />
+          </div>
+
+          {/* ══════════════════════
+              RIGHT — photo
+          ══════════════════════ */}
+          <motion.div {...fadeUp(0.12)} className="hero-right">
+            <div style={{
+              position: "relative",
+              width: "100%", height: "100%",
+              border: "2px solid #000",
+              boxShadow: "var(--shadow-navy)",
+              background: "var(--sky-light)",
+              overflow: "hidden",
+              minHeight: 360,
+            }}>
+              {!imgError ? (
+                <Image
+                  src={personalInfo.profileImage}
+                  alt={personalInfo.profileImageAlt}
+                  fill priority
+                  style={{ objectFit: "cover", objectPosition: "top center" }}
+                  onError={() => setImgError(true)}
+                />
+              ) : (
+                <div style={{
+                  position: "absolute", inset: 0,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <span style={{
+                    fontFamily: "var(--font-display)", fontSize: 80,
+                    color: "var(--navy)", opacity: 0.18,
+                  }}>RC</span>
+                </div>
+              )}
+
+              {/* Bottom gradient */}
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(to top, rgba(0,0,0,0.68) 0%, transparent 42%)",
+                zIndex: 1, pointerEvents: "none",
+              }} />
+
+              {/* Name bar */}
+              <div style={{
+                position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2,
+                padding: "14px 18px",
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+              }}>
+                <span style={{
+                  fontFamily: "var(--font-display)", fontSize: 18,
+                  color: "#fff", letterSpacing: "0.01em",
+                }}>
+                  {personalInfo.name}
+                </span>
+                <span style={{
+                  fontFamily: "var(--font-mono)", fontSize: 9,
+                  letterSpacing: "0.1em", textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.5)",
+                  display: "flex", alignItems: "center", gap: 4,
+                }}>
+                  <FiBriefcase size={8} /> {personalInfo.title}
+                </span>
+              </div>
             </div>
           </motion.div>
 
         </div>
+
+        {/* ─────────────────────────────────
+            STATS ROW — full width
+        ───────────────────────────────── */}
+        <motion.div {...fadeUp(0.28)} style={{ marginTop: "clamp(24px, 4vw, 40px)" }}>
+          <div className="section-tag" style={{ marginBottom: 12 }}>By the numbers</div>
+          <div className="stats-grid">
+            {STATS.map(({ value, label, icon, bg, color, shadow }) => (
+              <div key={label} style={{
+                background: bg, border: "2px solid #000", boxShadow: shadow,
+                padding: "clamp(14px, 2.5vw, 22px)",
+                display: "flex", flexDirection: "column", gap: 5,
+              }}>
+                <span style={{ color, opacity: 0.7 }}>{icon}</span>
+                <span style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(28px, 5.5vw, 52px)",
+                  fontWeight: 400, lineHeight: 1, color, letterSpacing: "-0.02em",
+                }}>
+                  {value}
+                </span>
+                <span style={{
+                  fontFamily: "var(--font-mono)", fontSize: 9,
+                  letterSpacing: "0.12em", textTransform: "uppercase",
+                  color, opacity: 0.65,
+                }}>
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
       </div>
 
+      {/* ─── Responsive ─── */}
       <style>{`
-        @media (min-width: 768px) {
-          .hero-grid {
-            grid-template-columns: 1fr 1fr !important;
-            grid-template-areas:
-              "headline photo"
-              "bio      photo"
-              "stats    stats" !important;
-          }
+        /* Mobile: stack vertically, photo first */
+        .hero-main {
+          display: flex;
+          flex-direction: column;
+          gap: 28px;
         }
-        @media (min-width: 1100px) {
-          .hero-grid {
-            grid-template-columns: 1.2fr 0.9fr 1fr !important;
-            grid-template-areas:
-              "headline headline photo"
-              "bio      bio      photo"
-              "stats    stats    stats" !important;
+        .hero-left  { order: 2; }
+        .hero-right {
+          order: 1;
+          aspect-ratio: 4/5;
+          max-height: 500px;
+        }
+
+        /* Stats: 2-col on mobile */
+        .stats-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+
+        /* Tablet ≥ 640px: side by side, photo right */
+        @media (min-width: 640px) {
+          .hero-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: center;
           }
+          .hero-left  { order: 1; }
+          .hero-right {
+            order: 2;
+            aspect-ratio: auto;
+            align-self: stretch;
+            min-height: 480px;
+            max-height: none;
+          }
+
+          /* Stats: 4-col */
+          .stats-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* Desktop ≥ 1024px: wider left column */
+        @media (min-width: 1024px) {
+          .hero-main {
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 32px;
+            align-items: center;
+          }
+          .hero-right { min-height: 540px; }
         }
       `}</style>
     </section>
