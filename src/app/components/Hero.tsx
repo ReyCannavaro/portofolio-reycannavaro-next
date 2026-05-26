@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { personalInfo, currentStatus, socialLinks } from "../data/index";
 
-const ROLES = ["FULLSTACK DEVELOPER", "IoT ENGINEER", "AI ENTHUSIAST", "UI/UX DESIGNER"];
+const ROLES = ["FULLSTACK DEVELOPER", "SOFTWARE ENGINEER", "AI ENTHUSIAST", "UI/UX DESIGNER"];
 
 export default function Hero() {
   const [roleIdx, setRoleIdx] = useState(0);
@@ -72,7 +72,7 @@ export default function Hero() {
       >
         <div style={{ position: "relative", width: "100%", height: "100%" }}>
           <Image
-            src="/images/profile.jpeg"
+            src="/images/profile.png"
             alt="Rey Cannavaro"
             fill
             style={{ objectFit: "cover", objectPosition: "top center" }}
@@ -83,7 +83,7 @@ export default function Hero() {
               position: "absolute",
               inset: 0,
               background:
-                "linear-gradient(to right, var(--canvas) 0%, rgba(0,0,0,0.5) 40%, transparent 100%)",
+                "linear-gradient(to right, var(--canvas) 0%, rgba(0,0,0,0.5) 20%, transparent 100%)",
             }}
           />
           <div

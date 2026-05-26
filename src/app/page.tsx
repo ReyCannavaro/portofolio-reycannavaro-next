@@ -8,7 +8,7 @@ import Education from "./components/Education";
 import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
-  title: "Rey Cannavaro | Fullstack Developer Sidoarjo",
+  title: "Rey Cannavaro | Fullstack Developer",
   alternates: {
     canonical: "https://reycannavaro.vercel.app",
   },
