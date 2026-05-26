@@ -10,7 +10,10 @@ const headers: Record<string, string> = {
 if (TOKEN) headers["Authorization"] = `Bearer ${TOKEN}`;
 
 async function fetchUser() {
-  const res = await fetch(`https://api.github.com/users/${USERNAME}`, { headers, next: { revalidate: 3600 } });
+  const res = await fetch(`https://api.github.com/users/${USERNAME}`, {
+    headers,
+    next: { revalidate: 3600 },
+  });
   if (!res.ok) throw new Error(`GitHub user fetch failed: ${res.status}`);
   return res.json();
 }
@@ -33,14 +36,18 @@ async function fetchAllRepos() {
   return repos;
 }
 
-async function fetchContributions() {
+async function fetchContributionsForYear(year: number) {
   if (!TOKEN) return [];
 
+  const from = `${year}-01-01T00:00:00Z`;
+  const to   = `${year}-12-31T23:59:59Z`;
+
   const query = `
-    query($login: String!) {
+    query($login: String!, $from: DateTime!, $to: DateTime!) {
       user(login: $login) {
-        contributionsCollection {
+        contributionsCollection(from: $from, to: $to) {
           contributionCalendar {
+            totalContributions
             weeks {
               contributionDays {
                 date
@@ -57,29 +64,31 @@ async function fetchContributions() {
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: { ...headers, "Content-Type": "application/json" },
-    body: JSON.stringify({ query, variables: { login: USERNAME } }),
+    body: JSON.stringify({ query, variables: { login: USERNAME, from, to } }),
     next: { revalidate: 3600 },
   });
 
   if (!res.ok) return [];
 
   const json = await res.json();
-  const weeks = json?.data?.user?.contributionsCollection?.contributionCalendar?.weeks ?? [];
+  const cal = json?.data?.user?.contributionsCollection?.contributionCalendar;
+  if (!cal) return [];
 
   const LEVEL_MAP: Record<string, number> = {
-    NONE:         0,
+    NONE:            0,
     FIRST_QUARTILE:  1,
     SECOND_QUARTILE: 2,
     THIRD_QUARTILE:  3,
     FOURTH_QUARTILE: 4,
   };
 
-  return weeks.flatMap((w: { contributionDays: { date: string; contributionCount: number; contributionLevel: string }[] }) =>
-    w.contributionDays.map((d) => ({
-      date:  d.date,
-      count: d.contributionCount,
-      level: LEVEL_MAP[d.contributionLevel] ?? 0,
-    }))
+  return cal.weeks.flatMap(
+    (w: { contributionDays: { date: string; contributionCount: number; contributionLevel: string }[] }) =>
+      w.contributionDays.map((d) => ({
+        date:  d.date,
+        count: d.contributionCount,
+        level: LEVEL_MAP[d.contributionLevel] ?? 0,
+      }))
   );
 }
 
@@ -117,12 +126,24 @@ async function fetchLanguages(repos: Record<string, unknown>[]) {
     .filter((l) => l.percentage > 0);
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const yearParam = searchParams.get("year");
+  const currentYear = new Date().getFullYear();
+  const year = yearParam ? parseInt(yearParam) : currentYear;
+
   try {
     const [user, repos] = await Promise.all([fetchUser(), fetchAllRepos()]);
+
+    const createdYear = new Date(user.created_at).getFullYear();
+    const availableYears: number[] = [];
+    for (let y = currentYear; y >= createdYear; y--) {
+      availableYears.push(y);
+    }
+
     const [languages, contributions] = await Promise.all([
       fetchLanguages(repos),
-      fetchContributions(),
+      fetchContributionsForYear(year),
     ]);
 
     const totalStars = repos.reduce((s: number, r) => s + ((r.stargazers_count as number) || 0), 0);
@@ -136,13 +157,15 @@ export async function GET() {
         followers:    user.followers,
       },
       stats: {
-        totalRepos:  repos.length,
+        totalRepos: repos.length,
         totalStars,
         totalForks,
-        followers:   user.followers,
+        followers:  user.followers,
       },
       languages,
       contributions,
+      selectedYear:   year,
+      availableYears,
       hasToken: !!TOKEN,
     });
   } catch (err) {
