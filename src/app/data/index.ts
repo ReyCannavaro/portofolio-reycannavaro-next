@@ -59,7 +59,7 @@ export const socialLinks = {
 
 export const currentStatus = {
   available: true,
-  availableForWork: "Open for freelance & internship",
+  availableForWork: "Open for opportunities",
 };
 
 export const skillCategories = [

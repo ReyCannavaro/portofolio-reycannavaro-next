@@ -121,9 +121,9 @@ export default function Hero() {
               width: 7,
               height: 7,
               borderRadius: "50%",
-              background: "#0fa336",
+              background: "#e22718",
               display: "inline-block",
-              boxShadow: "0 0 8px #0fa336",
+              boxShadow: "0 0 8px #e22718",
               animation: "pulse-dot 2s infinite",
             }}
           />
