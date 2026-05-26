@@ -413,7 +413,7 @@ export const projects = [
     tagline: "IoT Smart Urban Farming",
     description: "Aplikasi IoT untuk memantau dan mengelola kondisi tanaman secara real-time menggunakan sensor kelembaban, suhu, dan cahaya.",
     technologies: ["React", "Google Gemini API", "MicroPython", "Thonny", "Tailwind CSS"],
-    status: "ongoing",
+    status: "completed",
     duration: "6+ months",
     category: "IoT",
     images: {
@@ -473,7 +473,7 @@ export const projects = [
     tagline: "Socratic Interactive RPG Academy",
     description: "Game edukasi interaktif untuk meningkatkan keterampilan berpikir kritis dan pemecahan masalah siswa melalui pengalaman RPG yang imersif.",
     technologies: ["Next.js", "Supabase", "TypeScript", "Tailwind CSS"],
-    status: "ongoing",
+    status: "completed",
     duration: "4+ months",
     category: "Game Development",
     images: {
@@ -497,7 +497,7 @@ export const projects = [
     tagline: "Berkomitmen mewujudkan pemerintahan yang transparan, akuntabel, dan partisipatif demi kesejahteraan seluruh warga.",
     description: "platform untuk meningkatkan transparansi dan partisipasi warga dalam pemerintahan desa, memungkinkan akses informasi yang mudah dan komunikasi langsung dengan pemerintah desa.",
     technologies: ["Next.js", "Supabase", "TypeScript", "Tailwind CSS"],
-    status: "ongoing",
+    status: "completed",
     duration: "4+ months",
     category: "Web Development",
     images: {
@@ -521,7 +521,7 @@ export const projects = [
     tagline: "Platform Pencarian dan Penyedia Jasa",
     description: "Platform yang memudahkan pengguna dalam mencari dan menemukan jasa yang dibutuhkan, serta memberikan pengalaman transaksi yang aman dan efisien.",
     technologies: ["Next.js", "Supabase", "TypeScript", "Tailwind CSS"],
-    status: "ongoing",
+    status: "completed",
     duration: "4+ months",
     category: "Web Development",
     images: {

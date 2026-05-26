@@ -6,17 +6,19 @@ import Projects from "./components/Projects";
 import Prestasi from "./components/Prestasi";
 import Education from "./components/Education";
 import Footer from "./components/Footer";
+import Loader from "./components/Loader";
 
 export const metadata: Metadata = {
   title: "Rey Cannavaro | Fullstack Developer",
   alternates: {
-    canonical: "https://reycannavaro.vercel.app",
+    canonical: "https://reycannavaro.dev",
   },
 };
 
 export default function Home() {
   return (
     <div style={{ background: "var(--canvas)", minHeight: "100svh" }}>
+      <Loader />
       <Sidebar />
       <main className="main-content">
         <Hero />
