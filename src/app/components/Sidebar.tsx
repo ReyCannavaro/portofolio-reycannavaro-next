@@ -92,7 +92,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside
+      <aside className="sidebar-desktop"
         style={{
           position: "fixed",
           left: 0,
@@ -100,14 +100,12 @@ export default function Sidebar() {
           bottom: 0,
           width: "var(--sidebar-w)",
           zIndex: 9000,
-          display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           gap: 0,
           padding: "24px 0",
         }}
-        className="hidden md:flex"
       >
         <div
           style={{
@@ -228,13 +226,13 @@ export default function Sidebar() {
       </aside>
 
       <nav
+        className="navbar-mobile"
         style={{
           position: "fixed",
           bottom: 16,
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 9000,
-          display: "flex",
           alignItems: "center",
           gap: 4,
           background: "rgba(13, 13, 13, 0.82)",
@@ -244,7 +242,6 @@ export default function Sidebar() {
           borderRadius: 999,
           padding: "8px 12px",
         }}
-        className="flex md:hidden"
       >
         {NAV_ITEMS.map((item) => {
           const isActive = active === item.id;
@@ -271,6 +268,26 @@ export default function Sidebar() {
           );
         })}
       </nav>
+
+      <style>{`
+        .sidebar-desktop {
+          display: none;
+        }
+        @media (min-width: 768px) {
+          .sidebar-desktop {
+            display: flex;
+          }
+        }
+
+        .navbar-mobile {
+          display: flex;
+        }
+        @media (min-width: 768px) {
+          .navbar-mobile {
+            display: none;
+          }
+        }
+      `}</style>
     </>
   );
 }
