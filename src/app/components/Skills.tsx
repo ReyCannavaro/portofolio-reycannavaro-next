@@ -1,51 +1,6 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
-
-const SKILL_CATEGORIES = [
-  {
-    id: "frontend",
-    label: "Frontend",
-    icon: "⬡",
-    skills: ["React", "Next.js", "Tailwind CSS", "Alpine.js", "HTML5", "CSS3", "JavaScript", "TypeScript"],
-  },
-  {
-    id: "backend",
-    label: "Backend",
-    icon: "⬡",
-    skills: ["Laravel 11", "PHP 8.2", "Node.js", "Express", "Hono.js", "REST API"],
-  },
-  {
-    id: "database",
-    label: "Database",
-    icon: "⬡",
-    skills: ["MySQL", "PostgreSQL", "Prisma", "Eloquent ORM"],
-  },
-  {
-    id: "ai-ml",
-    label: "AI / ML",
-    icon: "⬡",
-    skills: ["Google Gemini API", "RAG System", "Scikit-learn", "NLTK", "Pandas", "NumPy"],
-  },
-  {
-    id: "iot",
-    label: "IoT",
-    icon: "⬡",
-    skills: ["ESP32", "MicroPython", "DHT22", "MQTT", "Socket.io", "Thonny IDE"],
-  },
-  {
-    id: "tools",
-    label: "Tools",
-    icon: "⬡",
-    skills: ["Git", "GitHub", "Figma", "VS Code", "Postman", "Filament Admin"],
-  },
-];
-
-const TECH_STATS = [
-  { value: "2+", label: "Years Experience" },
-  { value: "6+", label: "Projects Built" },
-  { value: "10+", label: "Technologies" },
-  { value: "100%", label: "Passion" },
-];
+import { skillCategories, techStats, currentlyLearning } from "../data/index";
 
 export default function Skills() {
   const ref = useRef<HTMLElement>(null);
@@ -99,7 +54,7 @@ export default function Skills() {
           }}
           className="grid-cols-2 md:grid-cols-4"
         >
-          {TECH_STATS.map((s) => (
+          {techStats.map((s) => (
             <div key={s.label} className="spec-cell" style={{ background: "var(--surface-soft)" }}>
               <div className="spec-value">{s.value}</div>
               <div className="spec-label">{s.label}</div>
@@ -115,7 +70,7 @@ export default function Skills() {
             background: "var(--hairline)",
           }}
         >
-          {SKILL_CATEGORIES.map((cat, i) => (
+          {skillCategories.map((cat, i) => (
             <div
               key={cat.id}
               style={{
@@ -182,7 +137,7 @@ export default function Skills() {
           </span>
           <div className="hairline" style={{ width: 40, height: 1, background: "var(--hairline)" }} />
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {["Next.js 15", "Hono.js", "AI Integration", "Docker"].map((t) => (
+            {currentlyLearning.map((t) => (
               <span
                 key={t}
                 style={{
