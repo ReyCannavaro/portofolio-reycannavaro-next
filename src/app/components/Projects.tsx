@@ -8,7 +8,7 @@ export default function Projects() {
   const [visible, setVisible] = useState(false);
   const [activeFilter, setActiveFilter] = useState("ALL");
 
-  const FILTERS = ["ALL", "Web Development", "AI/ML", "IoT"];
+  const FILTERS = ["ALL", "Web Development", "AI/ML", "IoT", "Game Development"];
 
   const featured = projects.filter((p) => p.featured);
   const filtered =
@@ -71,7 +71,7 @@ export default function Projects() {
               transition: "opacity 0.6s ease 0.3s",
             }}
           >
-            {FILTERS.map((f) => (
+            {FILTERS.map((f, idx) => (
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
@@ -80,7 +80,7 @@ export default function Projects() {
                   background: activeFilter === f ? "var(--on-dark)" : "transparent",
                   color: activeFilter === f ? "var(--canvas)" : "var(--muted)",
                   border: "none",
-                  borderRight: f !== "IoT" ? "1px solid var(--hairline)" : "none",
+                  borderRight: idx !== FILTERS.length - 1 ? "1px solid var(--hairline)" : "none",
                   fontSize: 11,
                   fontWeight: 700,
                   letterSpacing: "1px",
@@ -286,26 +286,50 @@ export default function Projects() {
 
                 <div className="hairline" style={{ margin: "var(--space-md) 0" }} />
 
-                {project.links.github && (
-                  <a
-                    href={project.links.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      letterSpacing: "1px",
-                      textTransform: "uppercase",
-                      color: "var(--muted)",
-                      textDecoration: "none",
-                      transition: "color 0.2s",
-                    }}
-                    onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")}
-                    onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--muted)")}
-                  >
-                    View on GitHub →
-                  </a>
-                )}
+                <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+                  {project.links.github && (
+                    <a
+                      href={project.links.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        letterSpacing: "1px",
+                        textTransform: "uppercase",
+                        color: "var(--muted)",
+                        textDecoration: "none",
+                        transition: "color 0.2s",
+                      }}
+                      onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--on-dark)")}
+                      onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--muted)")}
+                    >
+                      GitHub →
+                    </a>
+                  )}
+                  {project.links.live && (
+                    <a
+                      href={project.links.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        letterSpacing: "1px",
+                        textTransform: "uppercase",
+                        color: "var(--canvas)",
+                        background: "var(--on-dark)",
+                        textDecoration: "none",
+                        padding: "5px 12px",
+                        transition: "opacity 0.2s",
+                      }}
+                      onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.8")}
+                      onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
+                    >
+                      Live →
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           ))}

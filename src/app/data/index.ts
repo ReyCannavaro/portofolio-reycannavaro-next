@@ -66,27 +66,27 @@ export const skillCategories = [
   {
     id: "frontend",
     label: "Frontend",
-    skills: ["React", "Next.js", "Tailwind CSS", "Alpine.js", "HTML5", "CSS3", "JavaScript", "TypeScript"],
+    skills: ["React", "Next.js", "Tailwind CSS", "HTML5", "CSS3", "JavaScript", "TypeScript"],
   },
   {
     id: "backend",
     label: "Backend",
-    skills: ["Laravel 11", "PHP 8.2", "Node.js", "Express", "Hono.js", "REST API"],
+    skills: ["Laravel 11", "PHP 8.2", "Node.js", "Express", "Hono.js", "REST API", "Express.js"],
   },
   {
     id: "database",
     label: "Database",
-    skills: ["MySQL", "PostgreSQL", "Prisma", "Eloquent ORM"],
+    skills: ["MySQL", "PostgreSQL", "Prisma", "Supabase", "MongoDB", "Firebase"],
   },
   {
     id: "ai-ml",
     label: "AI / ML",
-    skills: ["Google Gemini API", "RAG System", "Scikit-learn", "NLTK", "Pandas", "NumPy"],
+    skills: ["Google Gemini API", "RAG System", "Scikit-learn", "Pandas", "NumPy"],
   },
   {
     id: "iot",
     label: "IoT",
-    skills: ["ESP32", "MicroPython", "DHT22", "MQTT", "Socket.io", "Thonny IDE"],
+    skills: ["ESP32", "MicroPython", "MQTT", "Thonny IDE"],
   },
   {
     id: "tools",
@@ -102,7 +102,7 @@ export const techStats = [
   { value: "100%", label: "Passion" },
 ];
 
-export const currentlyLearning = ["Next.js 15", "Hono.js", "AI Integration", "Docker"];
+export const currentlyLearning = ["Next.js 15", "Express.js", "AI Integration"];
 
 export const educationHistory = [
   {
@@ -118,7 +118,7 @@ export const educationHistory = [
     location: "Sidoarjo, Indonesia",
     logo: "/images/logo-smk-telkom.png",
     highlights: [
-      "Digital Talent Program",
+      "Digital Talent Program - Programmer",
       "Junior Website Developer",
       "Active in OSIS as Secretary",
     ],
@@ -139,7 +139,7 @@ export const educationHistory = [
     highlights: [
       "7 Juz Tahfidz Al-Qur'an",
       "School of Leadership Program",
-      "Active in Pramuka Organization",
+      "Active in PMR Organization",
     ],
     description: "Islamic boarding school with emphasis on character building, leadership, and religious education.",
   },
@@ -486,9 +486,57 @@ export const projects = [
     },
     links: {
       github: "https://github.com/ReyCannavaro/sira.git",
-      live: null,
+      live: "https://sira-wine.vercel.app",
     },
     tags: ["Game Dev", "Education", "Next.js", "Supabase"],
+    featured: true,
+  },
+  {
+    id: "desata",
+    name: "DESATA",
+    tagline: "Berkomitmen mewujudkan pemerintahan yang transparan, akuntabel, dan partisipatif demi kesejahteraan seluruh warga.",
+    description: "platform untuk meningkatkan transparansi dan partisipasi warga dalam pemerintahan desa, memungkinkan akses informasi yang mudah dan komunikasi langsung dengan pemerintah desa.",
+    technologies: ["Next.js", "Supabase", "JavaScript", "Tailwind CSS"],
+    status: "ongoing",
+    duration: "4+ months",
+    category: "Web Development",
+    images: {
+      thumbnail: "/projects/desata1.png",
+      gallery: [
+        "/projects/desata1.png",
+        "/projects/desata2.png",
+        "/projects/desata3.png",
+      ],
+    },
+    links: {
+      github: "https://github.com/ReyCannavaro/desata.git",
+      live: "https://desata.vercel.app",
+    },
+    tags: ["Web Dev", "Community", "Next.js", "Supabase"],
+    featured: true,
+  },
+  {
+    id: "findor",
+    name: "FINDOR",
+    tagline: "Platform Pencarian dan Penyedia Jasa",
+    description: "Platform yang memudahkan pengguna dalam mencari dan menemukan jasa yang dibutuhkan, serta memberikan pengalaman transaksi yang aman dan efisien.",
+    technologies: ["Next.js", "Supabase", "JavaScript", "Tailwind CSS"],
+    status: "ongoing",
+    duration: "4+ months",
+    category: "Web Development",
+    images: {
+      thumbnail: "/projects/findor1.png",
+      gallery: [
+        "/projects/findor1.png",
+        "/projects/findor2.png",
+        "/projects/findor3.png",
+      ],
+    },
+    links: {
+      github: "https://github.com/ReyCannavaro/findor.git",
+      live: "https://findor-azure.vercel.app",
+    },
+    tags: ["Web Dev", "Community", "Next.js", "Supabase"],
     featured: true,
   },
 ];
