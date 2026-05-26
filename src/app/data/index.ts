@@ -1,32 +1,3 @@
-export const personalInfo = {
-  name: "Rey Cannavaro",
-  fullName: "Rey Cannavaro",
-  title: "Full-stack Developer",
-  subtitle: "Student & Developer",
-  location: "Sidoarjo, Indonesia",
-  timezone: "WIB (UTC+7)",
-  bio: "A full-stack developer with 2+ years of experience specializing in web development, IoT integration, and AI-powered applications. Passionate about creating innovative solutions that solve real-world problems.",
-  email: "reyjunoalcannavaro@gmail.com",
-  phone: "+62 821 3953 1132",
-  age: calculateAge("2007-06-03"),
-  yearsExperience: 2,
-  
-  profileImage: "/images/profile.png",
-  profileImageAlt: "Rey Cannavaro Profile Picture",
-  
-  aboutExtended: `Saya adalah seorang siswa SMK Telkom Sidoarjo yang passionate di bidang web development dan teknologi. Dengan pengalaman lebih dari 2 tahun dalam mengembangkan aplikasi web, saya fokus pada full-stack development menggunakan Laravel, React, dan Next.js. 
-  
-  Selain coding, saya aktif dalam organisasi kepramukaan sebagai Pradana Putra dan Sekretaris OSIS, yang mengasah kemampuan leadership dan manajemen saya. Saya percaya bahwa teknologi dapat memberikan dampak positif untuk masyarakat, dan saya selalu berusaha untuk belajar hal baru setiap harinya.`,
-  
-  funFacts: [
-    { icon: "🎯", label: "Critical Thinking", color: "bg-orange-100" },
-    { icon: "👁️", label: "Visual Aesthetic", color: "bg-gray-100" },
-    { icon: "💡", label: "Creativity", color: "bg-purple-100" },
-    { icon: "📊", label: "Attention to Detail", color: "bg-blue-100" },
-    { icon: "📁", label: "Organized", color: "bg-gray-200" },
-  ],
-};
-
 function calculateAge(birthDate: string): number {
   const today = new Date();
   const birth = new Date(birthDate);
@@ -37,6 +8,21 @@ function calculateAge(birthDate: string): number {
   }
   return age;
 }
+
+export const personalInfo = {
+  name: "Rey Cannavaro",
+  title: "Full-stack Developer",
+  subtitle: "Student & Developer",
+  location: "Sidoarjo, Indonesia",
+  timezone: "WIB (UTC+7)",
+  bio: "A full-stack developer with 2+ years of experience specializing in web development, IoT integration, and AI-powered applications. Passionate about creating innovative solutions that solve real-world problems.",
+  email: "reyjunoalcannavaro@gmail.com",
+  phone: "+62 821 3953 1132",
+  age: calculateAge("2007-06-03"),
+  yearsExperience: 2,
+  profileImage: "/images/profile.png",
+  profileImageAlt: "Rey Cannavaro Profile Picture",
+};
 
 export const socialLinks = {
   github: {
@@ -56,7 +42,6 @@ export const socialLinks = {
     username: "@reycannavaro",
     display: "Instagram",
     icon: "instagram",
-    followers: "1.2K",
   },
   twitter: {
     url: "https://x.com/deianersait",
@@ -70,30 +55,54 @@ export const socialLinks = {
     display: "Threads",
     icon: "threads",
   },
-  email: {
-    url: "mailto:reycannavaro@example.com",
-    display: "Email",
-    icon: "email",
-  },
 };
 
 export const currentStatus = {
   available: true,
   availableForWork: "Open for freelance & internship",
-  currentlyBuilding: {
-    project: "UrbanGrow v2",
-    description: "IoT Dashboard for Smart Urban Farming",
-    progress: 65, // percentage
-    icon: "🌱",
-  },
-  currentlyLearning: [
-    { name: "Next.js 15", icon: "⚡", color: "bg-black" },
-    { name: "Hono.js", icon: "🔥", color: "bg-orange-500" },
-    { name: "AI Integration", icon: "🤖", color: "bg-blue-500" },
-  ],
-  recentActivity: "Updated TechSphere project",
-  lastUpdated: "2025-05-15",
 };
+
+export const skillCategories = [
+  {
+    id: "frontend",
+    label: "Frontend",
+    skills: ["React", "Next.js", "Tailwind CSS", "Alpine.js", "HTML5", "CSS3", "JavaScript", "TypeScript"],
+  },
+  {
+    id: "backend",
+    label: "Backend",
+    skills: ["Laravel 11", "PHP 8.2", "Node.js", "Express", "Hono.js", "REST API"],
+  },
+  {
+    id: "database",
+    label: "Database",
+    skills: ["MySQL", "PostgreSQL", "Prisma", "Eloquent ORM"],
+  },
+  {
+    id: "ai-ml",
+    label: "AI / ML",
+    skills: ["Google Gemini API", "RAG System", "Scikit-learn", "NLTK", "Pandas", "NumPy"],
+  },
+  {
+    id: "iot",
+    label: "IoT",
+    skills: ["ESP32", "MicroPython", "DHT22", "MQTT", "Socket.io", "Thonny IDE"],
+  },
+  {
+    id: "tools",
+    label: "Tools",
+    skills: ["Git", "GitHub", "Figma", "VS Code", "Postman", "Filament Admin"],
+  },
+];
+
+export const techStats = [
+  { value: "2+", label: "Years Experience" },
+  { value: "6+", label: "Projects Built" },
+  { value: "10+", label: "Technologies" },
+  { value: "100%", label: "Passion" },
+];
+
+export const currentlyLearning = ["Next.js 15", "Hono.js", "AI Integration", "Docker"];
 
 export const educationHistory = [
   {
@@ -113,7 +122,6 @@ export const educationHistory = [
       "Junior Website Developer",
       "Active in OSIS as Secretary",
     ],
-    gpa: "N/A",
     description: "Focusing on web development, networking, and software engineering with hands-on projects and competitions.",
   },
   {
@@ -145,13 +153,12 @@ export const achievements = [
     category: "Leadership",
     organizer: "Dewan Ambalan SMK Telkom Sidoarjo",
     year: 2025,
-    month: "January",
     date: "2025-01",
     type: "speaker",
     level: "school",
     description: "Menjadi pengisi materi leadership pada kegiatan Kursus Pengelolaan Dewan Ambalan untuk melatih skill kepemimpinan anggota pramuka.",
     image: "/prestasi/prestasi1.jpeg",
-    badge: "🎤",
+    badge: "mic",
     color: "bg-blue-500",
   },
   {
@@ -161,14 +168,13 @@ export const achievements = [
     category: "Competition",
     organizer: "Dewan Kerja Cabang Sidoarjo",
     year: 2025,
-    month: "February",
     date: "2025-02",
     type: "competition",
     level: "district",
     rank: 2,
     description: "Meraih juara 2 umum dalam Lomba Prestasi Penegak tingkat Kabupaten Sidoarjo, berkompetisi dalam berbagai bidang kepramukaan.",
     image: "/prestasi/prestasi2.jpeg",
-    badge: "🥈",
+    badge: "medal",
     color: "bg-gray-400",
   },
   {
@@ -178,13 +184,12 @@ export const achievements = [
     category: "Honor",
     organizer: "Kecamatan Sidoarjo",
     year: 2024,
-    month: "August",
     date: "2024-08-17",
     type: "position",
     level: "district",
     description: "Terpilih sebagai Pasukan Pengibar Bendera Pusaka pada upacara HUT RI ke-79 di tingkat Kecamatan Sidoarjo.",
     image: "/prestasi/prestasi3.jpeg",
-    badge: "🇮🇩",
+    badge: "flag",
     color: "bg-red-500",
   },
   {
@@ -199,7 +204,7 @@ export const achievements = [
     level: "school",
     description: "Menjabat sebagai Pemangku Adat Putra di Dewan Ambalan, bertanggung jawab atas tradisi dan budaya organisasi.",
     image: "/prestasi/prestasi4.jpeg",
-    badge: "👑",
+    badge: "crown",
     color: "bg-yellow-600",
   },
   {
@@ -214,7 +219,7 @@ export const achievements = [
     level: "school",
     description: "Posisi tertinggi di Dewan Ambalan putra, memimpin seluruh kegiatan kepramukaan tingkat penegak di sekolah.",
     image: "/prestasi/prestasi5.jpeg",
-    badge: "⭐",
+    badge: "star",
     color: "bg-purple-600",
   },
   {
@@ -229,7 +234,7 @@ export const achievements = [
     level: "school",
     description: "Bertanggung jawab sebagai sekretaris dalam kepanitiaan Dies Natalis ke-5 SMK Telkom Sidoarjo.",
     image: "/prestasi/prestasi6.jpeg",
-    badge: "📋",
+    badge: "clipboard",
     color: "bg-green-500",
   },
   {
@@ -244,7 +249,7 @@ export const achievements = [
     level: "school",
     description: "Menjabat sebagai Sekretaris OSIS periode 2025, mengelola administrasi dan koordinasi kegiatan sekolah.",
     image: "/prestasi/prestasi7.png",
-    badge: "📝",
+    badge: "pen",
     color: "bg-blue-600",
   },
   {
@@ -260,7 +265,7 @@ export const achievements = [
     rank: 1,
     description: "Juara 1 dalam kompetisi Scout Mobile Legends pada acara Lomba Giat Prestasi tingkat Kabupaten.",
     image: "/prestasi/prestasi8.jpeg",
-    badge: "🥇",
+    badge: "trophy",
     color: "bg-yellow-500",
   },
   {
@@ -276,7 +281,7 @@ export const achievements = [
     rank: 2,
     description: "Juara 2 dalam lomba pembuatan film pendek Scout Movie pada Lomba Giat Prestasi.",
     image: "/prestasi/prestasi9.jpeg",
-    badge: "🎬",
+    badge: "film",
     color: "bg-indigo-500",
   },
   {
@@ -291,7 +296,7 @@ export const achievements = [
     level: "school",
     description: "Kembali dipercaya sebagai sekretaris kepanitiaan Dies Natalis ke-6 SMK Telkom Sidoarjo.",
     image: "/prestasi/prestasi10.jpeg",
-    badge: "📋",
+    badge: "clipboard",
     color: "bg-green-600",
   },
   {
@@ -307,7 +312,7 @@ export const achievements = [
     rank: 1,
     description: "Meraih juara 1 Lomba Karya Tulis Ilmiah tingkat SMA/SMK se-Indonesia yang diselenggarakan oleh Telkom University.",
     image: "/prestasi/prestasi11.jpg",
-    badge: "🏆",
+    badge: "trophy",
     color: "bg-red-600",
     featured: true,
   },
@@ -323,7 +328,7 @@ export const achievements = [
     level: "district",
     description: "Memperoleh Tanda Kecakapan Khusus (TKK) Garuda, penghargaan tertinggi untuk Pramuka Penegak di Kabupaten Sidoarjo.",
     image: "/prestasi/prestasi12.jpeg",
-    badge: "🦅",
+    badge: "shield",
     color: "bg-amber-700",
     featured: true,
   },
@@ -335,47 +340,10 @@ export const projects = [
     name: "TechSphere",
     tagline: "Gadget Review & Rating Platform",
     description: "Platform untuk menjelajahi berbagai gadget, melihat detailnya, dan memberikan rating. Dibangun menggunakan framework Laravel dengan panel admin Filament untuk manajemen data yang efisien.",
-    longDescription: `TechSphere adalah platform review gadget yang memungkinkan pengguna untuk:
-    - Menjelajahi katalog gadget terbaru
-    - Membaca spesifikasi detail produk
-    - Memberikan rating dan review
-    - Admin dashboard dengan Filament untuk manajemen konten
-    
-    Platform ini dibangun dengan fokus pada user experience dan performa yang optimal.`,
     technologies: ["Laravel 11", "Tailwind CSS", "Filament", "MySQL", "Alpine.js"],
-    techStack: {
-      frontend: ["Tailwind CSS", "Alpine.js", "Blade"],
-      backend: ["Laravel 11", "PHP 8.2"],
-      database: ["MySQL"],
-      tools: ["Filament Admin", "Git", "Composer"],
-    },
-    role: "Full-stack Developer",
-    responsibilities: [
-      "Merancang database schema dan relationships",
-      "Mengimplementasikan CRUD operations dengan Laravel",
-      "Membuat admin panel dengan Filament",
-      "Design UI/UX dengan Tailwind CSS",
-    ],
-    features: [
-      "Product catalog dengan filter & search",
-      "Rating & review system",
-      "Admin dashboard untuk manajemen produk",
-      "Responsive design untuk semua device",
-      "Image upload & optimization",
-    ],
     status: "completed",
-    startDate: "2024-09",
-    endDate: "2024-12",
     duration: "3 months",
-    teamSize: 1,
     category: "Web Development",
-    type: "personal",
-    colors: {
-      primary: "#fff",
-      secondary: "#f5f5f5",
-      accent: "#000",
-      gradient: ["#d6d6d6", "#f5f5f5"],
-    },
     images: {
       thumbnail: "/projects/techsphere1.png",
       gallery: [
@@ -383,68 +351,23 @@ export const projects = [
         "/projects/techsphere2.png",
         "/projects/techsphere3.png",
       ],
-      mockup: "/projects/techsphere-mockup.png", // Optional
     },
     links: {
       github: "https://github.com/ReyCannavaro/TechSphere-Laravel.git",
       live: null,
-      demo: null,
-      documentation: null,
     },
-    tags: ["Laravel", "Full-stack", "Admin Panel", "E-commerce"],
+    tags: ["Laravel", "Full-stack", "Admin Panel"],
     featured: true,
-    metrics: {
-      linesOfCode: "5000+",
-      commits: 120,
-      stars: 5,
-    },
   },
   {
     id: "pt-rizza-jaya-abadi",
     name: "PT Rizza Jaya Abadi",
     tagline: "Travel Management System",
     description: "Sistem manajemen pemesanan dan operasional untuk perusahaan travel, mencakup jadwal keberangkatan, transaksi, dan laporan.",
-    longDescription: `Sistem informasi terintegrasi untuk mengelola operasional perusahaan travel yang mencakup:
-    - Manajemen jadwal keberangkatan
-    - Sistem booking dan reservasi
-    - Transaksi dan pembayaran
-    - Laporan keuangan dan operasional
-    - Dashboard analitik untuk management`,
     technologies: ["Laravel 11", "MySQL", "HTML", "CSS", "JavaScript", "Bootstrap"],
-    techStack: {
-      frontend: ["Bootstrap 5", "JavaScript", "HTML5", "CSS3"],
-      backend: ["Laravel 11", "PHP 8.2"],
-      database: ["MySQL"],
-      tools: ["Git", "Composer", "VS Code"],
-    },
-    role: "Full-stack Developer",
-    responsibilities: [
-      "Develop booking system dengan validasi real-time",
-      "Implementasi payment gateway integration",
-      "Membuat reporting system untuk management",
-      "Design & implement database architecture",
-    ],
-    features: [
-      "Schedule management system",
-      "Online booking & reservation",
-      "Payment processing",
-      "Financial reporting",
-      "Customer management",
-      "Email notifications",
-    ],
     status: "completed",
-    startDate: "2024-06",
-    endDate: "2024-09",
     duration: "3 months",
-    teamSize: 2,
     category: "Web Development",
-    type: "client",
-    colors: {
-      primary: "rgba(118, 148, 76, 1)",
-      secondary: "rgba(200, 218, 166, 1)",
-      accent: "rgba(251, 245, 219, 1)",
-      gradient: ["rgba(118, 148, 76, 1)", "rgba(200, 218, 166, 1)"],
-    },
     images: {
       thumbnail: "/projects/rizza1.png",
       gallery: [
@@ -456,9 +379,8 @@ export const projects = [
     links: {
       github: "https://github.com/ReyCannavaro/PT.RizzaJayaAbadi.git",
       live: null,
-      demo: null,
     },
-    tags: ["Laravel", "Travel System", "Booking", "Full-stack"],
+    tags: ["Laravel", "Travel System", "Booking"],
     featured: true,
   },
   {
@@ -466,47 +388,10 @@ export const projects = [
     name: "Medibot",
     tagline: "AI-Powered Health Chatbot",
     description: "Chatbot AI dengan RAG untuk memberikan informasi kesehatan awal berdasarkan dokumen medis terpercaya menggunakan Google Gemini API.",
-    longDescription: `Medibot adalah chatbot kesehatan berbasis AI yang menggunakan teknologi Retrieval-Augmented Generation (RAG) untuk memberikan informasi kesehatan yang akurat. Features:
-    - Natural language processing dengan Gemini API
-    - RAG implementation untuk context-aware responses
-    - PDF document parsing untuk knowledge base
-    - Chat history dan conversation management
-    - Multi-language support (ID/EN)`,
     technologies: ["Laravel 11", "Google Gemini API", "smalot/pdfparser", "MySQL", "PostgreSQL"],
-    techStack: {
-      frontend: ["Blade", "Tailwind CSS", "Alpine.js"],
-      backend: ["Laravel 11", "Google Gemini API"],
-      database: ["MySQL", "PostgreSQL"],
-      ai: ["Gemini Pro", "RAG System", "Vector Embeddings"],
-      tools: ["smalot/pdfparser", "GuzzleHTTP"],
-    },
-    role: "Backend Developer",
-    responsibilities: [
-      "Implement RAG system dengan Gemini API",
-      "PDF parsing dan knowledge base management",
-      "Design conversation flow & context handling",
-      "API integration dan testing",
-    ],
-    features: [
-      "AI-powered health consultation",
-      "RAG-based accurate responses",
-      "PDF document knowledge base",
-      "Conversation history",
-      "Real-time chat interface",
-    ],
     status: "completed",
-    startDate: "2025-01",
-    endDate: "2025-03",
     duration: "2 months",
-    teamSize: 3,
     category: "AI/ML",
-    type: "academic",
-    colors: {
-      primary: "#FFC45C",
-      secondary: "#0009FF",
-      accent: "#8A2A52",
-      gradient: ["#FFC45C", "#0009FF"],
-    },
     images: {
       thumbnail: "/projects/medibot1.png",
       gallery: [
@@ -518,9 +403,8 @@ export const projects = [
     links: {
       github: "https://github.com/Satyasy/Medibot.git",
       live: null,
-      demo: null,
     },
-    tags: ["AI", "Chatbot", "Healthcare", "RAG", "Gemini API"],
+    tags: ["AI", "Chatbot", "Healthcare", "RAG"],
     featured: true,
   },
   {
@@ -528,48 +412,10 @@ export const projects = [
     name: "UrbanGrow",
     tagline: "IoT Smart Urban Farming",
     description: "Aplikasi IoT untuk memantau dan mengelola kondisi tanaman secara real-time menggunakan sensor kelembaban, suhu, dan cahaya.",
-    longDescription: `UrbanGrow adalah solusi IoT untuk urban farming yang memungkinkan monitoring dan kontrol tanaman secara real-time. System features:
-    - Real-time sensor monitoring (soil moisture, temperature, light)
-    - Automated watering system
-    - Data visualization & analytics
-    - Mobile-responsive dashboard
-    - AI-powered plant care recommendations dengan Gemini API`,
     technologies: ["React", "Google Gemini API", "MicroPython", "Thonny", "Tailwind CSS"],
-    techStack: {
-      frontend: ["React", "Tailwind CSS", "Chart.js"],
-      backend: ["Node.js", "Express", "Socket.io"],
-      hardware: ["ESP32", "DHT22", "Soil Moisture Sensor", "LDR"],
-      firmware: ["MicroPython", "Thonny IDE"],
-      ai: ["Google Gemini API"],
-    },
-    role: "Fullstack Developer & IoT Engineer",
-    responsibilities: [
-      "Develop IoT firmware dengan MicroPython",
-      "Build React dashboard untuk monitoring",
-      "Integrate sensors dan automated control",
-      "Implement AI recommendations dengan Gemini",
-    ],
-    features: [
-      "Real-time sensor monitoring",
-      "Automated watering system",
-      "Historical data & analytics",
-      "AI plant care assistant",
-      "Mobile-responsive interface",
-      "Alert notifications",
-    ],
     status: "ongoing",
-    startDate: "2024-11",
-    endDate: null,
     duration: "6+ months",
-    teamSize: 2,
     category: "IoT",
-    type: "personal",
-    colors: {
-      primary: "#4CAF50",
-      secondary: "#8BC34A",
-      accent: "#FFC107",
-      gradient: ["#4CAF50", "#8BC34A"],
-    },
     images: {
       thumbnail: "/projects/urbangrow1.png",
       gallery: ["/projects/urbangrow1.png"],
@@ -577,9 +423,8 @@ export const projects = [
     links: {
       github: "https://github.com/ReyCannavaro/urbangrow.git",
       live: null,
-      demo: null,
     },
-    tags: ["IoT", "React", "MicroPython", "Smart Farming", "AI"],
+    tags: ["IoT", "React", "MicroPython", "Smart Farming"],
     featured: true,
   },
   {
@@ -587,46 +432,10 @@ export const projects = [
     name: "Sentiment Analyzer",
     tagline: "AI Product Review Analysis",
     description: "Aplikasi web untuk analisis sentimen berbasis AI yang mengevaluasi opini pengguna dari ulasan produk menggunakan machine learning.",
-    longDescription: `Sentiment Analyzer menggunakan machine learning untuk menganalisis sentimen dari review produk. Features:
-    - Automated sentiment classification (positive/negative/neutral)
-    - Batch processing untuk multiple reviews
-    - Data visualization dengan charts
-    - Export results ke CSV/Excel
-    - Model training dengan scikit-learn`,
     technologies: ["Python", "Streamlit", "Pandas", "Scikit-learn", "NLTK"],
-    techStack: {
-      frontend: ["Streamlit"],
-      backend: ["Python 3.10"],
-      ml: ["Scikit-learn", "NLTK", "Pandas", "NumPy"],
-      tools: ["Jupyter Notebook", "Matplotlib"],
-    },
-    role: "ML Engineer & Fullstack Developer",
-    responsibilities: [
-      "Training sentiment classification model",
-      "Data preprocessing dan feature engineering",
-      "Build Streamlit web interface",
-      "Implement visualization dashboard",
-    ],
-    features: [
-      "Sentiment classification (positive/negative/neutral)",
-      "Batch review processing",
-      "Interactive data visualization",
-      "Export analysis results",
-      "Real-time prediction",
-    ],
     status: "completed",
-    startDate: "2024-08",
-    endDate: "2024-10",
     duration: "2 months",
-    teamSize: 1,
     category: "AI/ML",
-    type: "personal",
-    colors: {
-      primary: "#FF6B6B",
-      secondary: "#4ECDC4",
-      accent: "#45B7D1",
-      gradient: ["#FF6B6B", "#4ECDC4"],
-    },
     images: {
       thumbnail: "/projects/sentiment1.jpeg",
       gallery: ["/projects/sentiment1.jpeg"],
@@ -634,9 +443,8 @@ export const projects = [
     links: {
       github: "https://github.com/ReyCannavaro",
       live: null,
-      demo: null,
     },
-    tags: ["Machine Learning", "NLP", "Python", "Streamlit", "Sentiment Analysis"],
+    tags: ["Machine Learning", "NLP", "Python", "Streamlit"],
     featured: false,
   },
   {
@@ -644,46 +452,10 @@ export const projects = [
     name: "Veritas AI",
     tagline: "AI Information Analysis Platform",
     description: "Platform berbasis AI untuk mengidentifikasi dan menganalisis informasi penting dari berbagai sumber data menggunakan Machine Learning.",
-    longDescription: `Veritas AI adalah platform analisis informasi yang menggunakan AI untuk ekstraksi dan klasifikasi data otomatis. Capabilities:
-    - Automated information extraction
-    - Multi-source data integration
-    - Classification & categorization
-    - Pattern recognition
-    - Interactive dashboard untuk insights`,
     technologies: ["Python", "React", "JavaScript", "Pandas", "Scikit-learn"],
-    techStack: {
-      frontend: ["React", "JavaScript", "Chart.js"],
-      backend: ["Python", "Flask/FastAPI"],
-      ml: ["Scikit-learn", "Pandas", "NumPy"],
-      database: ["PostgreSQL"],
-    },
-    role: "Fullstack Developer & ML Engineer",
-    responsibilities: [
-      "Develop ML models untuk classification",
-      "Build React frontend dengan data viz",
-      "API development untuk ML inference",
-      "Database design dan optimization",
-    ],
-    features: [
-      "AI-powered information extraction",
-      "Automated classification",
-      "Multi-source data integration",
-      "Real-time analysis dashboard",
-      "Export & reporting tools",
-    ],
     status: "completed",
-    startDate: "2024-10",
-    endDate: "2025-01",
     duration: "3 months",
-    teamSize: 2,
     category: "AI/ML",
-    type: "personal",
-    colors: {
-      primary: "#667EEA",
-      secondary: "#764BA2",
-      accent: "#F093FB",
-      gradient: ["#667EEA", "#764BA2"],
-    },
     images: {
       thumbnail: "/projects/veritas1.png",
       gallery: ["/projects/veritas1.png"],
@@ -691,9 +463,8 @@ export const projects = [
     links: {
       github: "https://github.com/ReyCannavaro/VeritasAI.git",
       live: null,
-      demo: null,
     },
-    tags: ["AI", "React", "Python", "Data Analysis", "Classification"],
+    tags: ["AI", "React", "Python", "Data Analysis"],
     featured: false,
   },
   {
@@ -701,47 +472,10 @@ export const projects = [
     name: "SIRA",
     tagline: "Socratic Interactive RPG Academy",
     description: "Game edukasi interaktif untuk meningkatkan keterampilan berpikir kritis dan pemecahan masalah siswa melalui pengalaman RPG yang imersif.",
-    longDescription: `SIRA adalah game edukasi berbasis RPG yang menggunakan metode Socratic untuk pembelajaran interaktif. Features:
-    - Interactive story-driven gameplay
-    - Critical thinking challenges
-    - Progress tracking & analytics
-    - Multi-level difficulty system
-    - Real-time collaboration features`,
     technologies: ["Next.js", "Supabase", "JavaScript", "Tailwind CSS"],
-    techStack: {
-      frontend: ["Next.js", "React", "Tailwind CSS"],
-      backend: ["Supabase", "PostgreSQL"],
-      authentication: ["Supabase Auth"],
-      storage: ["Supabase Storage"],
-      realtime: ["Supabase Realtime"],
-    },
-    role: "Project Manager & Backend Developer",
-    responsibilities: [
-      "Project planning & team coordination",
-      "Database architecture dengan Supabase",
-      "Backend API development",
-      "Real-time features implementation",
-    ],
-    features: [
-      "Interactive RPG gameplay",
-      "Socratic learning method",
-      "Progress tracking system",
-      "Multiplayer collaboration",
-      "Achievement & rewards system",
-    ],
     status: "ongoing",
-    startDate: "2025-02",
-    endDate: null,
     duration: "4+ months",
-    teamSize: 4,
     category: "Game Development",
-    type: "academic",
-    colors: {
-      primary: "#8B5CF6",
-      secondary: "#EC4899",
-      accent: "#F59E0B",
-      gradient: ["#8B5CF6", "#EC4899"],
-    },
     images: {
       thumbnail: "/projects/sira1.jpeg",
       gallery: [
@@ -753,194 +487,20 @@ export const projects = [
     links: {
       github: "https://github.com/ReyCannavaro/sira.git",
       live: null,
-      demo: null,
     },
-    tags: ["Game Dev", "Education", "Next.js", "Supabase", "RPG"],
+    tags: ["Game Dev", "Education", "Next.js", "Supabase"],
     featured: true,
   },
-];
-
-export const hardSkills = [
-  { id: 1, name: "HTML5", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg", category: "Frontend", level: "expert", yearsOfExperience: 2 },
-  { id: 2, name: "CSS3", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg", category: "Frontend", level: "expert", yearsOfExperience: 2 },
-  { id: 3, name: "JavaScript", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg", category: "Frontend", level: "advanced", yearsOfExperience: 2 },
-  { id: 4, name: "React", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg", category: "Frontend", level: "advanced", yearsOfExperience: 1.5 },
-  { id: 5, name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", category: "Frontend", level: "intermediate", yearsOfExperience: 1 },
-  { id: 6, name: "Vue.js", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original-wordmark.svg", category: "Frontend", level: "intermediate", yearsOfExperience: 0.5 },
-  { id: 7, name: "Tailwind CSS", icon: "https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg", category: "Frontend", level: "expert", yearsOfExperience: 2 },
-  { id: 8, name: "Bootstrap", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg", category: "Frontend", level: "advanced", yearsOfExperience: 2 },
-  { id: 9, name: "PHP", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg", category: "Backend", level: "advanced", yearsOfExperience: 2 },
-  { id: 10, name: "Laravel", icon: "https://www.vectorlogo.zone/logos/laravel/laravel-icon.svg", category: "Backend", level: "expert", yearsOfExperience: 2 },
-  { id: 11, name: "Node.js", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg", category: "Backend", level: "intermediate", yearsOfExperience: 1 },
-  { id: 12, name: "MySQL", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg", category: "Database", level: "advanced", yearsOfExperience: 2 },
-  { id: 13, name: "PostgreSQL", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg", category: "Database", level: "intermediate", yearsOfExperience: 1 },
-  { id: 14, name: "React Native", icon: "https://reactnative.dev/img/header_logo.svg", category: "Mobile", level: "intermediate", yearsOfExperience: 0.5 },
-  { id: 15, name: "Android", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original-wordmark.svg", category: "Mobile", level: "beginner", yearsOfExperience: 0.5 },
-  { id: 16, name: "Python", icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg", category: "Data Science", level: "intermediate", yearsOfExperience: 1 },
-  { id: 17, name: "Pandas", icon: "https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/pandas/pandas-original.svg", category: "Data Science", level: "intermediate", yearsOfExperience: 1 },
-  { id: 18, name: "Scikit-learn", icon: "https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg", category: "Machine Learning", level: "intermediate", yearsOfExperience: 1 },
-  { id: 19, name: "Git", icon: "https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg", category: "Tools", level: "advanced", yearsOfExperience: 2 },
-  { id: 20, name: "Figma", icon: "https://www.vectorlogo.zone/logos/figma/figma-icon.svg", category: "Design", level: "intermediate", yearsOfExperience: 1 },
-  { id: 21, name: "Postman", icon: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg", category: "Tools", level: "advanced", yearsOfExperience: 2 },
-  { id: 22, name: "Bash", icon: "https://www.vectorlogo.zone/logos/gnu_bash/gnu_bash-icon.svg", category: "Tools", level: "intermediate", yearsOfExperience: 1 },
-];
-
-export const softSkills = [
-  {
-    id: 1,
-    name: "Komunikasi",
-    nameEn: "Communication",
-    icon: "https://cdn-icons-png.flaticon.com/512/2950/2950831.png",
-    category: "Interpersonal",
-    description: "Kemampuan berkomunikasi efektif baik verbal maupun tertulis",
-    level: "expert",
-    examples: [
-      "Presenting technical concepts to non-technical audience",
-      "Team coordination & daily standups",
-      "Documentation writing",
-    ],
-  },
-  {
-    id: 2,
-    name: "Kerja Sama Tim",
-    nameEn: "Teamwork",
-    icon: "https://cdn-icons-png.flaticon.com/512/10041/10041075.png",
-    category: "Interpersonal",
-    description: "Bekerja efektif dalam tim dengan berbagai latar belakang",
-    level: "expert",
-    examples: [
-      "Collaborating on SIRA project with 4 team members",
-      "Active in OSIS organization",
-      "Cross-functional project coordination",
-    ],
-  },
-  {
-    id: 3,
-    name: "Manajemen Waktu",
-    nameEn: "Time Management",
-    icon: "https://cdn-icons-png.flaticon.com/512/10206/10206497.png",
-    category: "Organizational",
-    description: "Mengatur prioritas dan deadline dengan efektif",
-    level: "advanced",
-    examples: [
-      "Balancing school & multiple projects",
-      "Meeting project deadlines consistently",
-      "Organizing school events as OSIS Secretary",
-    ],
-  },
-  {
-    id: 4,
-    name: "Problem Solving",
-    nameEn: "Problem Solving",
-    icon: "https://cdn-icons-png.flaticon.com/512/8690/8690604.png",
-    category: "Cognitive",
-    description: "Analytical thinking dan creative solution finding",
-    level: "expert",
-    examples: [
-      "Debugging complex technical issues",
-      "Designing efficient database schemas",
-      "Creating innovative solutions for IoT challenges",
-    ],
-  },
-  {
-    id: 5,
-    name: "Kepemimpinan",
-    nameEn: "Leadership",
-    icon: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-    category: "Interpersonal",
-    description: "Memimpin tim dan mengambil inisiatif dalam proyek",
-    level: "advanced",
-    examples: [
-      "Leading as Pradana Putra Dewan Ambalan",
-      "Project Manager role in SIRA project",
-      "OSIS Secretary - coordinating school activities",
-    ],
-  },
-  {
-    id: 6,
-    name: "Adaptasi & Belajar Cepat",
-    nameEn: "Fast Learning & Adaptability",
-    icon: "https://cdn-icons-png.flaticon.com/512/3135/3135810.png",
-    category: "Cognitive",
-    description: "Quick learner dengan kemampuan adaptasi tinggi terhadap teknologi baru",
-    level: "expert",
-    examples: [
-      "Learning new frameworks independently",
-      "Adapting to different project requirements",
-      "Quickly mastering new technologies for projects",
-    ],
-  },
-];
-
-export const statistics = {
-  projectsCompleted: projects.filter(p => p.status === "completed").length,
-  ongoingProjects: projects.filter(p => p.status === "ongoing").length,
-  totalProjects: projects.length,
-  yearsOfExperience: 2,
-  technologiesUsed: [...new Set(projects.flatMap(p => p.technologies))].length,
-  githubRepos: 15,
-  githubStars: 25,
-  githubCommits: 500,
-  achievements: achievements.length,
-  competitionWins: achievements.filter(a => a.type === "competition").length,
-  leadershipRoles: achievements.filter(a => a.type === "position").length,
-  nationalAwards: achievements.filter(a => a.level === "national").length,
-};
-
-export const contactInfo = {
-  email: "reyjunoalcannavaro@gmail.com",
-  phone: "+62 82139531132",
-  location: "Sidoarjo, East Java, Indonesia",
-  timezone: "WIB (UTC+7)",
-  availability: "Open for freelance & internship opportunities",
-  preferredContact: "email",
-  
-  formspreeEndpoint: "https://formspree.io/f/your-form-id",
-  socialMedia: socialLinks,
-};
-
-export const siteMetadata = {
-  title: "Rey Cannavaro - Full-stack Developer & Student",
-  description: "Portfolio website of Rey Cannavaro, a full-stack developer from Sidoarjo, Indonesia. Specializing in web development, IoT, and AI integration.",
-  keywords: [
-    "Rey Cannavaro",
-    "Full-stack Developer",
-    "Web Developer",
-    "Laravel Developer",
-    "React Developer",
-    "IoT Developer",
-    "Portfolio",
-    "Sidoarjo",
-    "Indonesia",
-  ],
-  author: "Rey Cannavaro",
-  siteUrl: "https://reycannavaro.com", // Update
-  image: "/images/og-image.png", // Open Graph image
-  locale: "id_ID",
-  type: "website",
-};
-
-export const navigationMenu = [
-  { id: "home", label: "Home", href: "#home", icon: "🏠" },
-  { id: "about", label: "About", href: "#about", icon: "👨‍💻" },
-  { id: "skills", label: "Skills", href: "#skills", icon: "⚡" },
-  { id: "projects", label: "Projects", href: "#projects", icon: "💼" },
-  { id: "achievements", label: "Achievements", href: "#achievements", icon: "🏆" },
-  { id: "education", label: "Education", href: "#education", icon: "🎓" },
-  { id: "contact", label: "Contact", href: "#contact", icon: "📧" },
 ];
 
 export default {
   personalInfo,
   socialLinks,
   currentStatus,
+  skillCategories,
+  techStats,
+  currentlyLearning,
   educationHistory,
   achievements,
   projects,
-  hardSkills,
-  softSkills,
-  statistics,
-  contactInfo,
-  siteMetadata,
-  navigationMenu,
 };
