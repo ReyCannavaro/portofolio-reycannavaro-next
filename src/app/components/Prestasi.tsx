@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import { achievements } from "../data";
+import { achievements } from "../data/index";
 
 const LEVEL_LABEL: Record<string, string> = {
   national: "NATIONAL",

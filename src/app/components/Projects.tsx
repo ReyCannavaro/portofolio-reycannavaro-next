@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import { projects } from "../data";
+import { projects } from "../data/index";
 
 export default function Projects() {
   const ref = useRef<HTMLElement>(null);

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { personalInfo, currentStatus, socialLinks } from "../data";
+import { personalInfo, currentStatus, socialLinks } from "../data/index";
 
 const ROLES = ["FULLSTACK DEVELOPER", "IoT ENGINEER", "AI ENTHUSIAST", "UI/UX DESIGNER"];
 
