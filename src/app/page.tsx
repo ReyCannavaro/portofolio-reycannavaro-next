@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
+import Sidebar from "./components/Sidebar";
 import Hero from "./components/Hero";
-import Navbar from "./components/Navbar";
-import Projects from "./components/Projects";
 import Skills from "./components/Skills";
-import Education from "./components/Education";
+import Projects from "./components/Projects";
 import Prestasi from "./components/Prestasi";
+import Education from "./components/Education";
 import Footer from "./components/Footer";
-import NowPlaying from "./components/NowPlaying";
-import HireMeCTA from "./components/HireMeCTA";
 
 export const metadata: Metadata = {
   title: "Rey Cannavaro | Fullstack Developer Sidoarjo",
@@ -18,18 +16,16 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main style={{ background: "var(--bg)", minHeight: "100svh" }}>
-      <HireMeCTA />
-      <NowPlaying />
-      <Navbar />
-      <Hero />
-      <div>
+    <div style={{ background: "var(--canvas)", minHeight: "100svh" }}>
+      <Sidebar />
+      <main className="main-content">
+        <Hero />
         <Skills />
         <Projects />
-        <Education />
         <Prestasi />
-      </div>
-      <Footer />
-    </main>
+        <Education />
+        <Footer />
+      </main>
+    </div>
   );
 }
