@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Sidebar from "./components/Sidebar";
 import Hero from "./components/Hero";
+import GitHubStats from "./components/GitHubStats";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Prestasi from "./components/Prestasi";
@@ -22,6 +23,7 @@ export default function Home() {
       <Sidebar />
       <main className="main-content">
         <Hero />
+        <GitHubStats />
         <Skills />
         <Projects />
         <Prestasi />
