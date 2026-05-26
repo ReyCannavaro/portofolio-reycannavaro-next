@@ -87,10 +87,13 @@ const LEVEL_COLOR: Record<string, string> = {
   school: "var(--muted)",
 };
 
+const RELEVANT_IDS = new Set([11, 1, 7, 6, 10]);
+
 export default function Prestasi() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState<(typeof achievements)[0] | null>(achievements[0]);
+  const [showMore, setShowMore] = useState(false);
+  const [selected, setSelected] = useState<(typeof achievements)[0] | null>(null);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -101,8 +104,16 @@ export default function Prestasi() {
     return () => obs.disconnect();
   }, []);
 
-  const featured = achievements.filter((a) => a.featured);
-  const rest = achievements.filter((a) => !a.featured);
+  const featured = achievements.filter((a) => a.id === 11);
+  const relevantList = achievements.filter((a) => RELEVANT_IDS.has(a.id) && a.id !== 11);
+  const restList = achievements.filter((a) => !RELEVANT_IDS.has(a.id));
+  const listItems = showMore ? [...relevantList, ...restList] : relevantList;
+
+  useEffect(() => {
+    if (visible && !selected) {
+      setSelected(relevantList[0] ?? achievements[0]);
+    }
+  }, [visible]);
 
   return (
     <section id="achievements" ref={ref} style={{ background: "var(--canvas)", padding: "var(--space-section) 0" }}>
@@ -117,7 +128,7 @@ export default function Prestasi() {
           </h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1, background: "var(--hairline)", marginBottom: 1 }} className="feat-grid">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 1, background: "var(--hairline)", marginBottom: 1 }} className="feat-grid">
           {featured.map((a, i) => (
             <div
               key={a.id}
@@ -155,7 +166,7 @@ export default function Prestasi() {
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 1, background: "var(--hairline)" }} className="detail-grid">
           <div style={{ background: "var(--surface-soft)" }}>
-            {rest.map((a, i) => (
+            {listItems.map((a, i) => (
               <div
                 key={a.id}
                 onClick={() => setSelected(a)}
@@ -171,13 +182,12 @@ export default function Prestasi() {
                   transition: "all 0.2s",
                   opacity: visible ? 1 : 0,
                   transform: visible ? "translateX(0)" : "translateX(-12px)",
-                  transition2: `all 0.5s ease ${0.3 + i * 0.05}s`,
                 } as React.CSSProperties}
               >
                 <span style={{ display: "inline-flex", alignItems: "center", color: "var(--on-dark)" }}><BadgeIcon name={a.badge} size={20} /></span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-                    <h5 style={{ fontSize: 13, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase", truncate: true } as React.CSSProperties}>
+                    <h5 style={{ fontSize: 13, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase" } as React.CSSProperties}>
                       {a.titleShort}
                     </h5>
                     <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: LEVEL_COLOR[a.level], flexShrink: 0 }}>
@@ -190,6 +200,51 @@ export default function Prestasi() {
                 </div>
               </div>
             ))}
+
+            <div style={{ padding: "var(--space-lg) var(--space-xl)", borderTop: "1px solid var(--hairline)" }}>
+              <button
+                onClick={() => setShowMore((v) => !v)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "none",
+                  border: "1px solid var(--hairline)",
+                  color: "var(--on-dark)",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                  padding: "8px 16px",
+                  transition: "all 0.2s",
+                  width: "100%",
+                  justifyContent: "center",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background = "var(--surface-card)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background = "none";
+                }}
+              >
+                {showMore ? (
+                  <>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="18 15 12 9 6 15"/>
+                    </svg>
+                    See Less
+                  </>
+                ) : (
+                  <>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                    See More ({restList.length} more achievements)
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           <div style={{ background: "var(--surface-card)", padding: "var(--space-xl)", position: "sticky", top: 80 }}>
