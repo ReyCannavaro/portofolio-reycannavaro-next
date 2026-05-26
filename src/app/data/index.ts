@@ -71,7 +71,7 @@ export const skillCategories = [
   {
     id: "backend",
     label: "Backend",
-    skills: ["Laravel 11", "PHP 8.2", "Node.js", "Express", "Hono.js", "REST API", "Express.js"],
+    skills: ["Laravel 11", "PHP 8.2", "Node.js", "Hono.js", "REST API", "Express.js"],
   },
   {
     id: "database",
