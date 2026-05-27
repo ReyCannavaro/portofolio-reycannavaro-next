@@ -27,7 +27,7 @@ export default function Skills() {
               transition: "opacity 0.5s ease",
             }}
           >
-            02 — Technical Arsenal
+            03 — Technical Arsenal
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
           <h2

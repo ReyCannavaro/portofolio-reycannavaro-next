@@ -293,7 +293,7 @@ export default function GitHubStats() {
       <div className="container">
         <div style={{ marginBottom: "var(--space-xxl)" }}>
           <span className="label-upper" style={{ color: "var(--m-blue-dark)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
-            06 — Open Source
+            02 — Open Source
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
