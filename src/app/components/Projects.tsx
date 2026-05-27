@@ -3,7 +3,6 @@ import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { projects } from "../data/index";
 
-// 3 project unggulan yang menonjol di bagian atas
 const HERO_PROJECT_IDS = ["findor", "sira", "pt-rizza-jaya-abadi"];
 
 export default function Projects() {
@@ -30,7 +29,6 @@ export default function Projects() {
     return () => obs.disconnect();
   }, []);
 
-  // Auto-rotate hero project highlight
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveHero((i) => (i + 1) % heroProjects.length);
@@ -44,7 +42,6 @@ export default function Projects() {
     <section id="projects" ref={ref} style={{ background: "var(--surface-soft)", padding: "var(--space-section) 0" }}>
       <div className="container">
 
-        {/* ── Section header ── */}
         <div style={{ marginBottom: "var(--space-xxl)" }}>
           <span
             className="label-upper"
@@ -54,7 +51,7 @@ export default function Projects() {
               transition: "opacity 0.5s ease",
             }}
           >
-            04 — Work
+            03 — Work
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16 }}>
@@ -82,7 +79,6 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* ── FEATURED TRIO — Showcase panel ── */}
         <div
           className="featured-showcase"
           style={{
@@ -97,7 +93,6 @@ export default function Projects() {
             minHeight: 480,
           }}
         >
-          {/* Main image panel */}
           <div
             style={{
               position: "relative",
@@ -124,7 +119,6 @@ export default function Projects() {
                   style={{ objectFit: "cover", objectPosition: "top center" }}
                   priority={i === 0}
                 />
-                {/* soft gradient overlay */}
                 <div
                   style={{
                     position: "absolute",
@@ -144,7 +138,6 @@ export default function Projects() {
               </div>
             ))}
 
-            {/* Bottom-left badge */}
             <div
               style={{
                 position: "absolute",
@@ -189,7 +182,6 @@ export default function Projects() {
               </p>
             </div>
 
-            {/* Dot indicators */}
             <div
               style={{
                 position: "absolute",
@@ -219,7 +211,6 @@ export default function Projects() {
             </div>
           </div>
 
-          {/* Right panel — stacked project tabs */}
           <div
             style={{
               display: "flex",
@@ -370,7 +361,6 @@ export default function Projects() {
                     </div>
                   )}
 
-                  {/* Progress bar (active indicator) */}
                   {isActive && (
                     <div
                       style={{
@@ -399,23 +389,30 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* ── Filter bar ── */}
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
             marginBottom: "var(--space-xl)",
-            flexWrap: "wrap",
-            gap: 12,
             opacity: visible ? 1 : 0,
             transition: "opacity 0.5s ease 0.5s",
           }}
         >
-          <span className="label-upper" style={{ color: "var(--muted)" }}>
+          <span className="label-upper" style={{ color: "var(--muted)", display: "block", marginBottom: 12 }}>
             More Projects
           </span>
-          <div style={{ display: "flex", gap: 0, border: "1px solid var(--hairline)" }}>
+          <div
+            className="filter-scroll"
+            style={{
+              display: "flex",
+              gap: 0,
+              border: "1px solid var(--hairline)",
+              overflowX: "auto",
+              overflowY: "hidden",
+              WebkitOverflowScrolling: "touch",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              width: "100%",
+            }}
+          >
             {FILTERS.map((f, idx) => (
               <button
                 key={f}
@@ -433,6 +430,7 @@ export default function Projects() {
                   cursor: "pointer",
                   transition: "all 0.2s",
                   whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
                 {f}
@@ -441,7 +439,6 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* ── Other projects grid ── */}
         <div
           style={{
             display: "grid",
@@ -470,7 +467,6 @@ export default function Projects() {
                   cursor: "default",
                 }}
               >
-                {/* Image */}
                 <div style={{ position: "relative", aspectRatio: "16/9", overflow: "hidden" }}>
                   <Image
                     src={project.images.thumbnail}
@@ -526,7 +522,6 @@ export default function Projects() {
                   </span>
                 </div>
 
-                {/* Content */}
                 <div style={{ padding: "var(--space-md) var(--space-lg)", flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
                   <h4
                     style={{
@@ -614,12 +609,13 @@ export default function Projects() {
       </div>
 
       <style>{`
+        .filter-scroll::-webkit-scrollbar { display: none; }
+
         @keyframes progressBar {
           from { width: 0%; }
           to   { width: 100%; }
         }
 
-        /* Featured showcase responsive */
         @media (max-width: 768px) {
           .featured-showcase {
             grid-template-columns: 1fr !important;
