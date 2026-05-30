@@ -127,7 +127,7 @@ export const educationHistory = [
   {
     id: 2,
     institution: "SMP Darul Fikri Sidoarjo",
-    institutionShort: "SMP Darul Fikri",
+    institutionShort: "SMP Darul Fikri Pesantren Al-Qur'an Science",
     degree: "Boarding School",
     degreeShort: "SMP",
     startYear: 2021,

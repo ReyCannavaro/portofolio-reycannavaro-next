@@ -33,7 +33,7 @@ export default function Footer() {
                 OPEN FOR<br />OPPORTUNITIES
               </h2>
               <p className="body-md" style={{ maxWidth: 400, marginTop: "var(--space-lg)" }}>
-                Freelance, internship, atau kolaborasi project — saya selalu terbuka untuk kesempatan baru. Mari diskusi!
+                Freelance, internship, atau kolaborasi project, saya selalu terbuka untuk kesempatan baru. Mari diskusi!
               </p>
             </div>
 
