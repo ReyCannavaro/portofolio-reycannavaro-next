@@ -75,6 +75,7 @@ export default function Hero() {
             src="/images/profile.png"
             alt="Rey Cannavaro"
             fill
+            sizes="(max-width: 768px) 100vw, 40vw"
             style={{ objectFit: "cover", objectPosition: "top center" }}
             priority
           />
@@ -164,7 +165,7 @@ export default function Hero() {
               animation: "slideUp 0.4s ease",
             }}
           >
-            — {ROLES[roleIdx]}
+            - {ROLES[roleIdx]}
           </p>
         </div>
 
