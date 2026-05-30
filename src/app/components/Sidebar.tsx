@@ -141,6 +141,7 @@ export default function Sidebar() {
                   onClick={() => scrollTo(item.id)}
                   onMouseEnter={() => setHovered(item.id)}
                   onMouseLeave={() => setHovered(null)}
+                  aria-label={`Navigasi ke ${item.label}`}
                   title={item.label}
                   style={{
                     width: 40,
@@ -249,6 +250,8 @@ export default function Sidebar() {
             <button
               key={item.id}
               onClick={() => scrollTo(item.id)}
+              aria-label={`Navigasi ke ${item.label}`}
+              title={item.label}
               style={{
                 width: 40,
                 height: 40,
