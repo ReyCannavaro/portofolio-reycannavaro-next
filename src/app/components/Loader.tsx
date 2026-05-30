@@ -6,10 +6,11 @@ export default function Loader() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("counting"), 600);
+    const t1 = setTimeout(() => setPhase("counting"), 300);
     let frame: number;
     let start: number | null = null;
-    const duration = 1800;
+    const duration = 900; // was 1800ms
+
     const tick = (ts: number) => {
       if (!start) start = ts;
       const elapsed = ts - start;
@@ -23,9 +24,9 @@ export default function Loader() {
 
     const t2 = setTimeout(() => {
       frame = requestAnimationFrame(tick);
-    }, 600);
-    const t3 = setTimeout(() => setPhase("exit"), 2400);
-    const t4 = setTimeout(() => setPhase("done"), 2900);
+    }, 300);
+    const t3 = setTimeout(() => setPhase("exit"), 1100);
+    const t4 = setTimeout(() => setPhase("done"), 1500);
 
     return () => {
       clearTimeout(t1);
@@ -54,7 +55,8 @@ export default function Loader() {
         overflow: "hidden",
         opacity: isExiting ? 0 : 1,
         transform: isExiting ? "translateY(-8px)" : "translateY(0)",
-        transition: isExiting ? "opacity 0.5s ease, transform 0.5s ease" : "none",
+        transition: isExiting ? "opacity 0.4s ease, transform 0.4s ease" : "none",
+        willChange: isExiting ? "opacity, transform" : "auto",
       }}
     >
       <div
@@ -77,7 +79,7 @@ export default function Loader() {
           height: 3,
           background: "linear-gradient(to right, #0066b1 0%, #0066b1 33.3%, #1c69d4 33.3%, #1c69d4 66.6%, #e22718 66.6%, #e22718 100%)",
           opacity: phase === "intro" ? 0 : 1,
-          transition: "opacity 0.4s ease 0.2s",
+          transition: "opacity 0.3s ease 0.1s",
         }}
       />
 
@@ -90,7 +92,7 @@ export default function Loader() {
           height: 3,
           background: "linear-gradient(to right, #0066b1 0%, #0066b1 33.3%, #1c69d4 33.3%, #1c69d4 66.6%, #e22718 66.6%, #e22718 100%)",
           opacity: phase === "intro" ? 0 : 1,
-          transition: "opacity 0.4s ease 0.2s",
+          transition: "opacity 0.3s ease 0.1s",
         }}
       />
 
@@ -102,7 +104,7 @@ export default function Loader() {
           gap: 0,
           opacity: phase === "intro" ? 0 : 1,
           transform: phase === "intro" ? "translateY(10px)" : "translateY(0)",
-          transition: "opacity 0.5s ease, transform 0.5s ease",
+          transition: "opacity 0.4s ease, transform 0.4s ease",
         }}
       >
         <div
@@ -178,7 +180,7 @@ export default function Loader() {
           bottom: 28,
           left: 32,
           opacity: phase === "intro" ? 0 : 1,
-          transition: "opacity 0.5s ease 0.3s",
+          transition: "opacity 0.4s ease 0.2s",
         }}
       >
         <span
@@ -201,7 +203,7 @@ export default function Loader() {
           bottom: 28,
           right: 32,
           opacity: phase === "intro" ? 0 : 1,
-          transition: "opacity 0.5s ease 0.3s",
+          transition: "opacity 0.4s ease 0.2s",
         }}
       >
         <span
