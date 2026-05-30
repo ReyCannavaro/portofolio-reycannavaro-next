@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,6 +32,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://reycannavaro.vercel.app" },
 };
 
+const FONT_URL =
+  "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,22 +46,28 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-          media="print"
-          onLoad="this.media='all'"
-        />
-        {/* Fallback untuk browser tanpa JS */}
+        <link rel="preload" as="style" href={FONT_URL} />
         <noscript>
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-          />
+          <link rel="stylesheet" href={FONT_URL} />
         </noscript>
       </head>
       <body className="antialiased">
         {children}
+
+        <Script
+          id="load-fonts"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = '${FONT_URL}';
+                document.head.appendChild(link);
+              })();
+            `,
+          }}
+        />
       </body>
     </html>
   );
