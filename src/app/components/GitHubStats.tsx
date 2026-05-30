@@ -25,8 +25,8 @@ const LANG_COLORS: Record<string, string> = {
   Others:          "#444444",
 };
 
-type LangData    = { name: string; percentage: number; bytes: number };
-type ContribDay  = { date: string; count: number; level: number };
+type LangData   = { name: string; percentage: number; bytes: number };
+type ContribDay = { date: string; count: number; level: number };
 
 type GitHubData = {
   user:           { login: string; name: string; public_repos: number; followers: number };
@@ -46,7 +46,12 @@ const LEVEL_STYLE = [
   { bg: "#39d353", border: "rgba(57,211,83,0.9)"   },
 ];
 
-const HOT_THRESHOLD = 20;
+function getTier(count: number) {
+  if (count >= 30) return 3;
+  if (count >= 20) return 2;
+  if (count >= 10) return 1;
+  return 0;
+}
 
 function collapseLanguages(langs: LangData[]): LangData[] {
   if (langs.length <= 5) return langs;
@@ -60,21 +65,111 @@ function collapseLanguages(langs: LangData[]): LangData[] {
   return [...top, { name: "Others", percentage: othersPerc, bytes: othersBytes }];
 }
 
-function ActivityLineChart({ days }: { days: ContribDay[] }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [tooltip, setTooltip] = useState<{ x: number; y: number; label: string; value: number } | null>(null);
+function TierCell({ day }: { day: { date: string; count: number; level: number; inYear: boolean } }) {
+  const tier = getTier(day.count);
+  const base = LEVEL_STYLE[day.level] || LEVEL_STYLE[0];
+  const label = `${day.date}: ${day.count} contribution${day.count !== 1 ? "s" : ""}${tier === 1 ? " 🌱" : tier === 2 ? " ◆" : tier === 3 ? " ✦" : ""}`;
 
+  if (tier === 0) {
+    return (
+      <div
+        title={day.inYear ? label : ""}
+        style={{
+          width: 10, height: 10, borderRadius: 2, flexShrink: 0,
+          background: base.bg, border: `1px solid ${base.border}`,
+          transition: "transform 0.1s",
+        }}
+        onMouseEnter={e => { if (day.inYear) (e.currentTarget as HTMLDivElement).style.transform = "scale(1.5)"; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "scale(1)"; }}
+      />
+    );
+  }
+
+  if (tier === 1) {
+    return (
+      <div title={label} style={{ width: 10, height: 10, flexShrink: 0, position: "relative" }}>
+        <div style={{
+          width: 10, height: 10, borderRadius: 2,
+          background: "#39d353",
+          border: "1px solid rgba(57,211,83,0.9)",
+          animation: "warmPulse 2.5s ease-in-out infinite",
+        }} />
+      </div>
+    );
+  }
+
+  if (tier === 2) {
+    return (
+      <div title={label} style={{
+        width: 10, height: 10, flexShrink: 0,
+        position: "relative", display: "flex", alignItems: "center", justifyContent: "center",
+      }}>
+        <div style={{
+          position: "absolute", left: "50%", top: "50%",
+          width: 16, height: 16,
+          border: "1px solid rgba(57,211,83,0.45)",
+          borderRadius: 1,
+          animation: "diamondRing 1.8s ease-out infinite",
+          pointerEvents: "none",
+        }} />
+        <div style={{
+          width: 9, height: 9,
+          background: "#39d353",
+          border: "1.5px solid rgba(120,255,140,1)",
+          borderRadius: 1,
+          transform: "rotate(45deg)",
+          animation: "diamondSpin 4s linear infinite",
+          position: "relative", zIndex: 1, flexShrink: 0,
+        }} />
+      </div>
+    );
+  }
+
+  return (
+    <div title={label} style={{
+      width: 10, height: 10, flexShrink: 0,
+      position: "relative", display: "flex", alignItems: "center", justifyContent: "center",
+    }}>
+      <div style={{
+        position: "absolute", left: "50%", top: "50%",
+        width: 16, height: 16,
+        borderRadius: 2,
+        animation: "novaOrbit 1.6s linear infinite",
+        pointerEvents: "none",
+        zIndex: 0,
+      }}>
+        <div style={{ position: "absolute", width: 3, height: 3, background: "#f7523f", borderRadius: "50%", top: -1, left: "50%", transform: "translateX(-50%)" }} />
+        <div style={{ position: "absolute", width: 2.5, height: 2.5, background: "#3178c6", borderRadius: "50%", bottom: -1, left: "50%", transform: "translateX(-50%)" }} />
+      </div>
+      <div style={{
+        position: "absolute", left: "50%", top: "50%",
+        width: 18, height: 18,
+        borderRadius: 2,
+        animation: "novaOrbitReverse 2.4s linear infinite",
+        pointerEvents: "none",
+        zIndex: 0,
+      }}>
+        <div style={{ position: "absolute", width: 2, height: 2, background: "rgba(247,82,63,0.6)", borderRadius: "50%", top: -1, left: "50%", transform: "translateX(-50%)" }} />
+      </div>
+      <div style={{
+        width: 8, height: 8,
+        background: "#ff6535",
+        border: "1.5px solid rgba(247,82,63,0.95)",
+        borderRadius: 1,
+        transform: "rotate(45deg)",
+        animation: "novaPulse 1.2s ease-in-out infinite",
+        position: "relative", zIndex: 2, flexShrink: 0,
+      }} />
+    </div>
+  );
+}
+
+function ActivityLineChart({ days }: { days: ContribDay[] }) {
+  const [tooltip, setTooltip] = useState<{ x: number; y: number; label: string; value: number } | null>(null);
   const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-  const monthly = MONTHS.map((label, mi) => {
-    const total = days
-      .filter(d => new Date(d.date).getMonth() === mi)
-      .reduce((s, d) => s + d.count, 0);
-    return { label, total };
-  });
-
-  const weeklyData: { label: string; total: number }[] = [];
   const now = new Date();
+  const weeklyData: { label: string; total: number }[] = [];
   for (let w = 11; w >= 0; w--) {
     const weekStart = new Date(now);
     weekStart.setDate(now.getDate() - w * 7 - now.getDay());
@@ -84,73 +179,70 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
       const dd = new Date(d.date);
       return dd >= weekStart && dd <= weekEnd;
     }).reduce((s, d) => s + d.count, 0);
-    const month = MONTHS[weekStart.getMonth()];
-    const day = weekStart.getDate();
-    weeklyData.push({ label: `${month} ${day}`, total });
+    weeklyData.push({ label: `${MONTHS[weekStart.getMonth()]} ${weekStart.getDate()}`, total });
   }
 
-  const data = weeklyData;
-  const maxVal = Math.max(...data.map(d => d.total), 1);
+  const monthly = MONTHS.map((label, mi) => ({
+    label,
+    total: days.filter(d => new Date(d.date).getMonth() === mi).reduce((s, d) => s + d.count, 0),
+  }));
 
-  const W = 560, H = 120;
-  const PL = 32, PR = 12, PT = 8, PB = 28;
-  const chartW = W - PL - PR;
-  const chartH = H - PT - PB;
+  const maxVal = Math.max(...weeklyData.map(d => d.total), 1);
+  const W = 560, H = 110, PL = 28, PR = 8, PT = 8, PB = 24;
+  const chartW = W - PL - PR, chartH = H - PT - PB;
 
-  const pts = data.map((d, i) => ({
-    x: PL + (i / (data.length - 1)) * chartW,
+  const pts = weeklyData.map((d, i) => ({
+    x: PL + (i / (weeklyData.length - 1)) * chartW,
     y: PT + chartH - (d.total / maxVal) * chartH,
     ...d,
   }));
 
   const pathD = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
-  const areaD = `${pathD} L ${pts[pts.length-1].x.toFixed(1)} ${(PT+chartH).toFixed(1)} L ${pts[0].x.toFixed(1)} ${(PT+chartH).toFixed(1)} Z`;
-
+  const areaD = `${pathD} L ${pts[pts.length - 1].x.toFixed(1)} ${(PT + chartH).toFixed(1)} L ${pts[0].x.toFixed(1)} ${(PT + chartH).toFixed(1)} Z`;
   const ySteps = [0, Math.round(maxVal / 2), maxVal];
+  const maxMonthly = Math.max(...monthly.map(m => m.total), 1);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase" }}>
           Weekly Activity — Last 12 Weeks
         </span>
         <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 300 }}>
-          Peak: {maxVal} contributions/week
+          Peak: {maxVal} / week
         </span>
       </div>
+
       <div style={{ overflowX: "auto" }}>
         <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} style={{ display: "block" }}>
           <defs>
-            <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#39d353" stopOpacity="0.25" />
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#39d353" stopOpacity="0.2" />
               <stop offset="100%" stopColor="#39d353" stopOpacity="0" />
             </linearGradient>
           </defs>
-
           {ySteps.map((val, i) => {
             const gy = PT + chartH - (val / maxVal) * chartH;
             return (
               <g key={i}>
                 <line x1={PL} y1={gy} x2={W - PR} y2={gy} stroke="rgba(255,255,255,0.05)" strokeWidth={1} />
-                <text x={PL - 4} y={gy + 3} fontSize={8} fill="rgba(255,255,255,0.3)" textAnchor="end">{val}</text>
+                <text x={PL - 3} y={gy + 3} fontSize={8} fill="rgba(255,255,255,0.25)" textAnchor="end">{val}</text>
               </g>
             );
           })}
-
-          <path d={areaD} fill="url(#lineGrad)" />
+          <path d={areaD} fill="url(#areaGrad)" />
           <path d={pathD} fill="none" stroke="#39d353" strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
           {pts.map((p, i) => {
-            const isHot = p.total > HOT_THRESHOLD;
+            const tier = getTier(p.total);
+            const r = tier >= 2 ? 4 : tier === 1 ? 3.5 : 2.5;
+            const fill = tier === 3 ? "#ff6535" : tier === 2 ? "#39d353" : tier === 1 ? "#39d353" : "#161b22";
+            const stroke = tier === 3 ? "#f7523f" : "#39d353";
             return (
               <g key={i}>
-                {isHot && (
-                  <circle cx={p.x} cy={p.y} r={6} fill="none" stroke="#39d353" strokeWidth={1} opacity={0.3} />
-                )}
+                {tier >= 2 && <circle cx={p.x} cy={p.y} r={r + 3} fill="none" stroke={stroke} strokeWidth={1} opacity={0.3} />}
                 <circle
-                  cx={p.x} cy={p.y} r={isHot ? 4 : 2.5}
-                  fill={isHot ? "#39d353" : "#161b22"}
-                  stroke="#39d353"
-                  strokeWidth={isHot ? 2 : 1.5}
+                  cx={p.x} cy={p.y} r={r}
+                  fill={fill} stroke={stroke} strokeWidth={tier >= 1 ? 1.5 : 1}
                   style={{ cursor: "pointer" }}
                   onMouseEnter={() => setTooltip({ x: p.x, y: p.y, label: p.label, value: p.total })}
                   onMouseLeave={() => setTooltip(null)}
@@ -158,27 +250,13 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
               </g>
             );
           })}
-
           {pts.filter((_, i) => i % 3 === 0 || i === pts.length - 1).map((p, i) => (
-            <text key={i} x={p.x} y={H - 4} fontSize={8} fill="rgba(255,255,255,0.3)" textAnchor="middle">{p.label}</text>
+            <text key={i} x={p.x} y={H - 4} fontSize={8} fill="rgba(255,255,255,0.25)" textAnchor="middle">{p.label}</text>
           ))}
-
-          {/* Tooltip */}
           {tooltip && (
             <g>
-              <rect
-                x={Math.min(tooltip.x + 6, W - 80)}
-                y={tooltip.y - 28}
-                width={72} height={22} rx={3}
-                fill="#1c2128" stroke="rgba(57,211,83,0.4)" strokeWidth={1}
-              />
-              <text
-                x={Math.min(tooltip.x + 6, W - 80) + 36}
-                y={tooltip.y - 12}
-                fontSize={9} fill="#39d353" textAnchor="middle" fontWeight={700}
-              >
-                {tooltip.label}: {tooltip.value}
-              </text>
+              <rect x={Math.min(tooltip.x + 6, W - 76)} y={tooltip.y - 26} width={70} height={20} rx={3} fill="#1c2128" stroke="rgba(57,211,83,0.3)" strokeWidth={1} />
+              <text x={Math.min(tooltip.x + 6, W - 76) + 35} y={tooltip.y - 12} fontSize={9} fill="#39d353" textAnchor="middle" fontWeight={700}>{tooltip.label}: {tooltip.value}</text>
             </g>
           )}
         </svg>
@@ -186,37 +264,45 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
 
       <div style={{ marginTop: 16 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase" }}>
-            Monthly Breakdown
-          </span>
+          <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase" }}>Monthly Breakdown</span>
         </div>
-        <div style={{ display: "flex", gap: 3, alignItems: "flex-end", height: 40 }}>
+        <div style={{ display: "flex", gap: 3, alignItems: "flex-end", height: 44 }}>
           {monthly.map((m, i) => {
-            const maxM = Math.max(...monthly.map(x => x.total), 1);
-            const h = Math.max((m.total / maxM) * 36, 2);
-            const isHot = m.total > HOT_THRESHOLD;
+            const h = Math.max((m.total / maxMonthly) * 38, 2);
+            const tier = getTier(m.total);
+            const bg = tier === 3 ? "#ff6535" : tier === 2 ? "#39d353" : tier === 1 ? "#1a7a32" : "#0e4429";
+            const border = tier === 3 ? "rgba(247,82,63,0.8)" : tier >= 1 ? "rgba(57,211,83,0.6)" : "rgba(57,211,83,0.15)";
+            const shadow = tier === 3 ? "0 0 6px rgba(247,82,63,0.5)" : tier === 2 ? "0 0 5px rgba(57,211,83,0.4)" : "none";
             return (
               <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
                 <div
                   title={`${m.label}: ${m.total}`}
-                  style={{
-                    width: "100%",
-                    height: h,
-                    background: isHot ? "#39d353" : "#006d32",
-                    borderRadius: "2px 2px 0 0",
-                    border: isHot ? "1px solid rgba(57,211,83,0.8)" : "1px solid rgba(57,211,83,0.2)",
-                    boxShadow: isHot ? "0 0 6px rgba(57,211,83,0.4)" : "none",
-                    transition: "all 0.2s",
-                    cursor: "default",
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = "#39d353"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = isHot ? "#39d353" : "#006d32"; }}
+                  style={{ width: "100%", height: h, background: bg, borderRadius: "2px 2px 0 0", border: `1px solid ${border}`, boxShadow: shadow, transition: "all 0.2s", cursor: "default" }}
                 />
-                <span style={{ fontSize: 7, color: "rgba(255,255,255,0.3)", letterSpacing: 0 }}>{m.label.slice(0,1)}</span>
+                <span style={{ fontSize: 7, color: "rgba(255,255,255,0.25)" }}>{m.label.slice(0, 1)}</span>
               </div>
             );
           })}
         </div>
+      </div>
+
+      <div style={{ marginTop: 14, display: "flex", gap: 16, flexWrap: "wrap" }}>
+        {[
+          { tier: 1, label: "Warm (10–19)", color: "#39d353", shape: "square", anim: "warmPulse" },
+          { tier: 2, label: "Diamond (20–29)", color: "#39d353", shape: "diamond" },
+          { tier: 3, label: "Nova (30+)", color: "#f7523f", shape: "diamond" },
+        ].map(t => (
+          <div key={t.tier} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <div style={{
+              width: 8, height: 8, flexShrink: 0,
+              background: t.color,
+              borderRadius: t.shape === "diamond" ? 1 : 2,
+              transform: t.shape === "diamond" ? "rotate(45deg)" : "none",
+              border: `1px solid ${t.color}`,
+            }} />
+            <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 300 }}>{t.label}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -248,7 +334,7 @@ function ContributionGraph({ days, year }: { days: ContribDay[]; year: number })
   }
 
   const dayMap: Record<string, ContribDay> = {};
-  days.forEach((d) => { dayMap[d.date] = d; });
+  days.forEach(d => { dayMap[d.date] = d; });
 
   const startDate = new Date(`${year}-01-01`);
   startDate.setDate(startDate.getDate() - startDate.getDay());
@@ -276,7 +362,9 @@ function ContributionGraph({ days, year }: { days: ContribDay[]; year: number })
   });
 
   const totalContribs = days.reduce((s, d) => s + d.count, 0);
-  const hotDays = days.filter(d => d.count > HOT_THRESHOLD).length;
+  const t1 = days.filter(d => getTier(d.count) === 1).length;
+  const t2 = days.filter(d => getTier(d.count) === 2).length;
+  const t3 = days.filter(d => getTier(d.count) === 3).length;
 
   return (
     <div>
@@ -284,26 +372,31 @@ function ContributionGraph({ days, year }: { days: ContribDay[]; year: number })
         <span style={{ fontSize: 11, color: "var(--muted)", fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase" }}>
           {totalContribs.toLocaleString()} contributions in {year}
         </span>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          {hotDays > 0 && (
-            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-              <div style={{
-                width: 10, height: 10,
-                background: "#39d353",
-                border: "1px solid rgba(57,211,83,0.9)",
-                transform: "rotate(45deg)",
-                borderRadius: 1,
-                flexShrink: 0,
-              }} />
-              <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 300 }}>{hotDays}× hot days (&gt;{HOT_THRESHOLD})</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          {t1 > 0 && (
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <div style={{ width: 8, height: 8, borderRadius: 2, background: "#39d353", border: "1px solid rgba(57,211,83,0.9)", animation: "warmPulse 2.5s ease-in-out infinite" }} />
+              <span style={{ fontSize: 9, color: "var(--muted)" }}>{t1}× warm</span>
             </div>
           )}
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 300 }}>Less</span>
+          {t2 > 0 && (
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <div style={{ width: 8, height: 8, borderRadius: 1, background: "#39d353", border: "1px solid rgba(57,211,83,0.9)", transform: "rotate(45deg)" }} />
+              <span style={{ fontSize: 9, color: "var(--muted)" }}>{t2}× diamond</span>
+            </div>
+          )}
+          {t3 > 0 && (
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <div style={{ width: 8, height: 8, borderRadius: 1, background: "#ff6535", border: "1px solid rgba(247,82,63,0.9)", transform: "rotate(45deg)" }} />
+              <span style={{ fontSize: 9, color: "#f7523f" }}>{t3}× nova</span>
+            </div>
+          )}
+          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <span style={{ fontSize: 9, color: "var(--muted)" }}>Less</span>
             {[0,1,2,3,4].map(l => (
-              <div key={l} style={{ width: 10, height: 10, borderRadius: 2, background: LEVEL_STYLE[l].bg, border: `1px solid ${LEVEL_STYLE[l].border}` }} />
+              <div key={l} style={{ width: 9, height: 9, borderRadius: 2, background: LEVEL_STYLE[l].bg, border: `1px solid ${LEVEL_STYLE[l].border}` }} />
             ))}
-            <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 300 }}>More</span>
+            <span style={{ fontSize: 9, color: "var(--muted)" }}>More</span>
           </div>
         </div>
       </div>
@@ -322,7 +415,6 @@ function ContributionGraph({ days, year }: { days: ContribDay[]; year: number })
           </div>
 
           <div style={{ display: "flex", gap: 0 }}>
-            {/* Day labels */}
             <div style={{ display: "flex", flexDirection: "column", gap: 3, marginRight: 4 }}>
               {DAYS.map((d, i) => (
                 <div key={i} style={{ height: 10, fontSize: 9, color: "var(--muted)", lineHeight: "10px", whiteSpace: "nowrap", width: 20, textAlign: "right" }}>{d}</div>
@@ -332,87 +424,11 @@ function ContributionGraph({ days, year }: { days: ContribDay[]; year: number })
             <div style={{ display: "flex", gap: 3 }}>
               {weeks.map((week, wi) => (
                 <div key={wi} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                  {week.map((day) => {
+                  {week.map(day => {
                     if (day.level === -1) {
                       return <div key={day.date} style={{ width: 10, height: 10, flexShrink: 0 }} />;
                     }
-
-                    const isHot = day.inYear && day.count > HOT_THRESHOLD;
-
-                    const hotSize = Math.min(10 + Math.floor((day.count - HOT_THRESHOLD) / 5), 14);
-                    const offset = (hotSize - 10) / 2;
-
-                    const baseStyle = LEVEL_STYLE[day.level] || LEVEL_STYLE[0];
-
-                    if (isHot) {
-                      return (
-                        <div
-                          key={day.date}
-                          style={{
-                            width: 10,
-                            height: 10,
-                            flexShrink: 0,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            position: "relative",
-                          }}
-                          title={`${day.date}: ${day.count} contributions 🔥`}
-                        >
-                          {/* Outer glow pulse ring */}
-                          <div style={{
-                            position: "absolute",
-                            width: hotSize + 4,
-                            height: hotSize + 4,
-                            left: "50%",
-                            top: "50%",
-                            transform: "translate(-50%, -50%) rotate(45deg)",
-                            border: "1px solid rgba(57,211,83,0.3)",
-                            borderRadius: 1,
-                            animation: "hotPulse 2s ease-in-out infinite",
-                            pointerEvents: "none",
-                          }} />
-                          <div
-                            style={{
-                              width: hotSize,
-                              height: hotSize,
-                              background: "#39d353",
-                              border: "1.5px solid rgba(57,211,83,1)",
-                              transform: "rotate(45deg)",
-                              borderRadius: 1,
-                              boxShadow: "0 0 6px rgba(57,211,83,0.7)",
-                              flexShrink: 0,
-                              transition: "transform 0.1s",
-                              position: "relative",
-                              zIndex: 1,
-                            }}
-                            onMouseEnter={e => {
-                              (e.currentTarget as HTMLDivElement).style.transform = "rotate(45deg) scale(1.4)";
-                              (e.currentTarget as HTMLDivElement).style.boxShadow = "0 0 12px rgba(57,211,83,0.9)";
-                            }}
-                            onMouseLeave={e => {
-                              (e.currentTarget as HTMLDivElement).style.transform = "rotate(45deg) scale(1)";
-                              (e.currentTarget as HTMLDivElement).style.boxShadow = "0 0 6px rgba(57,211,83,0.7)";
-                            }}
-                          />
-                        </div>
-                      );
-                    }
-
-                    return (
-                      <div
-                        key={day.date}
-                        title={day.inYear ? `${day.date}: ${day.count} contribution${day.count !== 1 ? "s" : ""}` : ""}
-                        style={{
-                          width: 10, height: 10, borderRadius: 2, flexShrink: 0,
-                          transition: "transform 0.1s",
-                          background: baseStyle.bg,
-                          border: `1px solid ${baseStyle.border}`,
-                        }}
-                        onMouseEnter={e => { if (day.inYear) (e.currentTarget as HTMLDivElement).style.transform = "scale(1.5)"; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "scale(1)"; }}
-                      />
-                    );
+                    return <TierCell key={day.date} day={day} />;
                   })}
                 </div>
               ))}
@@ -432,17 +448,10 @@ function LanguageBar({ languages }: { languages: LangData[] }) {
   return (
     <div>
       <div style={{ display: "flex", height: 8, borderRadius: 2, overflow: "hidden", marginBottom: "var(--space-xl)", gap: 1 }}>
-        {collapsed.map((l) => (
+        {collapsed.map(l => (
           <div
             key={l.name}
-            style={{
-              width: `${l.percentage}%`,
-              background: LANG_COLORS[l.name] || "#666",
-              flexShrink: 0,
-              transition: "opacity 0.2s",
-              opacity: hovered === null || hovered === l.name ? 1 : 0.25,
-              cursor: "default",
-            }}
+            style={{ width: `${l.percentage}%`, background: LANG_COLORS[l.name] || "#666", flexShrink: 0, transition: "opacity 0.2s", opacity: hovered === null || hovered === l.name ? 1 : 0.25, cursor: "default" }}
             title={`${l.name} ${l.percentage}%`}
             onMouseEnter={() => setHovered(l.name)}
             onMouseLeave={() => setHovered(null)}
@@ -458,37 +467,17 @@ function LanguageBar({ languages }: { languages: LangData[] }) {
           return (
             <div
               key={l.name}
-              style={{
-                display: "flex", alignItems: "center", gap: 10,
-                padding: "8px 10px",
-                background: isHov ? "rgba(255,255,255,0.04)" : "transparent",
-                border: `1px solid ${isHov ? "rgba(255,255,255,0.1)" : "transparent"}`,
-                borderRadius: 2,
-                transition: "all 0.15s",
-                cursor: "default",
-                opacity: isOthers ? 0.6 : 1,
-              }}
+              style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", background: isHov ? "rgba(255,255,255,0.04)" : "transparent", border: `1px solid ${isHov ? "rgba(255,255,255,0.1)" : "transparent"}`, borderRadius: 2, transition: "all 0.15s", cursor: "default", opacity: isOthers ? 0.6 : 1 }}
               onMouseEnter={() => setHovered(l.name)}
               onMouseLeave={() => setHovered(null)}
             >
-              <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 700, width: 14, textAlign: "right", flexShrink: 0 }}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div style={{
-                width: 8, height: 8, borderRadius: isOthers ? 2 : "50%", flexShrink: 0,
-                background: color,
-                boxShadow: isHov ? `0 0 8px ${color}` : "none",
-                transition: "box-shadow 0.2s",
-              }} />
-              <span style={{ fontSize: 12, color: isHov ? "var(--on-dark)" : "var(--body)", fontWeight: isHov ? 700 : 300, flex: 1, transition: "color 0.15s" }}>
-                {l.name}
-              </span>
+              <span style={{ fontSize: 10, color: "var(--muted)", fontWeight: 700, width: 14, textAlign: "right", flexShrink: 0 }}>{String(i + 1).padStart(2, "0")}</span>
+              <div style={{ width: 8, height: 8, borderRadius: isOthers ? 2 : "50%", flexShrink: 0, background: color, boxShadow: isHov ? `0 0 8px ${color}` : "none", transition: "box-shadow 0.2s" }} />
+              <span style={{ fontSize: 12, color: isHov ? "var(--on-dark)" : "var(--body)", fontWeight: isHov ? 700 : 300, flex: 1, transition: "color 0.15s" }}>{l.name}</span>
               <div style={{ width: 48, height: 3, background: "rgba(255,255,255,0.07)", borderRadius: 2, overflow: "hidden", flexShrink: 0 }}>
                 <div style={{ height: "100%", width: `${l.percentage}%`, background: color, borderRadius: 2, opacity: isHov ? 1 : 0.7, transition: "opacity 0.2s" }} />
               </div>
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.5px", color: isHov ? color : "var(--muted)", width: 36, textAlign: "right", flexShrink: 0, transition: "color 0.15s" }}>
-                {l.percentage}%
-              </span>
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.5px", color: isHov ? color : "var(--muted)", width: 36, textAlign: "right", flexShrink: 0, transition: "color 0.15s" }}>{l.percentage}%</span>
             </div>
           );
         })}
@@ -499,11 +488,10 @@ function LanguageBar({ languages }: { languages: LangData[] }) {
 
 export default function GitHubStats() {
   const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible]         = useState(false);
-  const [data, setData]               = useState<GitHubData | null>(null);
-  const [loading, setLoading]         = useState(true);
-  const [yearLoading, setYearLoading] = useState(false);
-  const [error, setError]             = useState(false);
+  const [visible, setVisible]           = useState(false);
+  const [data, setData]                 = useState<GitHubData | null>(null);
+  const [loading, setLoading]           = useState(true);
+  const [error, setError]               = useState(false);
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
 
   useEffect(() => {
@@ -513,7 +501,7 @@ export default function GitHubStats() {
   }, []);
 
   const fetchData = useCallback(async (year: number, initial = false) => {
-    if (initial) setLoading(true); else setYearLoading(true);
+    if (initial) setLoading(true);
     try {
       const res = await fetch(`/api/github?year=${year}`);
       const d   = await res.json();
@@ -522,7 +510,7 @@ export default function GitHubStats() {
     } catch {
       setError(true);
     } finally {
-      if (initial) setLoading(false); else setYearLoading(false);
+      if (initial) setLoading(false);
     }
   }, []);
 
@@ -538,10 +526,12 @@ export default function GitHubStats() {
     : Array(4).fill({ value: "—", label: "" });
 
   const currentYear = new Date().getFullYear();
+  const t3count = data?.contributions.filter(d => getTier(d.count) === 3).length ?? 0;
 
   return (
     <section id="github" ref={ref} style={{ background: "var(--surface-soft)", padding: "var(--space-section) 0" }}>
       <div className="container">
+
         <div style={{ marginBottom: "var(--space-xxl)" }}>
           <span className="label-upper" style={{ color: "var(--m-blue-dark)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
             02 — Open Source
@@ -572,23 +562,23 @@ export default function GitHubStats() {
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 1, background: "var(--hairline)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s ease 0.3s" }} className="github-main-grid">
+
           <div style={{ background: "var(--surface-card)", padding: "var(--space-xl)", minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--space-lg)", flexWrap: "wrap", gap: 12 }}>
               <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>Contribution Activity</span>
               <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "1px", color: "var(--muted)" }}>{currentYear}</span>
             </div>
             <div className="hairline" style={{ marginBottom: "var(--space-lg)" }} />
-            <div style={{ position: "relative" }}>
-              {loading ? (
-                <div style={{ height: 120, background: "var(--surface-elevated)", animation: "shimmer 1.5s infinite", borderRadius: 2 }} />
-              ) : error ? (
-                <div style={{ padding: "var(--space-xl)", textAlign: "center" }}>
-                  <p className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>Failed to load contribution data</p>
-                </div>
-              ) : (
-                <ContributionGraph days={data?.contributions || []} year={currentYear} />
-              )}
-            </div>
+
+            {loading ? (
+              <div style={{ height: 120, background: "var(--surface-elevated)", animation: "shimmer 1.5s infinite", borderRadius: 2 }} />
+            ) : error ? (
+              <div style={{ padding: "var(--space-xl)", textAlign: "center" }}>
+                <p className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>Failed to load contribution data</p>
+              </div>
+            ) : (
+              <ContributionGraph days={data?.contributions || []} year={currentYear} />
+            )}
 
             {data && !loading && (
               <div style={{ display: "flex", gap: "var(--space-xl)", marginTop: "var(--space-xl)", paddingTop: "var(--space-lg)", borderTop: "1px solid var(--hairline)", flexWrap: "wrap", alignItems: "center" }}>
@@ -600,14 +590,10 @@ export default function GitHubStats() {
                   <div style={{ fontSize: 22, fontWeight: 700, color: "var(--on-dark)" }}>{data.user.followers}</div>
                   <div className="label-upper" style={{ fontSize: 9, color: "var(--muted)", marginTop: 2 }}>Followers</div>
                 </div>
-                {data.contributions.filter(d => d.count > HOT_THRESHOLD).length > 0 && (
-                  <div style={{ marginLeft: "auto" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 10px", background: "rgba(57,211,83,0.08)", border: "1px solid rgba(57,211,83,0.2)", borderRadius: 2 }}>
-                      <div style={{ width: 8, height: 8, background: "#39d353", transform: "rotate(45deg)", borderRadius: 1, boxShadow: "0 0 4px rgba(57,211,83,0.6)" }} />
-                      <span style={{ fontSize: 10, color: "#39d353", fontWeight: 700, letterSpacing: "0.5px" }}>
-                        {data.contributions.filter(d => d.count > HOT_THRESHOLD).length} HOT DAYS
-                      </span>
-                    </div>
+                {t3count > 0 && (
+                  <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 7, padding: "5px 12px", background: "rgba(247,82,63,0.08)", border: "1px solid rgba(247,82,63,0.2)", borderRadius: 2 }}>
+                    <div style={{ width: 8, height: 8, background: "#ff6535", borderRadius: 1, transform: "rotate(45deg)", border: "1px solid rgba(247,82,63,0.9)" }} />
+                    <span style={{ fontSize: 10, color: "#f7523f", fontWeight: 700, letterSpacing: "0.5px" }}>{t3count} NOVA DAY{t3count > 1 ? "S" : ""}</span>
                   </div>
                 )}
               </div>
@@ -653,13 +639,33 @@ export default function GitHubStats() {
       </div>
 
       <style>{`
-        @keyframes shimmer { 0%,100% { opacity: 0.4; } 50% { opacity: 0.7; } }
-        @keyframes hotPulse {
-          0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) rotate(45deg) scale(1); }
-          50%       { opacity: 0.6; transform: translate(-50%, -50%) rotate(45deg) scale(1.3); }
+        @keyframes shimmer { 0%,100%{opacity:.4} 50%{opacity:.7} }
+        @keyframes warmPulse {
+          0%,100% { box-shadow: 0 0 0px 0px rgba(57,211,83,0); }
+          50%      { box-shadow: 0 0 6px 2px rgba(57,211,83,0.4); }
+        }
+        @keyframes diamondSpin {
+          from { transform: rotate(45deg); }
+          to   { transform: rotate(405deg); }
+        }
+        @keyframes diamondRing {
+          0%   { transform: translate(-50%,-50%) rotate(45deg) scale(1);   opacity: 0.5; }
+          100% { transform: translate(-50%,-50%) rotate(45deg) scale(2.2); opacity: 0; }
+        }
+        @keyframes novaOrbit {
+          from { transform: translate(-50%,-50%) rotate(0deg); }
+          to   { transform: translate(-50%,-50%) rotate(360deg); }
+        }
+        @keyframes novaOrbitReverse {
+          from { transform: translate(-50%,-50%) rotate(0deg); }
+          to   { transform: translate(-50%,-50%) rotate(-360deg); }
+        }
+        @keyframes novaPulse {
+          0%,100% { box-shadow: 0 0 3px 1px rgba(247,82,63,0.4); }
+          50%     { box-shadow: 0 0 8px 3px rgba(247,82,63,0.7); }
         }
         @media (max-width: 768px) {
-          .github-stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .github-stat-grid { grid-template-columns: repeat(2,1fr) !important; }
           .github-main-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
