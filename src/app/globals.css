@@ -13,7 +13,7 @@
   --on-dark:          #ffffff;
   --body:             #bbbbbb;
   --body-strong:      #e6e6e6;
-  --muted:            #7e7e7e;
+  --muted:            #8a8a8a;
 
   --m-blue-light:     #0066b1;
   --m-blue-dark:      #1c69d4;
@@ -219,5 +219,19 @@ body {
   }
   .container {
     padding: 0 var(--space-md);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-animate] {
+    will-change: transform, opacity;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
