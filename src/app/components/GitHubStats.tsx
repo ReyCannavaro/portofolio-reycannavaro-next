@@ -40,11 +40,14 @@ type GitHubData = {
 
 const LEVEL_STYLE = [
   { bg: "#161b22", border: "rgba(255,255,255,0.05)" },
-  { bg: "#0e4429", border: "rgba(57,211,83,0.2)"   },
-  { bg: "#006d32", border: "rgba(57,211,83,0.4)"   },
-  { bg: "#26a641", border: "rgba(57,211,83,0.6)"   },
-  { bg: "#39d353", border: "rgba(57,211,83,0.9)"   },
+  { bg: "#0e2a4a", border: "rgba(28,105,212,0.25)"  },
+  { bg: "#0a3d6b", border: "rgba(28,105,212,0.45)"  },
+  { bg: "#0d5fa3", border: "rgba(28,105,212,0.65)"  },
+  { bg: "#1c69d4", border: "rgba(28,105,212,0.9)"   },
 ];
+
+const DRL = "#0653b6";
+const DRL_BRIGHT = "#1c69d4";
 
 function getTier(count: number) {
   if (count >= 30) return 3;
@@ -68,7 +71,7 @@ function collapseLanguages(langs: LangData[]): LangData[] {
 function TierCell({ day }: { day: { date: string; count: number; level: number; inYear: boolean } }) {
   const tier = getTier(day.count);
   const base = LEVEL_STYLE[day.level] || LEVEL_STYLE[0];
-  const label = `${day.date}: ${day.count} contribution${day.count !== 1 ? "s" : ""}${tier === 1 ? " 🌱" : tier === 2 ? " ◆" : tier === 3 ? " ✦" : ""}`;
+  const label = `${day.date}: ${day.count} contribution${day.count !== 1 ? "s" : ""}`;
 
   if (tier === 0) {
     return (
@@ -90,8 +93,8 @@ function TierCell({ day }: { day: { date: string; count: number; level: number; 
       <div title={label} style={{ width: 10, height: 10, flexShrink: 0, position: "relative" }}>
         <div style={{
           width: 10, height: 10, borderRadius: 2,
-          background: "#39d353",
-          border: "1px solid rgba(57,211,83,0.9)",
+          background: DRL_BRIGHT,
+          border: `1px solid rgba(28,105,212,0.9)`,
           animation: "warmPulse 2.5s ease-in-out infinite",
         }} />
       </div>
@@ -107,15 +110,15 @@ function TierCell({ day }: { day: { date: string; count: number; level: number; 
         <div style={{
           position: "absolute", left: "50%", top: "50%",
           width: 16, height: 16,
-          border: "1px solid rgba(57,211,83,0.45)",
+          border: `1px solid rgba(28,105,212,0.45)`,
           borderRadius: 1,
           animation: "diamondRing 1.8s ease-out infinite",
           pointerEvents: "none",
         }} />
         <div style={{
           width: 9, height: 9,
-          background: "#39d353",
-          border: "1.5px solid rgba(120,255,140,1)",
+          background: DRL_BRIGHT,
+          border: `1.5px solid rgba(100,160,255,1)`,
           borderRadius: 1,
           transform: "rotate(45deg)",
           animation: "diamondSpin 4s linear infinite",
@@ -132,33 +135,24 @@ function TierCell({ day }: { day: { date: string; count: number; level: number; 
     }}>
       <div style={{
         position: "absolute", left: "50%", top: "50%",
-        width: 16, height: 16,
-        borderRadius: 2,
-        animation: "novaOrbit 1.6s linear infinite",
-        pointerEvents: "none",
-        zIndex: 0,
-      }}>
-        <div style={{ position: "absolute", width: 3, height: 3, background: "#f7523f", borderRadius: "50%", top: -1, left: "50%", transform: "translateX(-50%)" }} />
-        <div style={{ position: "absolute", width: 2.5, height: 2.5, background: "#3178c6", borderRadius: "50%", bottom: -1, left: "50%", transform: "translateX(-50%)" }} />
-      </div>
+        width: 18, height: 18, borderRadius: "50%",
+        border: `1px solid rgba(6,83,182,0.6)`,
+        animation: "drlRing 2s ease-out infinite",
+        pointerEvents: "none", zIndex: 0,
+      }} />
       <div style={{
         position: "absolute", left: "50%", top: "50%",
-        width: 18, height: 18,
-        borderRadius: 2,
-        animation: "novaOrbitReverse 2.4s linear infinite",
-        pointerEvents: "none",
-        zIndex: 0,
-      }}>
-        <div style={{ position: "absolute", width: 2, height: 2, background: "rgba(247,82,63,0.6)", borderRadius: "50%", top: -1, left: "50%", transform: "translateX(-50%)" }} />
-      </div>
+        width: 18, height: 18, borderRadius: "50%",
+        border: `1px solid rgba(6,83,182,0.35)`,
+        animation: "drlRing 2s ease-out infinite 1s",
+        pointerEvents: "none", zIndex: 0,
+      }} />
       <div style={{
-        width: 8, height: 8,
-        background: "#ff6535",
-        border: "1.5px solid rgba(247,82,63,0.95)",
-        borderRadius: 1,
-        transform: "rotate(45deg)",
-        animation: "novaPulse 1.2s ease-in-out infinite",
-        position: "relative", zIndex: 2, flexShrink: 0,
+        width: 10, height: 10, borderRadius: 2,
+        background: DRL,
+        border: `1px solid rgba(28,105,212,0.95)`,
+        animation: "drlPulse 2s ease-in-out infinite",
+        position: "relative", zIndex: 1, flexShrink: 0,
       }} />
     </div>
   );
@@ -217,8 +211,8 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
         <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} style={{ display: "block" }}>
           <defs>
             <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#39d353" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="#39d353" stopOpacity="0" />
+              <stop offset="0%" stopColor={DRL_BRIGHT} stopOpacity="0.2" />
+              <stop offset="100%" stopColor={DRL_BRIGHT} stopOpacity="0" />
             </linearGradient>
           </defs>
           {ySteps.map((val, i) => {
@@ -231,12 +225,12 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
             );
           })}
           <path d={areaD} fill="url(#areaGrad)" />
-          <path d={pathD} fill="none" stroke="#39d353" strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
+          <path d={pathD} fill="none" stroke={DRL_BRIGHT} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
           {pts.map((p, i) => {
             const tier = getTier(p.total);
             const r = tier >= 2 ? 4 : tier === 1 ? 3.5 : 2.5;
-            const fill = tier === 3 ? "#ff6535" : tier === 2 ? "#39d353" : tier === 1 ? "#39d353" : "#161b22";
-            const stroke = tier === 3 ? "#f7523f" : "#39d353";
+            const fill = tier === 3 ? DRL : tier >= 1 ? DRL_BRIGHT : "#161b22";
+            const stroke = tier >= 1 ? DRL_BRIGHT : "rgba(28,105,212,0.4)";
             return (
               <g key={i}>
                 {tier >= 2 && <circle cx={p.x} cy={p.y} r={r + 3} fill="none" stroke={stroke} strokeWidth={1} opacity={0.3} />}
@@ -255,8 +249,8 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
           ))}
           {tooltip && (
             <g>
-              <rect x={Math.min(tooltip.x + 6, W - 76)} y={tooltip.y - 26} width={70} height={20} rx={3} fill="#1c2128" stroke="rgba(57,211,83,0.3)" strokeWidth={1} />
-              <text x={Math.min(tooltip.x + 6, W - 76) + 35} y={tooltip.y - 12} fontSize={9} fill="#39d353" textAnchor="middle" fontWeight={700}>{tooltip.label}: {tooltip.value}</text>
+              <rect x={Math.min(tooltip.x + 6, W - 76)} y={tooltip.y - 26} width={70} height={20} rx={3} fill="#1c2128" stroke={`rgba(28,105,212,0.4)`} strokeWidth={1} />
+              <text x={Math.min(tooltip.x + 6, W - 76) + 35} y={tooltip.y - 12} fontSize={9} fill={DRL_BRIGHT} textAnchor="middle" fontWeight={700}>{tooltip.label}: {tooltip.value}</text>
             </g>
           )}
         </svg>
@@ -270,9 +264,9 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
           {monthly.map((m, i) => {
             const h = Math.max((m.total / maxMonthly) * 38, 2);
             const tier = getTier(m.total);
-            const bg = tier === 3 ? "#ff6535" : tier === 2 ? "#39d353" : tier === 1 ? "#1a7a32" : "#0e4429";
-            const border = tier === 3 ? "rgba(247,82,63,0.8)" : tier >= 1 ? "rgba(57,211,83,0.6)" : "rgba(57,211,83,0.15)";
-            const shadow = tier === 3 ? "0 0 6px rgba(247,82,63,0.5)" : tier === 2 ? "0 0 5px rgba(57,211,83,0.4)" : "none";
+            const bg = tier === 3 ? DRL : tier === 2 ? DRL_BRIGHT : tier === 1 ? "#0a3d6b" : "#0e2a4a";
+            const border = tier >= 1 ? `rgba(28,105,212,0.6)` : `rgba(28,105,212,0.15)`;
+            const shadow = tier === 3 ? `0 0 6px rgba(6,83,182,0.6)` : tier === 2 ? `0 0 4px rgba(28,105,212,0.4)` : "none";
             return (
               <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
                 <div
@@ -288,9 +282,9 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
 
       <div style={{ marginTop: 14, display: "flex", gap: 16, flexWrap: "wrap" }}>
         {[
-          { tier: 1, label: "Warm (10–19)", color: "#39d353", shape: "square", anim: "warmPulse" },
-          { tier: 2, label: "Diamond (20–29)", color: "#39d353", shape: "diamond" },
-          { tier: 3, label: "Nova (30+)", color: "#f7523f", shape: "diamond" },
+          { tier: 1, label: "Warm (10–19)",    color: DRL_BRIGHT, shape: "square" },
+          { tier: 2, label: "Diamond (20–29)", color: DRL_BRIGHT, shape: "diamond" },
+          { tier: 3, label: "DRL (30+)",       color: DRL,        shape: "square" },
         ].map(t => (
           <div key={t.tier} style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <div style={{
@@ -375,20 +369,20 @@ function ContributionGraph({ days, year }: { days: ContribDay[]; year: number })
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           {t1 > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <div style={{ width: 8, height: 8, borderRadius: 2, background: "#39d353", border: "1px solid rgba(57,211,83,0.9)", animation: "warmPulse 2.5s ease-in-out infinite" }} />
+              <div style={{ width: 8, height: 8, borderRadius: 2, background: DRL_BRIGHT, border: `1px solid rgba(28,105,212,0.9)`, animation: "warmPulse 2.5s ease-in-out infinite" }} />
               <span style={{ fontSize: 9, color: "var(--muted)" }}>{t1}× warm</span>
             </div>
           )}
           {t2 > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <div style={{ width: 8, height: 8, borderRadius: 1, background: "#39d353", border: "1px solid rgba(57,211,83,0.9)", transform: "rotate(45deg)" }} />
+              <div style={{ width: 8, height: 8, borderRadius: 1, background: DRL_BRIGHT, border: `1px solid rgba(28,105,212,0.9)`, transform: "rotate(45deg)" }} />
               <span style={{ fontSize: 9, color: "var(--muted)" }}>{t2}× diamond</span>
             </div>
           )}
           {t3 > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <div style={{ width: 8, height: 8, borderRadius: 1, background: "#ff6535", border: "1px solid rgba(247,82,63,0.9)", transform: "rotate(45deg)" }} />
-              <span style={{ fontSize: 9, color: "#f7523f" }}>{t3}× nova</span>
+              <div style={{ width: 8, height: 8, borderRadius: 2, background: DRL, border: `1px solid rgba(6,83,182,0.9)`, animation: "drlPulse 2s ease-in-out infinite" }} />
+              <span style={{ fontSize: 9, color: DRL_BRIGHT, fontWeight: 700, letterSpacing: "0.5px" }}>{t3}× drl</span>
             </div>
           )}
           <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
@@ -420,7 +414,6 @@ function ContributionGraph({ days, year }: { days: ContribDay[]; year: number })
                 <div key={i} style={{ height: 10, fontSize: 9, color: "var(--muted)", lineHeight: "10px", whiteSpace: "nowrap", width: 20, textAlign: "right" }}>{d}</div>
               ))}
             </div>
-
             <div style={{ display: "flex", gap: 3 }}>
               {weeks.map((week, wi) => (
                 <div key={wi} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -458,7 +451,6 @@ function LanguageBar({ languages }: { languages: LangData[] }) {
           />
         ))}
       </div>
-
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {collapsed.map((l, i) => {
           const color = LANG_COLORS[l.name] || "#666";
@@ -591,9 +583,9 @@ export default function GitHubStats() {
                   <div className="label-upper" style={{ fontSize: 9, color: "var(--muted)", marginTop: 2 }}>Followers</div>
                 </div>
                 {t3count > 0 && (
-                  <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 7, padding: "5px 12px", background: "rgba(247,82,63,0.08)", border: "1px solid rgba(247,82,63,0.2)", borderRadius: 2 }}>
-                    <div style={{ width: 8, height: 8, background: "#ff6535", borderRadius: 1, transform: "rotate(45deg)", border: "1px solid rgba(247,82,63,0.9)" }} />
-                    <span style={{ fontSize: 10, color: "#f7523f", fontWeight: 700, letterSpacing: "0.5px" }}>{t3count} NOVA DAY{t3count > 1 ? "S" : ""}</span>
+                  <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 7, padding: "5px 12px", background: `rgba(6,83,182,0.08)`, border: `1px solid rgba(6,83,182,0.25)`, borderRadius: 0 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 2, background: DRL, border: `1px solid rgba(6,83,182,0.9)`, animation: "drlPulse 2s ease-in-out infinite" }} />
+                    <span style={{ fontSize: 10, color: DRL_BRIGHT, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase" }}>{t3count} DRL DAY{t3count > 1 ? "S" : ""}</span>
                   </div>
                 )}
               </div>
@@ -641,8 +633,8 @@ export default function GitHubStats() {
       <style>{`
         @keyframes shimmer { 0%,100%{opacity:.4} 50%{opacity:.7} }
         @keyframes warmPulse {
-          0%,100% { box-shadow: 0 0 0px 0px rgba(57,211,83,0); }
-          50%      { box-shadow: 0 0 6px 2px rgba(57,211,83,0.4); }
+          0%,100% { box-shadow: 0 0 0px 0px rgba(28,105,212,0); }
+          50%      { box-shadow: 0 0 6px 2px rgba(28,105,212,0.4); }
         }
         @keyframes diamondSpin {
           from { transform: rotate(45deg); }
@@ -652,17 +644,13 @@ export default function GitHubStats() {
           0%   { transform: translate(-50%,-50%) rotate(45deg) scale(1);   opacity: 0.5; }
           100% { transform: translate(-50%,-50%) rotate(45deg) scale(2.2); opacity: 0; }
         }
-        @keyframes novaOrbit {
-          from { transform: translate(-50%,-50%) rotate(0deg); }
-          to   { transform: translate(-50%,-50%) rotate(360deg); }
+        @keyframes drlPulse {
+          0%,100% { box-shadow: 0 0 3px 1px rgba(6,83,182,0.3); }
+          50%     { box-shadow: 0 0 8px 3px rgba(6,83,182,0.65); }
         }
-        @keyframes novaOrbitReverse {
-          from { transform: translate(-50%,-50%) rotate(0deg); }
-          to   { transform: translate(-50%,-50%) rotate(-360deg); }
-        }
-        @keyframes novaPulse {
-          0%,100% { box-shadow: 0 0 3px 1px rgba(247,82,63,0.4); }
-          50%     { box-shadow: 0 0 8px 3px rgba(247,82,63,0.7); }
+        @keyframes drlRing {
+          0%   { transform: translate(-50%,-50%) scale(0.7); opacity: 0.7; }
+          100% { transform: translate(-50%,-50%) scale(2.0); opacity: 0; }
         }
         @media (max-width: 768px) {
           .github-stat-grid { grid-template-columns: repeat(2,1fr) !important; }
