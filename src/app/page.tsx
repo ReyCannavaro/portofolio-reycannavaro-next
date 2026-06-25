@@ -8,6 +8,7 @@ import Prestasi from "./components/Prestasi";
 import Education from "./components/Education";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+import Chatbot from "./components/Chatbot";
 
 export const metadata: Metadata = {
   title: "Rey Cannavaro | Fullstack Developer",
@@ -30,6 +31,7 @@ export default function Home() {
         <Education />
         <Footer />
       </main>
+      <Chatbot />
     </div>
   );
 }
