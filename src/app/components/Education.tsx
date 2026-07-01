@@ -21,7 +21,7 @@ export default function Education() {
       <div className="container">
         <div style={{ marginBottom: "var(--space-xxl)" }}>
           <span className="label-upper" style={{ color: "var(--m-blue-dark)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
-            06r — Background
+            07 - Background
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
           <h2 className="display-lg" style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease 0.1s" }}>

@@ -104,6 +104,33 @@ export const techStats = [
 
 export const currentlyLearning = ["Next.js 15", "Express.js", "AI Integration"];
 
+export const experienceHistory = [
+  {
+    id: 1,
+    company: "Quantum Leap",
+    role: "Full-stack Developer Intern",
+    type: "Internship",
+    status: "ongoing",
+    startYear: 2026,
+    endYear: null,
+    period: "2026 - Present",
+    location: "Indonesia",
+    industry: "Custom ERP Solutions",
+    scope: "Enterprise ERP for big companies",
+    summary:
+      "Currently working as a Full-stack Developer Intern at Quantum Leap, a company specializing in custom ERP solutions for large-scale businesses.",
+    description:
+      "Involved in real office projects as part of the development team, contributing across frontend and backend work for business-critical ERP systems.",
+    responsibilities: [
+      "Contributing to frontend and backend development in internal company projects",
+      "Working with ERP business flows, data handling, and user-facing operational modules",
+      "Collaborating with the project team to deliver custom solutions for enterprise clients",
+    ],
+    technologies: ["Vue.js", "TypeScript", "Laravel", "REST API", "ERP"],
+    highlights: ["Full-stack role", "Custom ERP", "Enterprise project"],
+  },
+];
+
 export const educationHistory = [
   {
     id: 1,
@@ -558,14 +585,17 @@ export const projects = [
   },
 ];
 
-export default {
+const portfolioData = {
   personalInfo,
   socialLinks,
   currentStatus,
   skillCategories,
   techStats,
   currentlyLearning,
+  experienceHistory,
   educationHistory,
   achievements,
   projects,
 };
+
+export default portfolioData;

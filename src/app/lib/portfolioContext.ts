@@ -2,6 +2,7 @@ import {
   achievements,
   currentStatus,
   educationHistory,
+  experienceHistory,
   personalInfo,
   projects,
   skillCategories,
@@ -44,6 +45,24 @@ export function getPortfolioContext() {
     )
     .join("\n\n");
 
+  const experience = experienceHistory
+    .map((item) =>
+      [
+        `- ${item.company} (${item.period})`,
+        `  Role: ${item.role}`,
+        `  Tipe: ${item.type}`,
+        `  Status: ${item.status}`,
+        `  Industri: ${item.industry}`,
+        `  Scope: ${item.scope}`,
+        `  Lokasi: ${item.location}`,
+        `  Ringkasan: ${item.summary}`,
+        `  Deskripsi: ${item.description}`,
+        `  Tanggung jawab: ${item.responsibilities.join(", ")}`,
+        `  Teknologi/fokus: ${item.technologies.join(", ")}`,
+      ].join("\n")
+    )
+    .join("\n\n");
+
   const achievementList = achievements
     .map((achievement) => {
       const rank = achievement.rank ? ` Rank: ${achievement.rank}.` : "";
@@ -74,6 +93,9 @@ Sosial:
 
 Skill:
 ${skills}
+
+Pengalaman:
+${experience}
 
 Pendidikan:
 ${education}

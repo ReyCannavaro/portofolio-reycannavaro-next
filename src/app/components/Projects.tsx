@@ -51,7 +51,7 @@ export default function Projects() {
               transition: "opacity 0.5s ease",
             }}
           >
-            03 — Work
+            05 - Work
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16 }}>

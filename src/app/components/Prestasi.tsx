@@ -89,12 +89,13 @@ const LEVEL_COLOR: Record<string, string> = {
 
 const FEATURED_IDS = new Set([13, 11]);
 const RELEVANT_IDS = new Set([13, 11, 8, 2, 9, 1, 7, 6, 10]);
+const DEFAULT_SELECTED = achievements.find((a) => FEATURED_IDS.has(a.id)) ?? achievements[0] ?? null;
 
 export default function Prestasi() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const [selected, setSelected] = useState<(typeof achievements)[0] | null>(null);
+  const [selected, setSelected] = useState<(typeof achievements)[0] | null>(DEFAULT_SELECTED);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -110,18 +111,12 @@ export default function Prestasi() {
   const restList = achievements.filter((a) => !RELEVANT_IDS.has(a.id) && !FEATURED_IDS.has(a.id));
   const listItems = showMore ? [...relevantList, ...restList] : relevantList;
 
-  useEffect(() => {
-    if (visible && !selected) {
-      setSelected(featured[0] ?? relevantList[0] ?? achievements[0]);
-    }
-  }, [visible]);
-
   return (
     <section id="achievements" ref={ref} style={{ background: "var(--canvas)", padding: "var(--space-section) 0" }}>
       <div className="container">
         <div style={{ marginBottom: "var(--space-xxl)" }}>
           <span className="label-upper" style={{ color: "var(--m-blue-dark)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
-            05 — Recognition
+            06 - Recognition
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
           <h2 className="display-lg" style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease 0.1s" }}>
@@ -167,7 +162,7 @@ export default function Prestasi() {
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 1, background: "var(--hairline)" }} className="detail-grid">
           <div style={{ background: "var(--surface-soft)" }}>
-            {listItems.map((a, i) => (
+            {listItems.map((a) => (
               <div
                 key={a.id}
                 onClick={() => setSelected(a)}
