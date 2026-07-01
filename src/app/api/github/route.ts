@@ -9,6 +9,28 @@ const headers: Record<string, string> = {
 };
 if (TOKEN) headers["Authorization"] = `Bearer ${TOKEN}`;
 
+function buildFallbackData(year: number) {
+  return {
+    user: {
+      login: USERNAME,
+      name: "Rey Cannavaro",
+      public_repos: 0,
+      followers: 0,
+    },
+    stats: {
+      totalRepos: 0,
+      totalStars: 0,
+      totalForks: 0,
+      followers: 0,
+    },
+    languages: [],
+    contributions: [],
+    selectedYear: year,
+    availableYears: [year],
+    hasToken: !!TOKEN,
+  };
+}
+
 async function fetchUser() {
   const res = await fetch(`https://api.github.com/users/${USERNAME}`, {
     headers,
@@ -170,6 +192,9 @@ export async function GET(request: Request) {
     });
   } catch (err) {
     console.error("[/api/github]", err);
-    return NextResponse.json({ error: "Failed to fetch GitHub data" }, { status: 500 });
+    return NextResponse.json({
+      ...buildFallbackData(year),
+      error: "Failed to fetch GitHub data",
+    });
   }
 }

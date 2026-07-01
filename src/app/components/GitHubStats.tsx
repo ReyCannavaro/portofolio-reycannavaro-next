@@ -38,6 +38,44 @@ type GitHubData = {
   hasToken:       boolean;
 };
 
+function createFallbackData(year: number): GitHubData {
+  return {
+    user: {
+      login: "ReyCannavaro",
+      name: "Rey Cannavaro",
+      public_repos: 0,
+      followers: 0,
+    },
+    stats: {
+      totalRepos: 0,
+      totalStars: 0,
+      totalForks: 0,
+      followers: 0,
+    },
+    languages: [],
+    contributions: [],
+    selectedYear: year,
+    availableYears: [year],
+    hasToken: false,
+  };
+}
+
+function isGitHubData(value: unknown): value is GitHubData {
+  if (!value || typeof value !== "object") return false;
+  const data = value as Partial<GitHubData>;
+  return (
+    !!data.user &&
+    !!data.stats &&
+    typeof data.stats.totalRepos === "number" &&
+    typeof data.stats.totalStars === "number" &&
+    typeof data.stats.totalForks === "number" &&
+    typeof data.stats.followers === "number" &&
+    Array.isArray(data.languages) &&
+    Array.isArray(data.contributions) &&
+    Array.isArray(data.availableYears)
+  );
+}
+
 const LEVEL_STYLE = [
   { bg: "#161b22", border: "rgba(255,255,255,0.05)" },
   { bg: "#0e2a4a", border: "rgba(28,105,212,0.25)"  },
@@ -494,12 +532,17 @@ export default function GitHubStats() {
 
   const fetchData = useCallback(async (year: number, initial = false) => {
     if (initial) setLoading(true);
+    setError(false);
     try {
       const res = await fetch(`/api/github?year=${year}`);
-      const d   = await res.json();
+      if (!res.ok) throw new Error(`GitHub stats request failed: ${res.status}`);
+      const d: unknown = await res.json();
+      if (!isGitHubData(d)) throw new Error("GitHub stats response is missing required fields");
       setData(d);
       setSelectedYear(year);
     } catch {
+      setData(createFallbackData(year));
+      setSelectedYear(year);
       setError(true);
     } finally {
       if (initial) setLoading(false);
