@@ -87,7 +87,8 @@ const LEVEL_COLOR: Record<string, string> = {
   school: "var(--muted)",
 };
 
-const RELEVANT_IDS = new Set([11, 1, 7, 6, 10]);
+const FEATURED_IDS = new Set([13, 11]);
+const RELEVANT_IDS = new Set([13, 11, 8, 2, 9, 1, 7, 6, 10]);
 
 export default function Prestasi() {
   const ref = useRef<HTMLElement>(null);
@@ -104,14 +105,14 @@ export default function Prestasi() {
     return () => obs.disconnect();
   }, []);
 
-  const featured = achievements.filter((a) => a.id === 11);
-  const relevantList = achievements.filter((a) => RELEVANT_IDS.has(a.id) && a.id !== 11);
-  const restList = achievements.filter((a) => !RELEVANT_IDS.has(a.id));
+  const featured = achievements.filter((a) => FEATURED_IDS.has(a.id));
+  const relevantList = achievements.filter((a) => RELEVANT_IDS.has(a.id) && !FEATURED_IDS.has(a.id));
+  const restList = achievements.filter((a) => !RELEVANT_IDS.has(a.id) && !FEATURED_IDS.has(a.id));
   const listItems = showMore ? [...relevantList, ...restList] : relevantList;
 
   useEffect(() => {
     if (visible && !selected) {
-      setSelected(relevantList[0] ?? achievements[0]);
+      setSelected(featured[0] ?? relevantList[0] ?? achievements[0]);
     }
   }, [visible]);
 

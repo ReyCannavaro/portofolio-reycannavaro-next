@@ -147,6 +147,23 @@ export const educationHistory = [
 
 export const achievements = [
   {
+    id: 13,
+    title: "Juara 2 Web Design Competition Nasional",
+    titleShort: "2nd Web Design National",
+    category: "Competition",
+    organizer: "Institut Bisnis dan Informatika Kesatuan Bogor",
+    year: 2026,
+    date: "2026-06",
+    type: "competition",
+    level: "national",
+    rank: 2,
+    description: "Meraih juara 2 dalam lomba Web Design tingkat nasional yang diadakan oleh Institut Bisnis dan Informatika Kesatuan Bogor dengan membawa website NusaExplore versi Vanilla JavaScript.",
+    image: "/prestasi/prestasi13.jpeg",
+    badge: "trophy",
+    color: "bg-blue-600",
+    featured: true,
+  },
+  {
     id: 1,
     title: "Pengisi Materi Leadership KPDA",
     titleShort: "Leadership Trainer",
