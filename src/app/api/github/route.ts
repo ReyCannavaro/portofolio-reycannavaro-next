@@ -35,6 +35,7 @@ async function fetchUser() {
   const res = await fetch(`https://api.github.com/users/${USERNAME}`, {
     headers,
     next: { revalidate: 3600 },
+    signal: AbortSignal.timeout(5000),
   });
   if (!res.ok) throw new Error(`GitHub user fetch failed: ${res.status}`);
   return res.json();
@@ -46,7 +47,7 @@ async function fetchAllRepos() {
   while (true) {
     const res = await fetch(
       `https://api.github.com/users/${USERNAME}/repos?per_page=100&page=${page}&type=owner`,
-      { headers, next: { revalidate: 3600 } }
+      { headers, next: { revalidate: 3600 }, signal: AbortSignal.timeout(5000) }
     );
     if (!res.ok) break;
     const batch: Record<string, unknown>[] = await res.json();
@@ -88,6 +89,7 @@ async function fetchContributionsForYear(year: number) {
     headers: { ...headers, "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables: { login: USERNAME, from, to } }),
     next: { revalidate: 3600 },
+    signal: AbortSignal.timeout(5000),
   });
 
   if (!res.ok) return [];
@@ -122,7 +124,7 @@ async function fetchLanguages(repos: Record<string, unknown>[]) {
       try {
         const res = await fetch(
           `https://api.github.com/repos/${USERNAME}/${repo.name}/languages`,
-          { headers, next: { revalidate: 3600 } }
+          { headers, next: { revalidate: 3600 }, signal: AbortSignal.timeout(5000) }
         );
         if (!res.ok) return;
         const data: Record<string, number> = await res.json();
