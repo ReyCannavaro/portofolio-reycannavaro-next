@@ -48,6 +48,7 @@ export default async function ExperienceDetail({ params }: { params: Promise<{ s
 
         {/* Hero Photo Band */}
         <section
+          className="stretch-under-sidebar"
           style={{
             position: "relative",
             minHeight: "70vh",

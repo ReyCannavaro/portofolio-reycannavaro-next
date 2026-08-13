@@ -226,6 +226,11 @@ body {
   margin-left: var(--sidebar-w);
 }
 
+.stretch-under-sidebar {
+  margin-left: calc(-1 * var(--sidebar-w));
+  padding-left: var(--sidebar-w);
+}
+
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0;
@@ -233,6 +238,10 @@ body {
   }
   .container {
     padding: 0 var(--space-md);
+  }
+  .stretch-under-sidebar {
+    margin-left: 0;
+    padding-left: 0;
   }
 }
 
