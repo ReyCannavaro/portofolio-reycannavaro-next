@@ -1,86 +1,69 @@
-# 🚀 Rey-OS Portfolio v2.0
+# 🏎️ Rey Cannavaro | Software Engineer Portfolio
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
-Selamat datang di repository portofolio saya! Project ini bukan sekadar portofolio statis, melainkan sebuah **Interactive Experience** yang menggabungkan estetika modern dengan fungsionalitas terminal.
+Selamat datang di *source code* portofolio pribadi saya. Dibangun dengan fokus pada kecepatan, skalabilitas, dan *Impact-Driven Copywriting*, portofolio ini mengusung estetika desain *Brutalist/Industrial* (terinspirasi dari BMW M) dengan perpaduan *glassmorphism* modern.
 
-## ✨ Highlight: Interactive Terminal Widget
-Fitur unggulan di project ini adalah **Terminal Widget** interaktif (terinspirasi dari kernel sistem operasi) yang memungkinkan pengunjung mengeksplorasi data saya melalui command-line interface.
+## ✨ Fitur Unggulan
 
-- **`help`** - Menampilkan daftar perintah yang tersedia.
-- **`projects`** - List project yang pernah saya bangun.
-- **`whoami`** - Informasi mendalam tentang identitas saya.
-- **`clear`** - Membersihkan riwayat terminal.
+- 🤖 **Nava (Personal AI Assistant)**: Chatbot pintar yang dilatih menggunakan data spesifik portofolio (pengalaman, proyek, *skill*). Dilengkapi dengan *Guardrails* tingkat tinggi untuk mencegah *prompt injection* dan obrolan di luar konteks.
+- 📊 **Live GitHub Stats**: Integrasi langsung dengan GitHub API untuk menampilkan statistik *commit*, repositori, dan kontribusi. Dilengkapi mekanisme *fallback* dan *timeout* `AbortSignal` untuk mencegah *crash* saat API GitHub *down*.
+- ⚡ **Progressive Disclosure**: Manajemen informasi *Information Overload* di bagian proyek. Menampilkan 6 proyek terbaik (*Hero* & *Grid*) secara *default*, dan membiarkan *recruiter* mengekspansi sisa proyek melalui interaksi tombol.
+- 🏎️ **Brutalist / Industrial Aesthetic**: Menggunakan pendekatan *Vanilla CSS* dan *Tailwind* yang ketat (tanpa sekadar pakai komponen *ready-made*), memberikan nuansa *raw*, tegas, dan profesional layaknya *engineer* berpengalaman.
 
 ## 🛠️ Tech Stack
-- **Framework:** Next.js 15 (App Router)
-- **Styling:** Tailwind CSS (Modern Dark Mode)
-- **Animation:** Framer Motion (Smooth Transitions & Gestures)
-- **Icons:** React Icons (Feather Icons)
+- **Framework:** Next.js 16 (App Router & Turbopack)
+- **Styling:** Tailwind CSS & Vanilla CSS (`globals.css`)
+- **Language:** TypeScript
+- **Icons:** Lucide React & React Icons
 - **Deployment:** Vercel
-
-## 📸 Preview
-*(Tips: Kamu bisa upload screenshot website kamu ke folder `public` lalu panggil di sini)*
-`![Screenshot Portofolio](/public/preview.png)`
 
 ## 🚀 Instalasi Lokal
 
-Ingin menjalankan project ini di komputermu? Ikuti langkah berikut:
+Ingin menjalankan *project* ini secara lokal?
 
 1. **Clone repository:**
    ```bash
-   git clone [https://github.com/USERNAME_KAMU/NAMA_REPO.git](https://github.com/USERNAME_KAMU/NAMA_REPO.git)
-
-```
+   git clone https://github.com/ReyCannavaro/portofolio-reycannavaro-next.git
+   ```
 
 2. **Masuk ke direktori:**
-```bash
-cd NAMA_REPO
-
-```
-
+   ```bash
+   cd portofolio-reycannavaro-next
+   ```
 
 3. **Install dependencies:**
-```bash
-npm install
-# atau
-yarn install
+   ```bash
+   npm install
+   ```
 
-```
+4. **Konfigurasi Environment:**
+   Buat file `.env.local` di root direktori dan tambahkan API Key untuk AI (Groq/Gemini) agar chatbot Nava bisa berjalan:
+   ```env
+   GROQ_API_KEY=your_api_key_here
+   # atau
+   GEMINI_API_KEY=your_api_key_here
+   ```
 
+5. **Jalankan development server:**
+   ```bash
+   npm run dev
+   ```
+   Akses `http://localhost:3000` di *browser*.
 
-4. **Jalankan development server:**
-```bash
-npm run dev
+## 📁 Struktur Data
 
-```
-
-
-Buka [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) di browser kamu.
-
-## 📁 Struktur Folder Utama
-
-```text
-├── src/
-│   ├── app/           # Next.js App Router (Pages & Layout)
-│   ├── components/    # Reusable UI Components (Hero, Terminal, etc.)
-│   ├── data/          # File JSON/Object untuk konten (Skills, Projects)
-│   └── styles/        # Global CSS & Tailwind Config
-
-```
+Semua data (Pengalaman, Pendidikan, Prestasi, dan Proyek) dipusatkan secara dinamis agar mudah di-*update* tanpa perlu membongkar komponen antarmuka:
+- `src/app/data/index.ts` -> Pusat data portofolio (Profil, Skill, Proyek, Edukasi).
+- `src/app/data/experience-ql.ts` -> Data spesifik untuk proyek-proyek *Enterprise* saat magang.
 
 ## 👨‍💻 Author
 
 **Rey Cannavaro**
-
-* LinkedIn: [linkedin.com/in/username](https://www.google.com/search?q=https://linkedin.com/in/username)
-* Instagram: [@username](https://www.google.com/search?q=https://instagram.com/username)
+- GitHub: [@ReyCannavaro](https://github.com/ReyCannavaro)
 
 ---
 
-*Dibuat dengan ❤️ dan banyak kopi di Sidoarjo, Indonesia.*
-
-```
+*Dibuat dengan ❤️, logika kuat, dan fokus pada eksekusi teknis.*
