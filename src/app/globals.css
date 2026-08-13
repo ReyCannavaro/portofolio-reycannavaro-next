@@ -175,6 +175,20 @@ body {
 }
 .btn-ghost:hover { border-color: var(--on-dark); color: var(--on-dark); }
 
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.text-link:hover { color: var(--on-dark); }
+
 .card {
   background: var(--surface-card);
   border: 1px solid var(--hairline);

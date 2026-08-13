@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
+import Link from "next/link";
 import { experienceHistory } from "../data/index";
 
 export default function Experience() {
@@ -214,6 +215,18 @@ export default function Experience() {
                     </div>
                   </div>
                 </div>
+
+                {item.slug && (
+                  <div style={{ marginTop: "var(--space-xl)", display: "flex", justifyContent: "flex-end" }}>
+                    <Link
+                      href={`/experience/${(item as any).slug}`}
+                      className="btn-primary"
+                      style={{ width: "fit-content" }}
+                    >
+                      EXPLORE CASE STUDY →
+                    </Link>
+                  </div>
+                )}
               </div>
             </article>
           ))}

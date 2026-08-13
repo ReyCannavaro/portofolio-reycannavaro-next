@@ -108,6 +108,7 @@ export const experienceHistory = [
   {
     id: 1,
     company: "Quantum Leap",
+    slug: "quantum-leap",
     role: "Full-stack Developer Intern",
     type: "Internship",
     status: "ongoing",
