@@ -11,6 +11,7 @@ export default function Projects() {
   const [activeFilter, setActiveFilter] = useState("ALL");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [activeHero, setActiveHero] = useState(0);
+  const [showAll, setShowAll] = useState(false);
 
   const FILTERS = ["ALL", "Web Development", "AI/ML", "IoT", "Game Development"];
 
@@ -19,6 +20,8 @@ export default function Projects() {
     activeFilter === "ALL"
       ? projects.filter((p) => !HERO_PROJECT_IDS.includes(p.id))
       : projects.filter((p) => !HERO_PROJECT_IDS.includes(p.id) && p.category === activeFilter);
+
+  const displayedOtherProjects = showAll ? otherProjects : otherProjects.slice(0, 3);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -447,7 +450,7 @@ export default function Projects() {
           }}
           className="projects-grid"
         >
-          {otherProjects.map((project, i) => {
+          {displayedOtherProjects.map((project, i) => {
             const isHov = hoveredId === project.id;
             return (
               <div
@@ -606,6 +609,48 @@ export default function Projects() {
             );
           })}
         </div>
+
+        {!showAll && otherProjects.length > 3 && (
+          <div
+            style={{
+              marginTop: "var(--space-xl)",
+              display: "flex",
+              justifyContent: "center",
+              opacity: visible ? 1 : 0,
+              transition: "opacity 0.5s ease 0.8s",
+            }}
+          >
+            <button
+              onClick={() => setShowAll(true)}
+              className="btn-ghost"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "16px 32px",
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                border: "1px solid var(--hairline-strong)",
+                background: "var(--surface-card)",
+                color: "var(--on-dark)",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "var(--surface-elevated)";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--m-blue-dark)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "var(--surface-card)";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--hairline-strong)";
+              }}
+            >
+              VIEW ALL PROJECTS <span style={{ fontSize: 16 }}>↓</span>
+            </button>
+          </div>
+        )}
       </div>
 
       <style>{`
