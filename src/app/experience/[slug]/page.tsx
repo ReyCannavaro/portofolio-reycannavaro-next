@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { experienceHistory } from "../../data/index";
 import { quantumLeapProjects } from "../../data/experience-ql";
+import CaseStudyProjects from "../../components/CaseStudyProjects";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Loader from "../../components/Loader";
@@ -130,73 +131,7 @@ export default async function ExperienceDetail({ params }: { params: Promise<{ s
               </p>
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "var(--space-lg)",
-              }}
-            >
-              {projects.map((project) => (
-                <article
-                  key={project.id}
-                  style={{
-                    background: "var(--surface-card)",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <div style={{ position: "relative", width: "100%", aspectRatio: "16/10", background: "var(--surface-soft)" }}>
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                  <div style={{ padding: "var(--space-lg)", flex: 1, display: "flex", flexDirection: "column" }}>
-                    <span className="label-upper" style={{ color: "var(--m-blue-light)", marginBottom: 12 }}>
-                      {project.role}
-                    </span>
-                    <h3
-                      style={{
-                        fontSize: 24,
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        lineHeight: 1.2,
-                        marginBottom: "var(--space-md)",
-                        color: "var(--on-dark)",
-                      }}
-                    >
-                      {project.title}
-                    </h3>
-                    <p className="body-sm" style={{ marginBottom: "var(--space-lg)", flex: 1 }}>
-                      {project.description}
-                    </p>
-                    
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: "auto" }}>
-                      {project.techStack.map((tech) => (
-                        <span
-                          key={tech}
-                          style={{
-                            padding: "4px 10px",
-                            border: "1px solid var(--hairline)",
-                            color: "var(--body)",
-                            fontSize: 10,
-                            fontWeight: 700,
-                            letterSpacing: "1px",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <CaseStudyProjects projects={projects} />
           </div>
         </section>
 
