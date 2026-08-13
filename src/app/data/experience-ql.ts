@@ -4,7 +4,7 @@ export const quantumLeapProjects = [
     title: "ERP Bos Baut - Hutomo Group",
     role: "Fullstack Programmer",
     techStack: ["Vue.js", "Express.js", "PostgreSQL"],
-    description: "Bos Baut adalah unit ritel di bawah Hutomo Group (PT Hutomo Indo Mulia), sebuah holding company asal Surabaya yang bermula dari usaha perdagangan mur, baut, serta perangkat keras (fasteners) sejak tahun 2001/2010 melalui PT Hutomo Raharjo Prasojo dan PT Hutomo Baut Indonesia.",
+    description: "Membangun sistem Enterprise Resource Planning (ERP) untuk digitalisasi manajemen ritel dan inventori PT Hutomo Baut Indonesia. Mengembangkan modul operasional utama yang mempercepat sinkronisasi data antar unit bisnis.",
     image: "/experience-ql/bos-baut.png",
   },
   {
@@ -12,7 +12,7 @@ export const quantumLeapProjects = [
     title: "Real Estate - Hutomo Group",
     role: "Fullstack Programmer",
     techStack: ["Nuxt.js", "Express.js", "PostgreSQL"],
-    description: "Hutomo Group adalah perusahaan pengembang properti dan industri asal Surabaya yang didirikan pada tahun 2001. Perusahaan ini memulai proyek pertamanya di bidang pergudangan di Margomulyo, Surabaya, dan kini berekspansi ke sektor residensial mewah salah satunya melalui proyek perumahan Mansion Nine di Surabaya Barat.",
+    description: "Mengembangkan platform operasional real estate untuk proyek perumahan mewah Mansion Nine. Sistem ini mendigitalisasi pencatatan progres proyek dan manajemen data klien dari tahap awal hingga serah terima unit.",
     image: "/experience-ql/real-estate-hutomo.png",
   },
   {
@@ -20,7 +20,7 @@ export const quantumLeapProjects = [
     title: "HRIS Maintenance - MSC",
     role: "Fullstack Programmer",
     techStack: ["Laravel", "Vue.js"],
-    description: "Pemeliharaan dan pengembangan sistem HRIS (Human Resource Information System) untuk mengelola data karyawan, absensi, dan payroll secara efisien.",
+    description: "Mengoptimalkan dan memelihara modul Human Resource Information System (HRIS). Mengembangkan fitur absensi dan payroll otomatis yang meminimalkan redudansi data dalam proses rekapitulasi bulanan HR.",
     image: "/experience-ql/hris-msc.png",
   },
   {
@@ -28,7 +28,7 @@ export const quantumLeapProjects = [
     title: "HRIS Maintenance - Kilang Padi",
     role: "Fullstack Programmer",
     techStack: ["Laravel", "Vue.js"],
-    description: "Sistem manajemen sumber daya manusia khusus yang disesuaikan untuk kebutuhan operasional Kilang Padi, mencakup tracking absensi dan shift kerja.",
+    description: "Menyesuaikan arsitektur HRIS untuk mengakomodasi struktur shift kerja dinamis di operasional pabrik. Optimalisasi ini mengurangi tingkat kesalahan pencatatan waktu kehadiran karyawan.",
     image: "/experience-ql/hris-kilang-padi.png",
   },
   {
@@ -36,7 +36,7 @@ export const quantumLeapProjects = [
     title: "HRIS Maintenance - Temprina (Jawapos Group)",
     role: "Fullstack Programmer",
     techStack: ["Laravel", "Vue.js"],
-    description: "Maintenance platform HRIS berskala enterprise untuk Temprina, bagian dari Jawapos Group, memastikan stabilitas dan performa sistem untuk ribuan karyawan.",
+    description: "Memastikan stabilitas platform HRIS berskala enterprise yang menangani ribuan data karyawan aktif. Menyelesaikan bug operasional dan mengoptimalkan query database untuk mempercepat waktu respons sistem.",
     image: "/experience-ql/hris-temprina.png",
   },
   {
@@ -44,7 +44,7 @@ export const quantumLeapProjects = [
     title: "HRIS Maintenance - Budi Jaya",
     role: "Fullstack Programmer",
     techStack: ["Laravel", "Vue.js"],
-    description: "Dukungan teknis dan pengembangan modul HRIS tambahan untuk PT Budi Jaya, mengoptimalkan proses administrasi HR.",
+    description: "Mengembangkan modul administrasi HR tambahan sesuai regulasi internal PT Budi Jaya. Pembaruan ini mempercepat proses pengajuan cuti dan validasi data administratif.",
     image: "/experience-ql/hris-budi-jaya.png",
   },
 ];
