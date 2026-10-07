@@ -82,6 +82,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: "google95de43cc49fb7357",
+  },
   alternates: { canonical: "https://reycannavaro.dev" },
 };
 
