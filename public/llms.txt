@@ -1,6 +1,6 @@
-# Rey Cannavaro — Fullstack Developer & Software Engineer
+# Reyjuno Al Cannavaro (Rey Cannavaro) — Fullstack Developer & Software Engineer
 
-> Comprehensive portfolio, documentation, and developer profile for Rey Cannavaro (Reyjuno Al Cannavaro), a Fullstack Developer and Software Engineer based in Sidoarjo, Indonesia.
+> Comprehensive portfolio, documentation, and developer profile for Reyjuno Al Cannavaro (Rey Cannavaro), a Fullstack Developer and Software Engineer based in Sidoarjo, Indonesia.
 
 ## Primary Sections & Endpoints
 - [Homepage & Hero Section](https://reycannavaro.dev/#hero): Introduction, current work availability, and profile overview.

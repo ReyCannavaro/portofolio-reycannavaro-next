@@ -10,18 +10,21 @@ function calculateAge(birthDate: string): number {
 }
 
 export const personalInfo = {
-  name: "Rey Cannavaro",
-  title: "Full-stack Developer",
+  name: "Reyjuno Al Cannavaro",
+  fullName: "Reyjuno Al Cannavaro",
+  shortName: "Rey Cannavaro",
+  alternateNames: ["Rey Cannavaro", "Reyjuno Cannavaro", "Reyjuno Al", "Reyjuno"],
+  title: "Fullstack Developer & Software Engineer",
   subtitle: "Student & Developer",
   location: "Sidoarjo, Indonesia",
   timezone: "WIB (UTC+7)",
-  bio: "Full-stack Developer with 2+ years of hands-on experience building enterprise-grade web applications, IoT systems, and integrating AI models. Focused on writing clean, scalable architectures and optimizing backend performance.",
+  bio: "Fullstack Developer with 2+ years of hands-on experience building enterprise-grade web applications, IoT systems, and integrating AI models. Focused on writing clean, scalable architectures and optimizing backend performance.",
   email: "reyjunoalcannavaro@gmail.com",
   phone: "+62 821 3953 1132",
   age: calculateAge("2007-06-03"),
   yearsExperience: 2,
   profileImage: "/images/profile.png",
-  profileImageAlt: "Rey Cannavaro Profile Picture",
+  profileImageAlt: "Foto profil Reyjuno Al Cannavaro (Rey Cannavaro) - Fullstack Developer",
 };
 
 export const socialLinks = {

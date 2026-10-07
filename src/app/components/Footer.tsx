@@ -135,12 +135,12 @@ export default function Footer() {
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-md)" }}>
             <div className="m-stripe" style={{ width: 24, display: "inline-block" }} />
             <span style={{ fontSize: 13, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase", letterSpacing: "1px" }}>
-              Rey Cannavaro
+              Reyjuno Al Cannavaro
             </span>
           </div>
 
           <span className="body-sm" style={{ fontSize: 11, color: "var(--muted)" }}>
-            © {year} Rey Cannavaro. Built with Next.js &amp; a cup of americano.
+            © {year} Reyjuno Al Cannavaro (Rey Cannavaro). All rights reserved.
           </span>
 
           <span className="label-upper" style={{ fontSize: 10, color: "var(--muted)" }}>

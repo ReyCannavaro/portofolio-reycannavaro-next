@@ -14,9 +14,9 @@ import { personalInfo, socialLinks, projects, achievements } from "./data";
 const Chatbot = dynamic(() => import("./components/Chatbot"));
 
 export const metadata: Metadata = {
-  title: "Rey Cannavaro | Fullstack Developer & Software Engineer",
+  title: "Reyjuno Al Cannavaro (Rey Cannavaro) | Fullstack Developer & Software Engineer",
   description:
-    "Portfolio Rey Cannavaro — Fullstack Developer & Designer berbasis di Sidoarjo, Indonesia. Spesialis Laravel, React, Next.js, IoT, dan AI.",
+    "Website portfolio resmi Reyjuno Al Cannavaro (Rey Cannavaro) — Fullstack Developer & Software Engineer berbasis di Sidoarjo, Indonesia. Spesialis Laravel, Next.js, React, AI, dan IoT.",
   alternates: {
     canonical: "https://reycannavaro.dev",
   },
@@ -29,8 +29,17 @@ export default function Home() {
       {
         "@type": "Person",
         "@id": "https://reycannavaro.dev/#person",
-        name: personalInfo.name,
-        jobTitle: personalInfo.title,
+        name: "Reyjuno Al Cannavaro",
+        alternateName: [
+          "Rey Cannavaro",
+          "Reyjuno Cannavaro",
+          "Reyjuno Al",
+          "Reyjuno",
+        ],
+        givenName: "Reyjuno",
+        additionalName: "Al",
+        familyName: "Cannavaro",
+        jobTitle: "Fullstack Developer & Software Engineer",
         description: personalInfo.bio,
         email: `mailto:${personalInfo.email}`,
         telephone: personalInfo.phone,
@@ -42,13 +51,21 @@ export default function Home() {
           addressRegion: "Jawa Timur",
           addressCountry: "ID",
         },
+        alumniOf: {
+          "@type": "EducationalOrganization",
+          name: "SMK Telkom Sidoarjo",
+          url: "https://smktelkom-sda.sch.id",
+        },
         sameAs: [
-          socialLinks.github.url,
           socialLinks.linkedin.url,
+          socialLinks.github.url,
           socialLinks.instagram.url,
+          socialLinks.twitter.url,
+          socialLinks.threads.url,
         ],
         knowsAbout: [
           "Fullstack Development",
+          "Software Engineering",
           "Next.js",
           "React",
           "TypeScript",
@@ -64,7 +81,8 @@ export default function Home() {
         "@type": "WebSite",
         "@id": "https://reycannavaro.dev/#website",
         url: "https://reycannavaro.dev",
-        name: "Rey Cannavaro Portfolio",
+        name: "Reyjuno Al Cannavaro Portfolio",
+        alternateName: "Rey Cannavaro Portfolio",
         description: personalInfo.bio,
         author: {
           "@id": "https://reycannavaro.dev/#person",
@@ -74,7 +92,7 @@ export default function Home() {
       {
         "@type": "ItemList",
         "@id": "https://reycannavaro.dev/#projects",
-        name: "Featured Projects by Rey Cannavaro",
+        name: "Featured Projects by Reyjuno Al Cannavaro",
         itemListElement: projects.map((p, idx) => ({
           "@type": "SoftwareApplication",
           position: idx + 1,
@@ -87,7 +105,7 @@ export default function Home() {
       {
         "@type": "ItemList",
         "@id": "https://reycannavaro.dev/#achievements",
-        name: "Awards & Recognition of Rey Cannavaro",
+        name: "Awards & Recognition of Reyjuno Al Cannavaro",
         itemListElement: achievements.map((a, idx) => ({
           "@type": "Award",
           position: idx + 1,

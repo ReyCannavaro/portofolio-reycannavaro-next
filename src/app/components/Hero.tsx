@@ -69,7 +69,7 @@ export default function Hero() {
         <div style={{ position: "relative", width: "100%", height: "100%" }}>
           <Image
             src="/images/profile.png"
-            alt="Foto profil Rey Cannavaro - Fullstack Developer"
+            alt="Foto profil Reyjuno Al Cannavaro (Rey Cannavaro) - Fullstack Developer"
             fill
             sizes="(max-width: 768px) 100vw, 40vw"
             style={{ objectFit: "cover", objectPosition: "top center" }}
@@ -107,7 +107,7 @@ export default function Hero() {
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
-            marginBottom: "var(--space-xl)",
+            marginBottom: "var(--space-md)",
           }}
         >
           <span
@@ -122,6 +122,20 @@ export default function Hero() {
           />
           <span className="label-upper" style={{ color: "var(--body-strong)" }}>
             {currentStatus.availableForWork}
+          </span>
+        </div>
+
+        <div style={{ marginBottom: "var(--space-xs)" }}>
+          <span
+            className="label-upper"
+            style={{
+              color: "var(--m-blue-text)",
+              fontSize: 12,
+              letterSpacing: "3px",
+              display: "block",
+            }}
+          >
+            REYJUNO AL CANNAVARO
           </span>
         </div>
 
