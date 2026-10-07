@@ -7,11 +7,9 @@ const ROLES = ["FULLSTACK DEVELOPER", "SOFTWARE ENGINEER", "AI ENTHUSIAST", "UI/
 
 export default function Hero() {
   const [roleIdx, setRoleIdx] = useState(0);
-  const [visible, setVisible] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    setVisible(true);
     intervalRef.current = setInterval(() => {
       setRoleIdx((i) => (i + 1) % ROLES.length);
     }, 2800);
@@ -66,8 +64,6 @@ export default function Hero() {
           width: "clamp(280px, 40vw, 560px)",
           height: "100%",
           zIndex: 1,
-          opacity: visible ? 1 : 0,
-          transition: "opacity 1.2s ease",
         }}
       >
         <div style={{ position: "relative", width: "100%", height: "100%" }}>
@@ -112,9 +108,6 @@ export default function Hero() {
             alignItems: "center",
             gap: 8,
             marginBottom: "var(--space-xl)",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(12px)",
-            transition: "all 0.6s ease 0.1s",
           }}
         >
           <span
@@ -124,8 +117,7 @@ export default function Hero() {
               borderRadius: "50%",
               background: "#e22718",
               display: "inline-block",
-              boxShadow: "0 0 8px #e22718",
-              animation: "pulse-dot 2s infinite",
+              animation: "pulse-dot 2s infinite ease-in-out",
             }}
           />
           <span className="label-upper" style={{ color: "var(--body-strong)" }}>
@@ -133,13 +125,7 @@ export default function Hero() {
           </span>
         </div>
 
-        <div
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(20px)",
-            transition: "all 0.7s ease 0.2s",
-          }}
-        >
+        <div>
           <h1 className="display-xl" style={{ maxWidth: "700px", lineHeight: 0.95 }}>
             REY<br />
             <span style={{ color: "var(--body-strong)", fontWeight: 700 }}>CANNA</span>VARO
@@ -151,8 +137,6 @@ export default function Hero() {
             marginTop: "var(--space-md)",
             height: 32,
             overflow: "hidden",
-            opacity: visible ? 1 : 0,
-            transition: "opacity 0.6s ease 0.4s",
           }}
         >
           <p
@@ -174,9 +158,6 @@ export default function Hero() {
           style={{
             maxWidth: 460,
             marginTop: "var(--space-lg)",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(16px)",
-            transition: "all 0.7s ease 0.5s",
           }}
         >
           {personalInfo.bio}
@@ -186,8 +167,6 @@ export default function Hero() {
           style={{
             marginTop: "var(--space-xl)",
             width: 120,
-            opacity: visible ? 1 : 0,
-            transition: "opacity 0.6s ease 0.6s",
           }}
         >
           <div className="m-stripe" />
@@ -199,9 +178,6 @@ export default function Hero() {
             gap: "var(--space-xl)",
             marginTop: "var(--space-xl)",
             flexWrap: "wrap",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(16px)",
-            transition: "all 0.7s ease 0.7s",
           }}
         >
           {[
@@ -227,9 +203,6 @@ export default function Hero() {
             gap: "var(--space-md)",
             marginTop: "var(--space-xl)",
             flexWrap: "wrap",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(16px)",
-            transition: "all 0.7s ease 0.85s",
           }}
         >
           <a href="#projects" className="btn-primary" aria-label="Lihat pilihan proyek Rey Cannavaro">
@@ -245,8 +218,6 @@ export default function Hero() {
             display: "flex",
             gap: "var(--space-md)",
             marginTop: "var(--space-xl)",
-            opacity: visible ? 1 : 0,
-            transition: "opacity 0.6s ease 1s",
           }}
         >
           {[
@@ -338,8 +309,7 @@ export default function Hero() {
           flexDirection: "column",
           alignItems: "center",
           gap: 8,
-          opacity: visible ? 0.75 : 0,
-          transition: "opacity 0.6s ease 1.2s",
+          opacity: 0.75,
         }}
         className="hidden md:flex"
         aria-hidden="true"
@@ -360,12 +330,12 @@ export default function Hero() {
 
       <style>{`
         @keyframes slideUp {
-          from { opacity: 0; transform: translateY(12px); }
+          from { opacity: 0; transform: translateY(8px); }
           to   { opacity: 1; transform: translateY(0); }
         }
         @keyframes pulse-dot {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0.4; }
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%       { opacity: 0.35; transform: scale(0.85); }
         }
         @keyframes scrollLine {
           0%   { transform: translateY(-100%); }

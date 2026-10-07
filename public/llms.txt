@@ -1,39 +1,32 @@
-# Rey Cannavaro — Portfolio & Profile
+# Rey Cannavaro — Fullstack Developer & Software Engineer
 
-> Fullstack Developer, Software Engineer, & AI Enthusiast based in Sidoarjo, Indonesia.
+> Comprehensive portfolio, documentation, and developer profile for Rey Cannavaro (Reyjuno Al Cannavaro), a Fullstack Developer and Software Engineer based in Sidoarjo, Indonesia.
 
-## About
-- **Name:** Reyjuno Al Cannavaro (Rey Cannavaro)
-- **Role:** Fullstack Developer & Software Engineer
-- **Location:** Sidoarjo, Indonesia (UTC+7)
+## Primary Sections & Endpoints
+- [Homepage & Hero Section](https://reycannavaro.dev/#hero): Introduction, current work availability, and profile overview.
+- [GitHub Statistics & Open Source Activity](https://reycannavaro.dev/#github): Real-time GitHub commit history, contribution tiers, and repository analytics.
+- [Technical Skills & Arsenal](https://reycannavaro.dev/#skills): Overview of languages, frontend/backend frameworks, databases, and DevOps tools.
+- [Work Experience & Timeline](https://reycannavaro.dev/#experience): Professional software engineering roles, internships, and project leadership.
+- [Quantum Leap ERP Case Study](https://reycannavaro.dev/experience/quantum-leap): Detailed architectural case study for enterprise resource planning software.
+- [Selected Projects Showcase](https://reycannavaro.dev/#projects): Featured production applications, AI systems, and interactive tools.
+- [Awards & Competition Achievements](https://reycannavaro.dev/#prestasi): National and provincial software engineering awards and hackathon trophies.
+- [Education & Academic History](https://reycannavaro.dev/#education): Formal education at SMK Telkom Sidoarjo in Software Engineering.
+- [Footer & Contact Details](https://reycannavaro.dev/#contact): Direct email, social media links, and resume access.
+
+## Featured Software Projects
+- [Findor (AI-Powered Lost & Found Hub)](https://github.com/ReyCannavaro): Intelligent lost and found platform using visual vector similarity search and Next.js.
+- [SIRA (Academic Information & Reporting System)](https://github.com/ReyCannavaro): Comprehensive school management system built with Laravel and MySQL.
+- [PT Rizza Jaya Abadi ERP](https://github.com/ReyCannavaro): Industrial ERP solution for manufacturing workflows and inventory management.
+
+## Social & Professional Profiles
+- [GitHub Profile](https://github.com/ReyCannavaro): Public repositories, open-source projects, and code contributions.
+- [LinkedIn Profile](https://linkedin.com/in/reycannavaro): Professional network, career updates, and verified recommendations.
+- [Verified Certificates on Google Drive](https://drive.google.com/drive/folders/16sA6h1yZdfB2qE-7dmLmIM2rzQgkpMm-?usp=drive_link): Competition trophies, certified developer credentials, and achievements.
+
+## Developer & Technical Information
+- **Full Name:** Reyjuno Al Cannavaro (Rey Cannavaro)
+- **Role:** Fullstack Developer, Software Engineer, AI Integrator
+- **Location:** Sidoarjo, East Java, Indonesia
 - **Email:** reyjunoalcannavaro@gmail.com
 - **Phone:** +62 821 3953 1132
-- **GitHub:** https://github.com/ReyCannavaro
-- **LinkedIn:** https://linkedin.com/in/reycannavaro
-
-## Core Technical Arsenal
-- **Languages:** TypeScript, JavaScript, PHP, Python, SQL, HTML5, CSS3
-- **Frameworks & Libraries:** Next.js, React, Laravel, Node.js, Express, Vue.js, Tailwind CSS, Framer Motion
-- **Databases & Tools:** MySQL, PostgreSQL, Redis, Docker, Git, REST APIs, GraphQL, WebSockets
-- **Specializations:** Enterprise ERP Systems, AI/ML Integration, IoT Solutions, Performance Optimization
-
-## Featured Projects
-1. **Findor (AI-Powered Lost & Found Hub)**
-   - Smart lost and found system with image recognition and vector similarity search.
-   - Technologies: React, TypeScript, Next.js, Python FastAPI, CLIP/Vector DB.
-2. **SIRA (Academic Information & Reporting System)**
-   - Enterprise school system managing grading, attendance, and administrative records.
-   - Technologies: Laravel, MySQL, Alpine.js, Tailwind CSS.
-3. **PT Rizza Jaya Abadi ERP**
-   - End-to-end ERP for manufacturing & inventory tracking.
-   - Technologies: Laravel, PostgreSQL, Docker, Redis.
-
-## Achievements & Recognition
-- 2nd Place Winner — National Web Design Competition (2024)
-- 1st Place Winner — Provincial Software Engineering Competition
-- Multiple certifications in Fullstack Development & AI integrations.
-
-## Available For
-- Full-time Software Engineering roles
-- Freelance & Contract Web Application Development
-- Enterprise System Architecture Consulting
+- **Core Stack:** TypeScript, Next.js, React, Node.js, PHP, Laravel, Python, PostgreSQL, MySQL, Docker, Tailwind CSS

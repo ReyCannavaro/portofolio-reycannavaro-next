@@ -1,6 +1,26 @@
-import type { Metadata } from "next";
-import Script from "next/script";
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://reycannavaro.dev"),
@@ -33,42 +53,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://reycannavaro.dev" },
 };
 
-const FONT_URL =
-  "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap";
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
-        <link rel="preload" as="style" href={FONT_URL} />
-        <noscript>
-          <link rel="stylesheet" href={FONT_URL} />
-        </noscript>
-      </head>
+    <html lang="id" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="antialiased">
         {children}
-
-        <Script
-          id="load-fonts"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = '${FONT_URL}';
-                document.head.appendChild(link);
-              })();
-            `,
-          }}
-        />
       </body>
     </html>
   );

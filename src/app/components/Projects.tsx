@@ -385,7 +385,9 @@ export default function Projects() {
                         key={activeHero}
                         style={{
                           height: "100%",
+                          width: "100%",
                           background: "var(--m-blue-text)",
+                          transformOrigin: "left",
                           animation: "progressBar 4s linear forwards",
                         }}
                       />
@@ -669,8 +671,8 @@ export default function Projects() {
         .filter-scroll::-webkit-scrollbar { display: none; }
 
         @keyframes progressBar {
-          from { width: 0%; }
-          to   { width: 100%; }
+          from { transform: scaleX(0); }
+          to   { transform: scaleX(1); }
         }
 
         @media (max-width: 768px) {

@@ -48,7 +48,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--canvas);
   color: var(--on-dark);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 300;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;

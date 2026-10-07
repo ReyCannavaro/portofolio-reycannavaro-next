@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Sidebar from "./components/Sidebar";
 import Hero from "./components/Hero";
 import GitHubStats from "./components/GitHubStats";
@@ -8,9 +9,9 @@ import Projects from "./components/Projects";
 import Prestasi from "./components/Prestasi";
 import Education from "./components/Education";
 import Footer from "./components/Footer";
-import Loader from "./components/Loader";
-import Chatbot from "./components/Chatbot";
 import { personalInfo, socialLinks, projects, achievements } from "./data";
+
+const Chatbot = dynamic(() => import("./components/Chatbot"));
 
 export const metadata: Metadata = {
   title: "Rey Cannavaro | Fullstack Developer & Software Engineer",
@@ -108,7 +109,6 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Loader />
       <Sidebar />
       <main id="main-content" className="main-content">
         <Hero />

@@ -676,8 +676,8 @@ export default function GitHubStats() {
       <style>{`
         @keyframes shimmer { 0%,100%{opacity:.4} 50%{opacity:.7} }
         @keyframes warmPulse {
-          0%,100% { box-shadow: 0 0 0px 0px rgba(96,165,250,0); }
-          50%      { box-shadow: 0 0 6px 2px rgba(96,165,250,0.4); }
+          0%,100% { transform: scale(1); opacity: 0.85; }
+          50%      { transform: scale(1.15); opacity: 1; }
         }
         @keyframes diamondSpin {
           from { transform: rotate(45deg); }
@@ -688,8 +688,8 @@ export default function GitHubStats() {
           100% { transform: translate(-50%,-50%) rotate(45deg) scale(2.2); opacity: 0; }
         }
         @keyframes drlPulse {
-          0%,100% { box-shadow: 0 0 3px 1px rgba(0,102,177,0.3); }
-          50%     { box-shadow: 0 0 8px 3px rgba(96,165,250,0.65); }
+          0%,100% { transform: scale(1); opacity: 0.9; }
+          50%     { transform: scale(1.2); opacity: 1; }
         }
         @keyframes drlRing {
           0%   { transform: translate(-50%,-50%) scale(0.7); opacity: 0.7; }

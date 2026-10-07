@@ -6,7 +6,6 @@ import { quantumLeapProjects } from "../../data/experience-ql";
 import CaseStudyProjects from "../../components/CaseStudyProjects";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
-import Loader from "../../components/Loader";
 
 // Optional: for static generation if needed
 export function generateStaticParams() {
@@ -27,7 +26,6 @@ export default async function ExperienceDetail({ params }: { params: Promise<{ s
 
   return (
     <div style={{ background: "var(--canvas)", minHeight: "100svh" }}>
-      <Loader />
       <Sidebar />
       <main className="main-content">
         {/* Top Navigation / Back Link */}
