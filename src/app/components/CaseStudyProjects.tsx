@@ -49,7 +49,7 @@ export default function CaseStudyProjects({ projects }: Props) {
               >
                 <Image
                   src={project.image}
-                  alt={project.title}
+                  alt={`Screenshot tampilan proyek ${project.title}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 55vw"
                   style={{ objectFit: "cover" }}
@@ -71,7 +71,7 @@ export default function CaseStudyProjects({ projects }: Props) {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
                   <div className="m-stripe" style={{ width: 32, height: 3 }} />
-                  <span className="label-upper" style={{ color: "var(--m-blue-light)" }}>
+                  <span className="label-upper" style={{ color: "var(--m-blue-text)" }}>
                     {project.role}
                   </span>
                 </div>

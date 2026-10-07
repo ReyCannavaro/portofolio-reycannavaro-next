@@ -23,7 +23,7 @@ export default function Experience() {
           <span
             className="label-upper"
             style={{
-              color: "var(--m-blue-dark)",
+              color: "var(--m-blue-text)",
               opacity: visible ? 1 : 0,
               transition: "opacity 0.5s ease",
             }}
@@ -104,8 +104,8 @@ export default function Experience() {
                   <span
                     style={{
                       padding: "5px 12px",
-                      border: "1px solid var(--m-blue-dark)",
-                      color: "var(--on-dark)",
+                      border: "1px solid var(--m-blue-text)",
+                      color: "#fff",
                       background: item.status === "ongoing" ? "var(--m-blue-dark)" : "transparent",
                       fontSize: 10,
                       fontWeight: 700,
@@ -134,10 +134,10 @@ export default function Experience() {
               <div style={{ background: "var(--surface-card)", padding: "var(--space-xl)", minWidth: 0 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, flexWrap: "wrap", marginBottom: "var(--space-lg)" }}>
                   <div>
-                    <span className="label-upper" style={{ color: "var(--m-blue-dark)", fontSize: 10 }}>
+                    <span className="label-upper" style={{ color: "var(--m-blue-text)", fontSize: 10 }}>
                       {item.period} / {item.scope}
                     </span>
-                    <h3
+                    <h4
                       style={{
                         marginTop: 8,
                         fontSize: 22,
@@ -148,7 +148,7 @@ export default function Experience() {
                       }}
                     >
                       {item.role}
-                    </h3>
+                    </h4>
                   </div>
                   <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>
                     {item.location}
@@ -172,7 +172,7 @@ export default function Experience() {
                         <div key={responsibility} style={{ display: "grid", gridTemplateColumns: "32px 1fr", gap: 12, alignItems: "start" }}>
                           <span
                             style={{
-                              color: "var(--m-blue-dark)",
+                              color: "var(--m-blue-text)",
                               fontSize: 11,
                               fontWeight: 700,
                               letterSpacing: "1.5px",
@@ -187,7 +187,7 @@ export default function Experience() {
                   </div>
 
                   <div>
-                    <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>Stack & Focus</span>
+                    <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>Stack &amp; Focus</span>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: "var(--space-md)", marginBottom: "var(--space-lg)" }}>
                       {item.technologies.map((tech) => (
                         <span
@@ -219,8 +219,9 @@ export default function Experience() {
                 {item.slug && (
                   <div style={{ marginTop: "var(--space-xl)", display: "flex", justifyContent: "flex-end" }}>
                     <Link
-                      href={`/experience/${(item as any).slug}`}
+                      href={`/experience/${item.slug}`}
                       className="btn-primary"
+                      aria-label={`Explore case study for ${item.company} - ${item.role}`}
                       style={{ width: "fit-content" }}
                     >
                       EXPLORE CASE STUDY →

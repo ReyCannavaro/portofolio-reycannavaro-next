@@ -9,7 +9,7 @@ export default function Loader() {
     const t1 = setTimeout(() => setPhase("counting"), 300);
     let frame: number;
     let start: number | null = null;
-    const duration = 900; // was 1800ms
+    const duration = 900;
 
     const tick = (ts: number) => {
       if (!start) start = ts;
@@ -43,6 +43,7 @@ export default function Loader() {
 
   return (
     <div
+      aria-hidden="true"
       style={{
         position: "fixed",
         inset: 0,
@@ -57,6 +58,7 @@ export default function Loader() {
         transform: isExiting ? "translateY(-8px)" : "translateY(0)",
         transition: isExiting ? "opacity 0.4s ease, transform 0.4s ease" : "none",
         willChange: isExiting ? "opacity, transform" : "auto",
+        pointerEvents: isExiting ? "none" : "auto",
       }}
     >
       <div
@@ -113,7 +115,7 @@ export default function Loader() {
             fontWeight: 700,
             letterSpacing: "5px",
             textTransform: "uppercase",
-            color: "#7e7e7e",
+            color: "#9ca3af",
             fontFamily: "'Inter', sans-serif",
             marginBottom: 20,
           }}
@@ -166,7 +168,7 @@ export default function Loader() {
             fontWeight: 700,
             letterSpacing: "3px",
             textTransform: "uppercase",
-            color: "#3c3c3c",
+            color: "#9ca3af",
             fontFamily: "'Inter', sans-serif",
           }}
         >
@@ -189,7 +191,7 @@ export default function Loader() {
             fontWeight: 700,
             letterSpacing: "2px",
             textTransform: "uppercase",
-            color: "#3c3c3c",
+            color: "#9ca3af",
             fontFamily: "'Inter', sans-serif",
           }}
         >
@@ -212,7 +214,7 @@ export default function Loader() {
             fontWeight: 700,
             letterSpacing: "2px",
             textTransform: "uppercase",
-            color: "#3c3c3c",
+            color: "#9ca3af",
             fontFamily: "'Inter', sans-serif",
           }}
         >

@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://reycannavaro.dev"),
   title: "Rey Cannavaro | Fullstack Developer & Designer",
   description:
     "Portfolio Rey Cannavaro — Fullstack Developer & Designer berbasis di Sidoarjo, Indonesia. Spesialis Laravel, React, Next.js, IoT, dan AI.",
@@ -12,12 +13,12 @@ export const metadata: Metadata = {
     "React developer Sidoarjo", "Next.js developer Indonesia",
     "portfolio Rey Cannavaro", "SMK Telkom Sidoarjo",
   ],
-  authors: [{ name: "Rey Cannavaro", url: "https://reycannavaro.vercel.app" }],
+  authors: [{ name: "Rey Cannavaro", url: "https://reycannavaro.dev" }],
   creator: "Rey Cannavaro",
   openGraph: {
     title: "Rey Cannavaro | Fullstack Developer & Designer",
     description: "Portfolio Rey Cannavaro — Fullstack Developer & Designer berbasis di Sidoarjo, Indonesia.",
-    url: "https://reycannavaro.vercel.app",
+    url: "https://reycannavaro.dev",
     siteName: "Rey Cannavaro Portfolio",
     locale: "id_ID",
     type: "website",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     creator: "@reycannavaro",
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: "https://reycannavaro.vercel.app" },
+  alternates: { canonical: "https://reycannavaro.dev" },
 };
 
 const FONT_URL =

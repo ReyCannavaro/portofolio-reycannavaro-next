@@ -6,7 +6,7 @@ const NAV_ITEMS = [
     id: "hero",
     label: "Home",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
         <polyline points="9 22 9 12 15 12 15 22"/>
       </svg>
@@ -16,7 +16,7 @@ const NAV_ITEMS = [
     id: "skills",
     label: "Skills",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
     ),
@@ -25,7 +25,7 @@ const NAV_ITEMS = [
     id: "experience",
     label: "Experience",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="2" y="7" width="20" height="14" rx="0"/>
         <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
         <path d="M2 13h20"/>
@@ -37,7 +37,7 @@ const NAV_ITEMS = [
     id: "projects",
     label: "Projects",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="2" y="3" width="20" height="14" rx="0"/>
         <line x1="8" y1="21" x2="16" y2="21"/>
         <line x1="12" y1="17" x2="12" y2="21"/>
@@ -48,7 +48,7 @@ const NAV_ITEMS = [
     id: "achievements",
     label: "Achievements",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <circle cx="12" cy="8" r="6"/>
         <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
       </svg>
@@ -58,7 +58,7 @@ const NAV_ITEMS = [
     id: "education",
     label: "Education",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
         <path d="M6 12v5c3 3 9 3 12 0v-5"/>
       </svg>
@@ -68,7 +68,7 @@ const NAV_ITEMS = [
     id: "contact",
     label: "Contact",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
         <polyline points="22,6 12,13 2,6"/>
       </svg>
@@ -104,7 +104,9 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside className="sidebar-desktop"
+      <nav
+        className="sidebar-desktop"
+        aria-label="Navigasi Utama"
         style={{
           position: "fixed",
           left: 0,
@@ -154,6 +156,7 @@ export default function Sidebar() {
                   onMouseEnter={() => setHovered(item.id)}
                   onMouseLeave={() => setHovered(null)}
                   aria-label={`Navigasi ke ${item.label}`}
+                  aria-current={isActive ? "page" : undefined}
                   title={item.label}
                   style={{
                     width: 40,
@@ -165,7 +168,7 @@ export default function Sidebar() {
                       : isHov
                       ? "rgba(255,255,255,0.06)"
                       : "transparent",
-                    color: isActive ? "#fff" : "#7e7e7e",
+                    color: isActive ? "#fff" : "var(--body)",
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
@@ -236,10 +239,11 @@ export default function Sidebar() {
             }}
           />
         </div>
-      </aside>
+      </nav>
 
       <nav
         className="navbar-mobile"
+        aria-label="Navigasi Mobile"
         style={{
           position: "fixed",
           bottom: 16,
@@ -263,6 +267,7 @@ export default function Sidebar() {
               key={item.id}
               onClick={() => scrollTo(item.id)}
               aria-label={`Navigasi ke ${item.label}`}
+              aria-current={isActive ? "page" : undefined}
               title={item.label}
               style={{
                 width: 40,
@@ -270,7 +275,7 @@ export default function Sidebar() {
                 borderRadius: "50%",
                 border: "none",
                 background: isActive ? "rgba(255,255,255,0.12)" : "transparent",
-                color: isActive ? "#fff" : "#7e7e7e",
+                color: isActive ? "#fff" : "var(--body)",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",

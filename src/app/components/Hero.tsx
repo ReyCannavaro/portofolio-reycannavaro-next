@@ -73,7 +73,7 @@ export default function Hero() {
         <div style={{ position: "relative", width: "100%", height: "100%" }}>
           <Image
             src="/images/profile.png"
-            alt="Rey Cannavaro"
+            alt="Foto profil Rey Cannavaro - Fullstack Developer"
             fill
             sizes="(max-width: 768px) 100vw, 40vw"
             style={{ objectFit: "cover", objectPosition: "top center" }}
@@ -159,7 +159,7 @@ export default function Hero() {
             key={roleIdx}
             className="label-upper"
             style={{
-              color: "var(--m-blue-dark)",
+              color: "var(--m-blue-text)",
               letterSpacing: "3px",
               fontSize: 13,
               animation: "slideUp 0.4s ease",
@@ -232,10 +232,10 @@ export default function Hero() {
             transition: "all 0.7s ease 0.85s",
           }}
         >
-          <a href="#projects" className="btn-primary">
+          <a href="#projects" className="btn-primary" aria-label="Lihat pilihan proyek Rey Cannavaro">
             View Projects →
           </a>
-          <a href={`mailto:${personalInfo.email}`} className="btn-ghost">
+          <a href={`mailto:${personalInfo.email}`} className="btn-ghost" aria-label={`Kirim email kerja sama ke ${personalInfo.email}`}>
             Get in Touch
           </a>
         </div>
@@ -250,15 +250,16 @@ export default function Hero() {
           }}
         >
           {[
-            { label: "GH", url: socialLinks.github.url },
-            { label: "LI", url: socialLinks.linkedin.url },
-            { label: "IG", url: socialLinks.instagram.url },
+            { label: "GH", name: "GitHub", url: socialLinks.github.url },
+            { label: "LI", name: "LinkedIn", url: socialLinks.linkedin.url },
+            { label: "IG", name: "Instagram", url: socialLinks.instagram.url },
           ].map((s) => (
             <a
               key={s.label}
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`Kunjungi profil ${s.name} Rey Cannavaro`}
               style={{
                 width: 36,
                 height: 36,
@@ -266,7 +267,7 @@ export default function Hero() {
                 alignItems: "center",
                 justifyContent: "center",
                 border: "1px solid var(--hairline)",
-                color: "var(--muted)",
+                color: "var(--body)",
                 fontSize: 10,
                 fontWeight: 700,
                 letterSpacing: "1px",
@@ -279,7 +280,7 @@ export default function Hero() {
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--hairline)";
-                (e.currentTarget as HTMLAnchorElement).style.color = "var(--muted)";
+                (e.currentTarget as HTMLAnchorElement).style.color = "var(--body)";
               }}
             >
               {s.label}
@@ -290,6 +291,7 @@ export default function Hero() {
             href="https://drive.google.com/drive/folders/16sA6h1yZdfB2qE-7dmLmIM2rzQgkpMm-?usp=drive_link"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Lihat folder sertifikat prestasi dan sertifikasi Rey Cannavaro di Google Drive"
             style={{
               height: 36,
               display: "flex",
@@ -297,7 +299,7 @@ export default function Hero() {
               gap: 6,
               padding: "0 12px",
               border: "1px solid var(--hairline)",
-              color: "var(--muted)",
+              color: "var(--body)",
               fontSize: 10,
               fontWeight: 700,
               letterSpacing: "1px",
@@ -311,10 +313,10 @@ export default function Hero() {
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--hairline)";
-              (e.currentTarget as HTMLAnchorElement).style.color = "var(--muted)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "var(--body)";
             }}
           >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
               <line x1="16" y1="13" x2="8" y2="13"/>
@@ -336,10 +338,11 @@ export default function Hero() {
           flexDirection: "column",
           alignItems: "center",
           gap: 8,
-          opacity: visible ? 0.5 : 0,
+          opacity: visible ? 0.75 : 0,
           transition: "opacity 0.6s ease 1.2s",
         }}
         className="hidden md:flex"
+        aria-hidden="true"
       >
         <span className="label-upper" style={{ fontSize: 9, writingMode: "vertical-rl", color: "var(--muted)" }}>
           SCROLL

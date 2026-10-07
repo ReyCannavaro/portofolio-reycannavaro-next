@@ -92,11 +92,11 @@ export default function Chatbot() {
   return (
     <div className="chatbot-root">
       {isOpen && (
-        <section className="chatbot-panel" aria-label="Nava chatbot">
+        <section id="nava-chatbot-panel" className="chatbot-panel" aria-label="Nava chatbot AI assistant">
           <header className="chatbot-header">
             <div>
               <span className="chatbot-kicker">PERSONAL AI ASSISTANT</span>
-              <h2>Nava</h2>
+              <h2 style={{ margin: 0 }}>Nava</h2>
             </div>
             <button
               type="button"
@@ -105,11 +105,11 @@ export default function Chatbot() {
               aria-label="Tutup chatbot"
               title="Tutup chatbot"
             >
-              <X size={18} />
+              <X size={18} aria-hidden="true" />
             </button>
           </header>
 
-          <div ref={scrollRef} className="chatbot-messages">
+          <div ref={scrollRef} className="chatbot-messages" aria-live="polite">
             {messages.map((message, index) => (
               <div key={`${message.role}-${index}`} className={`chatbot-row ${message.role}`}>
                 <div className="chatbot-bubble">{message.content}</div>
@@ -119,7 +119,7 @@ export default function Chatbot() {
             {isLoading && (
               <div className="chatbot-row assistant">
                 <div className="chatbot-bubble loading">
-                  <Loader2 size={15} className="chatbot-spinner" />
+                  <Loader2 size={15} className="chatbot-spinner" aria-hidden="true" />
                   Sedang berpikir...
                 </div>
               </div>
@@ -127,16 +127,16 @@ export default function Chatbot() {
           </div>
 
           {messages.length === 1 && (
-            <div className="chatbot-prompts">
+            <div className="chatbot-prompts" role="group" aria-label="Saran pertanyaan">
               {QUICK_PROMPTS.map((prompt) => (
-                <button key={prompt} type="button" onClick={() => void sendMessage(prompt)}>
+                <button key={prompt} type="button" onClick={() => void sendMessage(prompt)} aria-label={`Tanyakan: ${prompt}`}>
                   {prompt}
                 </button>
               ))}
             </div>
           )}
 
-          {error && <p className="chatbot-error">{error}</p>}
+          {error && <p className="chatbot-error" role="alert">{error}</p>}
 
           <form className="chatbot-form" onSubmit={handleSubmit}>
             <input
@@ -148,7 +148,7 @@ export default function Chatbot() {
               maxLength={500}
             />
             <button type="submit" disabled={isLoading || !input.trim()} aria-label="Kirim pesan">
-              {isLoading ? <Loader2 size={16} className="chatbot-spinner" /> : <Send size={16} />}
+              {isLoading ? <Loader2 size={16} className="chatbot-spinner" aria-hidden="true" /> : <Send size={16} aria-hidden="true" />}
             </button>
           </form>
         </section>
@@ -158,10 +158,12 @@ export default function Chatbot() {
         type="button"
         className="chatbot-toggle"
         onClick={() => setIsOpen((value) => !value)}
-        aria-label={isOpen ? "Tutup Nava" : "Buka Nava"}
-        title={isOpen ? "Tutup Nava" : "Buka Nava"}
+        aria-expanded={isOpen}
+        aria-controls={isOpen ? "nava-chatbot-panel" : undefined}
+        aria-label={isOpen ? "Tutup asisten AI Nava" : "Buka asisten AI Nava"}
+        title={isOpen ? "Tutup asisten AI Nava" : "Buka asisten AI Nava"}
       >
-        {isOpen ? <X size={22} /> : <MessageCircle size={22} />}
+        {isOpen ? <X size={22} aria-hidden="true" /> : <MessageCircle size={22} aria-hidden="true" />}
         <span>Nava</span>
       </button>
 
@@ -203,7 +205,7 @@ export default function Chatbot() {
 
         .chatbot-kicker {
           display: block;
-          color: var(--m-blue-dark);
+          color: var(--m-blue-text);
           font-size: 9px;
           font-weight: 700;
           letter-spacing: 1.4px;
@@ -301,7 +303,7 @@ export default function Chatbot() {
           padding: 8px 10px;
           border: 1px solid var(--hairline);
           background: transparent;
-          color: var(--muted);
+          color: var(--body);
           font-size: 11px;
           font-family: inherit;
           cursor: pointer;
@@ -315,7 +317,7 @@ export default function Chatbot() {
 
         .chatbot-error {
           padding: 0 16px 10px;
-          color: #ff8a80;
+          color: #f87171;
           font-size: 11px;
           line-height: 1.4;
         }
@@ -345,7 +347,7 @@ export default function Chatbot() {
         }
 
         .chatbot-form input:focus {
-          border-color: var(--m-blue-dark);
+          border-color: var(--m-blue-text);
         }
 
         .chatbot-form button {

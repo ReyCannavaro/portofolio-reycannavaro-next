@@ -78,14 +78,14 @@ function isGitHubData(value: unknown): value is GitHubData {
 
 const LEVEL_STYLE = [
   { bg: "#161b22", border: "rgba(255,255,255,0.05)" },
-  { bg: "#0e2a4a", border: "rgba(28,105,212,0.25)"  },
-  { bg: "#0a3d6b", border: "rgba(28,105,212,0.45)"  },
-  { bg: "#0d5fa3", border: "rgba(28,105,212,0.65)"  },
-  { bg: "#1c69d4", border: "rgba(28,105,212,0.9)"   },
+  { bg: "#0e2a4a", border: "rgba(96,165,250,0.25)"  },
+  { bg: "#0a3d6b", border: "rgba(96,165,250,0.45)"  },
+  { bg: "#0d5fa3", border: "rgba(96,165,250,0.65)"  },
+  { bg: "#1c69d4", border: "rgba(96,165,250,0.9)"   },
 ];
 
-const DRL = "#0653b6";
-const DRL_BRIGHT = "#1c69d4";
+const DRL = "#0066b1";
+const DRL_BRIGHT = "#60a5fa";
 
 function getTier(count: number) {
   if (count >= 30) return 3;
@@ -132,7 +132,7 @@ function TierCell({ day }: { day: { date: string; count: number; level: number; 
         <div style={{
           width: 10, height: 10, borderRadius: 2,
           background: DRL_BRIGHT,
-          border: `1px solid rgba(28,105,212,0.9)`,
+          border: `1px solid rgba(96,165,250,0.9)`,
           animation: "warmPulse 2.5s ease-in-out infinite",
         }} />
       </div>
@@ -148,7 +148,7 @@ function TierCell({ day }: { day: { date: string; count: number; level: number; 
         <div style={{
           position: "absolute", left: "50%", top: "50%",
           width: 16, height: 16,
-          border: `1px solid rgba(28,105,212,0.45)`,
+          border: `1px solid rgba(96,165,250,0.45)`,
           borderRadius: 1,
           animation: "diamondRing 1.8s ease-out infinite",
           pointerEvents: "none",
@@ -156,7 +156,7 @@ function TierCell({ day }: { day: { date: string; count: number; level: number; 
         <div style={{
           width: 9, height: 9,
           background: DRL_BRIGHT,
-          border: `1.5px solid rgba(100,160,255,1)`,
+          border: `1.5px solid rgba(147,197,253,1)`,
           borderRadius: 1,
           transform: "rotate(45deg)",
           animation: "diamondSpin 4s linear infinite",
@@ -174,21 +174,21 @@ function TierCell({ day }: { day: { date: string; count: number; level: number; 
       <div style={{
         position: "absolute", left: "50%", top: "50%",
         width: 18, height: 18, borderRadius: "50%",
-        border: `1px solid rgba(6,83,182,0.6)`,
+        border: `1px solid rgba(96,165,250,0.6)`,
         animation: "drlRing 2s ease-out infinite",
         pointerEvents: "none", zIndex: 0,
       }} />
       <div style={{
         position: "absolute", left: "50%", top: "50%",
         width: 18, height: 18, borderRadius: "50%",
-        border: `1px solid rgba(6,83,182,0.35)`,
+        border: `1px solid rgba(96,165,250,0.35)`,
         animation: "drlRing 2s ease-out infinite 1s",
         pointerEvents: "none", zIndex: 0,
       }} />
       <div style={{
         width: 10, height: 10, borderRadius: 2,
         background: DRL,
-        border: `1px solid rgba(28,105,212,0.95)`,
+        border: `1px solid rgba(96,165,250,0.95)`,
         animation: "drlPulse 2s ease-in-out infinite",
         position: "relative", zIndex: 1, flexShrink: 0,
       }} />
@@ -246,7 +246,7 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
       </div>
 
       <div style={{ overflowX: "auto" }}>
-        <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} style={{ display: "block" }}>
+        <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} style={{ display: "block" }} aria-label="Grafik aktivitas mingguan GitHub">
           <defs>
             <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor={DRL_BRIGHT} stopOpacity="0.2" />
@@ -258,7 +258,7 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
             return (
               <g key={i}>
                 <line x1={PL} y1={gy} x2={W - PR} y2={gy} stroke="rgba(255,255,255,0.05)" strokeWidth={1} />
-                <text x={PL - 3} y={gy + 3} fontSize={8} fill="rgba(255,255,255,0.25)" textAnchor="end">{val}</text>
+                <text x={PL - 3} y={gy + 3} fontSize={8} fill="rgba(255,255,255,0.4)" textAnchor="end">{val}</text>
               </g>
             );
           })}
@@ -268,7 +268,7 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
             const tier = getTier(p.total);
             const r = tier >= 2 ? 4 : tier === 1 ? 3.5 : 2.5;
             const fill = tier === 3 ? DRL : tier >= 1 ? DRL_BRIGHT : "#161b22";
-            const stroke = tier >= 1 ? DRL_BRIGHT : "rgba(28,105,212,0.4)";
+            const stroke = tier >= 1 ? DRL_BRIGHT : "rgba(96,165,250,0.4)";
             return (
               <g key={i}>
                 {tier >= 2 && <circle cx={p.x} cy={p.y} r={r + 3} fill="none" stroke={stroke} strokeWidth={1} opacity={0.3} />}
@@ -283,11 +283,11 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
             );
           })}
           {pts.filter((_, i) => i % 3 === 0 || i === pts.length - 1).map((p, i) => (
-            <text key={i} x={p.x} y={H - 4} fontSize={8} fill="rgba(255,255,255,0.25)" textAnchor="middle">{p.label}</text>
+            <text key={i} x={p.x} y={H - 4} fontSize={8} fill="rgba(255,255,255,0.4)" textAnchor="middle">{p.label}</text>
           ))}
           {tooltip && (
             <g>
-              <rect x={Math.min(tooltip.x + 6, W - 76)} y={tooltip.y - 26} width={70} height={20} rx={3} fill="#1c2128" stroke={`rgba(28,105,212,0.4)`} strokeWidth={1} />
+              <rect x={Math.min(tooltip.x + 6, W - 76)} y={tooltip.y - 26} width={70} height={20} rx={3} fill="#1c2128" stroke={`rgba(96,165,250,0.4)`} strokeWidth={1} />
               <text x={Math.min(tooltip.x + 6, W - 76) + 35} y={tooltip.y - 12} fontSize={9} fill={DRL_BRIGHT} textAnchor="middle" fontWeight={700}>{tooltip.label}: {tooltip.value}</text>
             </g>
           )}
@@ -303,15 +303,15 @@ function ActivityLineChart({ days }: { days: ContribDay[] }) {
             const h = Math.max((m.total / maxMonthly) * 38, 2);
             const tier = getTier(m.total);
             const bg = tier === 3 ? DRL : tier === 2 ? DRL_BRIGHT : tier === 1 ? "#0a3d6b" : "#0e2a4a";
-            const border = tier >= 1 ? `rgba(28,105,212,0.6)` : `rgba(28,105,212,0.15)`;
-            const shadow = tier === 3 ? `0 0 6px rgba(6,83,182,0.6)` : tier === 2 ? `0 0 4px rgba(28,105,212,0.4)` : "none";
+            const border = tier >= 1 ? `rgba(96,165,250,0.6)` : `rgba(96,165,250,0.15)`;
+            const shadow = tier === 3 ? `0 0 6px rgba(0,102,177,0.6)` : tier === 2 ? `0 0 4px rgba(96,165,250,0.4)` : "none";
             return (
               <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
                 <div
                   title={`${m.label}: ${m.total}`}
                   style={{ width: "100%", height: h, background: bg, borderRadius: "2px 2px 0 0", border: `1px solid ${border}`, boxShadow: shadow, transition: "all 0.2s", cursor: "default" }}
                 />
-                <span style={{ fontSize: 7, color: "rgba(255,255,255,0.25)" }}>{m.label.slice(0, 1)}</span>
+                <span style={{ fontSize: 7, color: "rgba(255,255,255,0.4)" }}>{m.label.slice(0, 1)}</span>
               </div>
             );
           })}
@@ -407,19 +407,19 @@ function ContributionGraph({ days, year }: { days: ContribDay[]; year: number })
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           {t1 > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <div style={{ width: 8, height: 8, borderRadius: 2, background: DRL_BRIGHT, border: `1px solid rgba(28,105,212,0.9)`, animation: "warmPulse 2.5s ease-in-out infinite" }} />
+              <div style={{ width: 8, height: 8, borderRadius: 2, background: DRL_BRIGHT, border: `1px solid rgba(96,165,250,0.9)`, animation: "warmPulse 2.5s ease-in-out infinite" }} />
               <span style={{ fontSize: 9, color: "var(--muted)" }}>{t1}× warm</span>
             </div>
           )}
           {t2 > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <div style={{ width: 8, height: 8, borderRadius: 1, background: DRL_BRIGHT, border: `1px solid rgba(28,105,212,0.9)`, transform: "rotate(45deg)" }} />
+              <div style={{ width: 8, height: 8, borderRadius: 1, background: DRL_BRIGHT, border: `1px solid rgba(96,165,250,0.9)`, transform: "rotate(45deg)" }} />
               <span style={{ fontSize: 9, color: "var(--muted)" }}>{t2}× diamond</span>
             </div>
           )}
           {t3 > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <div style={{ width: 8, height: 8, borderRadius: 2, background: DRL, border: `1px solid rgba(6,83,182,0.9)`, animation: "drlPulse 2s ease-in-out infinite" }} />
+              <div style={{ width: 8, height: 8, borderRadius: 2, background: DRL, border: `1px solid rgba(96,165,250,0.9)`, animation: "drlPulse 2s ease-in-out infinite" }} />
               <span style={{ fontSize: 9, color: DRL_BRIGHT, fontWeight: 700, letterSpacing: "0.5px" }}>{t3}× drl</span>
             </div>
           )}
@@ -568,7 +568,7 @@ export default function GitHubStats() {
       <div className="container">
 
         <div style={{ marginBottom: "var(--space-xxl)" }}>
-          <span className="label-upper" style={{ color: "var(--m-blue-dark)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
+          <span className="label-upper" style={{ color: "var(--m-blue-text)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
             02 — Open Source
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
@@ -576,8 +576,8 @@ export default function GitHubStats() {
             <h2 className="display-lg" style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease 0.1s" }}>
               GITHUB<br />STATS
             </h2>
-            <a href="https://github.com/ReyCannavaro" target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.3s" }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <a href="https://github.com/ReyCannavaro" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi profil GitHub @ReyCannavaro" className="btn-ghost" style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.3s" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
               </svg>
               @ReyCannavaro
@@ -626,8 +626,8 @@ export default function GitHubStats() {
                   <div className="label-upper" style={{ fontSize: 9, color: "var(--muted)", marginTop: 2 }}>Followers</div>
                 </div>
                 {t3count > 0 && (
-                  <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 7, padding: "5px 12px", background: `rgba(6,83,182,0.08)`, border: `1px solid rgba(6,83,182,0.25)`, borderRadius: 0 }}>
-                    <div style={{ width: 8, height: 8, borderRadius: 2, background: DRL, border: `1px solid rgba(6,83,182,0.9)`, animation: "drlPulse 2s ease-in-out infinite" }} />
+                  <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 7, padding: "5px 12px", background: `rgba(96,165,250,0.08)`, border: `1px solid rgba(96,165,250,0.25)`, borderRadius: 0 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 2, background: DRL, border: `1px solid rgba(96,165,250,0.9)`, animation: "drlPulse 2s ease-in-out infinite" }} />
                     <span style={{ fontSize: 10, color: DRL_BRIGHT, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase" }}>{t3count} DRL DAY{t3count > 1 ? "S" : ""}</span>
                   </div>
                 )}
@@ -667,7 +667,7 @@ export default function GitHubStats() {
             <div className="m-stripe" style={{ width: 32 }} />
             <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>View full activity &amp; pinned repositories on GitHub</span>
           </div>
-          <a href="https://github.com/ReyCannavaro" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 11 }}>
+          <a href="https://github.com/ReyCannavaro" target="_blank" rel="noopener noreferrer" aria-label="Buka profil GitHub lengkap Rey Cannavaro" className="btn-primary" style={{ fontSize: 11 }}>
             Open GitHub Profile →
           </a>
         </div>
@@ -676,8 +676,8 @@ export default function GitHubStats() {
       <style>{`
         @keyframes shimmer { 0%,100%{opacity:.4} 50%{opacity:.7} }
         @keyframes warmPulse {
-          0%,100% { box-shadow: 0 0 0px 0px rgba(28,105,212,0); }
-          50%      { box-shadow: 0 0 6px 2px rgba(28,105,212,0.4); }
+          0%,100% { box-shadow: 0 0 0px 0px rgba(96,165,250,0); }
+          50%      { box-shadow: 0 0 6px 2px rgba(96,165,250,0.4); }
         }
         @keyframes diamondSpin {
           from { transform: rotate(45deg); }
@@ -688,8 +688,8 @@ export default function GitHubStats() {
           100% { transform: translate(-50%,-50%) rotate(45deg) scale(2.2); opacity: 0; }
         }
         @keyframes drlPulse {
-          0%,100% { box-shadow: 0 0 3px 1px rgba(6,83,182,0.3); }
-          50%     { box-shadow: 0 0 8px 3px rgba(6,83,182,0.65); }
+          0%,100% { box-shadow: 0 0 3px 1px rgba(0,102,177,0.3); }
+          50%     { box-shadow: 0 0 8px 3px rgba(96,165,250,0.65); }
         }
         @keyframes drlRing {
           0%   { transform: translate(-50%,-50%) scale(0.7); opacity: 0.7; }

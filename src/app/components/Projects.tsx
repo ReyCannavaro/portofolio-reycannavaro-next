@@ -49,7 +49,7 @@ export default function Projects() {
           <span
             className="label-upper"
             style={{
-              color: "var(--m-blue-dark)",
+              color: "var(--m-blue-text)",
               opacity: visible ? 1 : 0,
               transition: "opacity 0.5s ease",
             }}
@@ -180,7 +180,7 @@ export default function Projects() {
               >
                 {active?.name}
               </h3>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", fontWeight: 300 }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.8)", fontWeight: 300 }}>
                 {active?.tagline}
               </p>
             </div>
@@ -195,15 +195,17 @@ export default function Projects() {
                 gap: 6,
               }}
             >
-              {heroProjects.map((_, i) => (
+              {heroProjects.map((p, i) => (
                 <button
-                  key={i}
+                  key={p.id}
                   onClick={() => setActiveHero(i)}
+                  aria-label={`Go to slide ${i + 1}: ${p.name}`}
+                  aria-current={i === activeHero ? "true" : undefined}
                   style={{
                     width: i === activeHero ? 24 : 6,
                     height: 6,
                     borderRadius: 999,
-                    background: i === activeHero ? "#fff" : "rgba(255,255,255,0.3)",
+                    background: i === activeHero ? "#fff" : "rgba(255,255,255,0.45)",
                     border: "none",
                     cursor: "pointer",
                     padding: 0,
@@ -227,6 +229,7 @@ export default function Projects() {
                 <button
                   key={p.id}
                   onClick={() => setActiveHero(i)}
+                  aria-label={`Select project: ${p.name}`}
                   style={{
                     flex: 1,
                     display: "flex",
@@ -236,7 +239,7 @@ export default function Projects() {
                     background: isActive ? "var(--surface-elevated)" : "transparent",
                     border: "none",
                     borderBottom: i < heroProjects.length - 1 ? "1px solid var(--hairline)" : "none",
-                    borderLeft: isActive ? "2px solid var(--m-blue-dark)" : "2px solid transparent",
+                    borderLeft: isActive ? "2px solid var(--m-blue-text)" : "2px solid transparent",
                     cursor: "pointer",
                     textAlign: "left",
                     transition: "all 0.25s ease",
@@ -251,7 +254,7 @@ export default function Projects() {
                           fontWeight: 700,
                           letterSpacing: "1.5px",
                           textTransform: "uppercase",
-                          color: isActive ? "var(--m-blue-dark)" : "var(--muted)",
+                          color: isActive ? "var(--m-blue-text)" : "var(--muted)",
                           display: "block",
                           marginBottom: 4,
                           transition: "color 0.25s",
@@ -313,6 +316,7 @@ export default function Projects() {
                             href={p.links.github}
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label={`View source code of ${p.name} on GitHub`}
                             onClick={(e) => e.stopPropagation()}
                             style={{
                               fontSize: 10,
@@ -342,6 +346,7 @@ export default function Projects() {
                             href={p.links.live}
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label={`Open live demo for ${p.name}`}
                             onClick={(e) => e.stopPropagation()}
                             style={{
                               fontSize: 10,
@@ -380,7 +385,7 @@ export default function Projects() {
                         key={activeHero}
                         style={{
                           height: "100%",
-                          background: "var(--m-blue-dark)",
+                          background: "var(--m-blue-text)",
                           animation: "progressBar 4s linear forwards",
                         }}
                       />
@@ -404,6 +409,8 @@ export default function Projects() {
           </span>
           <div
             className="filter-scroll"
+            role="toolbar"
+            aria-label="Filter projects by category"
             style={{
               display: "flex",
               gap: 0,
@@ -420,6 +427,8 @@ export default function Projects() {
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
+                aria-pressed={activeFilter === f}
+                aria-label={`Filter by ${f}`}
                 style={{
                   padding: "7px 14px",
                   background: activeFilter === f ? "var(--on-dark)" : "transparent",
@@ -497,7 +506,7 @@ export default function Projects() {
                       padding: "3px 8px",
                       background: "rgba(0,0,0,0.6)",
                       backdropFilter: "blur(4px)",
-                      color: "var(--muted)",
+                      color: "var(--body-strong)",
                       fontSize: 9,
                       fontWeight: 700,
                       letterSpacing: "1.5px",
@@ -526,7 +535,7 @@ export default function Projects() {
                 </div>
 
                 <div style={{ padding: "var(--space-md) var(--space-lg)", flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
-                  <h4
+                  <h3
                     style={{
                       fontSize: 14,
                       fontWeight: 700,
@@ -537,7 +546,7 @@ export default function Projects() {
                     }}
                   >
                     {project.name}
-                  </h4>
+                  </h3>
                   <p style={{ fontSize: 12, color: "var(--body)", lineHeight: 1.5, fontWeight: 300, flex: 1 }}>
                     {project.tagline}
                   </p>
@@ -568,6 +577,7 @@ export default function Projects() {
                         href={project.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label={`View ${project.name} repository on GitHub`}
                         style={{
                           fontSize: 10,
                           fontWeight: 700,
@@ -588,17 +598,18 @@ export default function Projects() {
                         href={project.links.live}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label={`Visit live demo for ${project.name}`}
                         style={{
                           fontSize: 10,
                           fontWeight: 700,
                           letterSpacing: "1px",
                           textTransform: "uppercase",
-                          color: "var(--m-blue-dark)",
+                          color: "var(--m-blue-text)",
                           textDecoration: "none",
                           transition: "color 0.2s",
                         }}
                         onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")}
-                        onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--m-blue-dark)")}
+                        onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--m-blue-text)")}
                       >
                         Live Demo →
                       </a>
@@ -622,6 +633,7 @@ export default function Projects() {
           >
             <button
               onClick={() => setShowAll(true)}
+              aria-label="View all projects"
               className="btn-ghost"
               style={{
                 display: "inline-flex",

@@ -4,53 +4,52 @@ import type { JSX } from "react";
 import Image from "next/image";
 import { achievements } from "../data/index";
 
-
 const BADGE_ICONS: Record<string, JSX.Element> = {
   mic: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
       <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
     </svg>
   ),
   medal: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
     </svg>
   ),
   flag: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
     </svg>
   ),
   crown: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><path d="M5 20h14"/>
     </svg>
   ),
   star: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
     </svg>
   ),
   clipboard: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
       <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
     </svg>
   ),
   pen: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
     </svg>
   ),
   trophy: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/>
       <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/>
     </svg>
   ),
   film: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
       <line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/>
       <line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/>
@@ -59,7 +58,7 @@ const BADGE_ICONS: Record<string, JSX.Element> = {
     </svg>
   ),
   shield: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
     </svg>
   ),
@@ -82,9 +81,15 @@ const LEVEL_LABEL: Record<string, string> = {
 };
 
 const LEVEL_COLOR: Record<string, string> = {
+  national: "var(--m-red-text)",
+  district: "var(--m-blue-text)",
+  school: "var(--muted)",
+};
+
+const LEVEL_BORDER: Record<string, string> = {
   national: "var(--m-red)",
   district: "var(--m-blue-dark)",
-  school: "var(--muted)",
+  school: "var(--hairline)",
 };
 
 const FEATURED_IDS = new Set([13, 11]);
@@ -115,7 +120,7 @@ export default function Prestasi() {
     <section id="achievements" ref={ref} style={{ background: "var(--canvas)", padding: "var(--space-section) 0" }}>
       <div className="container">
         <div style={{ marginBottom: "var(--space-xxl)" }}>
-          <span className="label-upper" style={{ color: "var(--m-blue-dark)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
+          <span className="label-upper" style={{ color: "var(--m-blue-text)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
             06 - Recognition
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
@@ -133,7 +138,7 @@ export default function Prestasi() {
                 padding: "var(--space-xl)",
                 display: "flex",
                 gap: "var(--space-lg)",
-                borderTop: `3px solid ${LEVEL_COLOR[a.level]}`,
+                borderTop: `3px solid ${LEVEL_BORDER[a.level]}`,
                 opacity: visible ? 1 : 0,
                 transform: visible ? "translateY(0)" : "translateY(20px)",
                 transition: `all 0.7s ease ${0.2 + i * 0.1}s`,
@@ -151,9 +156,9 @@ export default function Prestasi() {
                     <BadgeIcon name={a.badge} /> {a.category}
                   </span>
                 </div>
-                <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--on-dark)", lineHeight: 1.3, marginBottom: 8, textTransform: "uppercase" }}>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--on-dark)", lineHeight: 1.3, marginBottom: 8, textTransform: "uppercase" }}>
                   {a.titleShort}
-                </h4>
+                </h3>
                 <p className="body-sm" style={{ fontSize: 12 }}>{a.organizer} · {a.year}</p>
               </div>
             </div>
@@ -165,7 +170,17 @@ export default function Prestasi() {
             {listItems.map((a) => (
               <div
                 key={a.id}
+                role="button"
+                tabIndex={0}
+                aria-pressed={selected?.id === a.id}
+                aria-label={`Pilih prestasi: ${a.titleShort}`}
                 onClick={() => setSelected(a)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelected(a);
+                  }
+                }}
                 style={{
                   padding: "var(--space-lg) var(--space-xl)",
                   borderBottom: "1px solid var(--hairline)",
@@ -183,9 +198,9 @@ export default function Prestasi() {
                 <span style={{ display: "inline-flex", alignItems: "center", color: "var(--on-dark)" }}><BadgeIcon name={a.badge} size={20} /></span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-                    <h5 style={{ fontSize: 13, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase" } as React.CSSProperties}>
+                    <h4 style={{ fontSize: 13, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase" } as React.CSSProperties}>
                       {a.titleShort}
-                    </h5>
+                    </h4>
                     <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: LEVEL_COLOR[a.level], flexShrink: 0 }}>
                       {LEVEL_LABEL[a.level]}
                     </span>
@@ -200,6 +215,8 @@ export default function Prestasi() {
             <div style={{ padding: "var(--space-lg) var(--space-xl)", borderTop: "1px solid var(--hairline)" }}>
               <button
                 onClick={() => setShowMore((v) => !v)}
+                aria-expanded={showMore}
+                aria-label={showMore ? "Tampilkan lebih sedikit prestasi" : `Tampilkan lebih banyak prestasi (${restList.length} prestasi lainnya)`}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -226,14 +243,14 @@ export default function Prestasi() {
               >
                 {showMore ? (
                   <>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <polyline points="18 15 12 9 6 15"/>
                     </svg>
                     See Less
                   </>
                 ) : (
                   <>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <polyline points="6 9 12 15 18 9"/>
                     </svg>
                     See More ({restList.length} more achievements)
@@ -252,9 +269,9 @@ export default function Prestasi() {
                 <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: LEVEL_COLOR[selected.level] }}>
                   {LEVEL_LABEL[selected.level]} · {selected.category}
                 </span>
-                <h4 style={{ fontSize: 16, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase", marginTop: 8, marginBottom: 12, lineHeight: 1.3 }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase", marginTop: 8, marginBottom: 12, lineHeight: 1.3 }}>
                   {selected.title}
-                </h4>
+                </h3>
                 <p className="body-sm" style={{ fontSize: 12, lineHeight: 1.6 }}>{selected.description}</p>
                 <div className="hairline" style={{ margin: "var(--space-lg) 0" }} />
                 <p className="label-upper" style={{ fontSize: 10 }}>{selected.organizer}</p>

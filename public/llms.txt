@@ -1,0 +1,39 @@
+# Rey Cannavaro — Portfolio & Profile
+
+> Fullstack Developer, Software Engineer, & AI Enthusiast based in Sidoarjo, Indonesia.
+
+## About
+- **Name:** Reyjuno Al Cannavaro (Rey Cannavaro)
+- **Role:** Fullstack Developer & Software Engineer
+- **Location:** Sidoarjo, Indonesia (UTC+7)
+- **Email:** reyjunoalcannavaro@gmail.com
+- **Phone:** +62 821 3953 1132
+- **GitHub:** https://github.com/ReyCannavaro
+- **LinkedIn:** https://linkedin.com/in/reycannavaro
+
+## Core Technical Arsenal
+- **Languages:** TypeScript, JavaScript, PHP, Python, SQL, HTML5, CSS3
+- **Frameworks & Libraries:** Next.js, React, Laravel, Node.js, Express, Vue.js, Tailwind CSS, Framer Motion
+- **Databases & Tools:** MySQL, PostgreSQL, Redis, Docker, Git, REST APIs, GraphQL, WebSockets
+- **Specializations:** Enterprise ERP Systems, AI/ML Integration, IoT Solutions, Performance Optimization
+
+## Featured Projects
+1. **Findor (AI-Powered Lost & Found Hub)**
+   - Smart lost and found system with image recognition and vector similarity search.
+   - Technologies: React, TypeScript, Next.js, Python FastAPI, CLIP/Vector DB.
+2. **SIRA (Academic Information & Reporting System)**
+   - Enterprise school system managing grading, attendance, and administrative records.
+   - Technologies: Laravel, MySQL, Alpine.js, Tailwind CSS.
+3. **PT Rizza Jaya Abadi ERP**
+   - End-to-end ERP for manufacturing & inventory tracking.
+   - Technologies: Laravel, PostgreSQL, Docker, Redis.
+
+## Achievements & Recognition
+- 2nd Place Winner — National Web Design Competition (2024)
+- 1st Place Winner — Provincial Software Engineering Competition
+- Multiple certifications in Fullstack Development & AI integrations.
+
+## Available For
+- Full-time Software Engineering roles
+- Freelance & Contract Web Application Development
+- Enterprise System Architecture Consulting

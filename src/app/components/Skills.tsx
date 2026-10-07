@@ -22,7 +22,7 @@ export default function Skills() {
           <span
             className="label-upper"
             style={{
-              color: "var(--m-blue-dark)",
+              color: "var(--m-blue-text)",
               opacity: visible ? 1 : 0,
               transition: "opacity 0.5s ease",
             }}
@@ -82,9 +82,9 @@ export default function Skills() {
               }}
             >
               <div style={{ marginBottom: "var(--space-lg)" }}>
-                <span className="label-upper" style={{ color: "var(--m-blue-dark)", fontSize: 10 }}>
+                <h3 className="label-upper" style={{ color: "var(--m-blue-text)", fontSize: 10 }}>
                   {cat.label}
-                </span>
+                </h3>
               </div>
               <div className="hairline" style={{ marginBottom: "var(--space-md)" }} />
 
@@ -132,9 +132,9 @@ export default function Skills() {
             transition: "opacity 0.6s ease 0.7s",
           }}
         >
-          <span className="label-upper" style={{ color: "var(--muted)", whiteSpace: "nowrap" }}>
+          <h3 className="label-upper" style={{ color: "var(--muted)", whiteSpace: "nowrap", fontSize: 12 }}>
             Currently Learning
-          </span>
+          </h3>
           <div className="hairline" style={{ width: 40, height: 1, background: "var(--hairline)" }} />
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {currentlyLearning.map((t) => (

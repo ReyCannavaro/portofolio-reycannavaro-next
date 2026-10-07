@@ -25,7 +25,7 @@ export default function Footer() {
             className="contact-grid"
           >
             <div>
-              <span className="label-upper" style={{ color: "var(--m-blue-dark)" }}>
+              <span className="label-upper" style={{ color: "var(--m-blue-text)" }}>
                 06 — Let&apos;s Work Together
               </span>
               <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
@@ -40,9 +40,9 @@ export default function Footer() {
             <div>
               <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
                 {[
-                  { label: "Email", value: personalInfo.email, href: `mailto:${personalInfo.email}` },
-                  { label: "Phone", value: personalInfo.phone, href: `tel:${personalInfo.phone}` },
-                  { label: "Location", value: `${personalInfo.location} · ${personalInfo.timezone}`, href: null },
+                  { label: "Email", value: personalInfo.email, href: `mailto:${personalInfo.email}`, ariaLabel: `Kirim email ke ${personalInfo.email}` },
+                  { label: "Phone", value: personalInfo.phone, href: `tel:${personalInfo.phone}`, ariaLabel: `Hubungi telepon ${personalInfo.phone}` },
+                  { label: "Location", value: `${personalInfo.location} · ${personalInfo.timezone}`, href: null, ariaLabel: null },
                 ].map((item) => (
                   <div
                     key={item.label}
@@ -62,6 +62,7 @@ export default function Footer() {
                     {item.href ? (
                       <a
                         href={item.href}
+                        aria-label={item.ariaLabel || undefined}
                         style={{ color: "var(--on-dark)", fontSize: 13, fontWeight: 300, textDecoration: "none", transition: "color 0.2s" }}
                         onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--body)")}
                         onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--on-dark)")}
@@ -82,12 +83,13 @@ export default function Footer() {
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Kunjungi profil ${s.display} Rey Cannavaro`}
                     style={{
                       flex: 1,
                       padding: "10px 0",
                       textAlign: "center",
                       border: "1px solid var(--hairline)",
-                      color: "var(--muted)",
+                      color: "var(--body)",
                       fontSize: 10,
                       fontWeight: 700,
                       letterSpacing: "0.5px",
@@ -101,7 +103,7 @@ export default function Footer() {
                     }}
                     onMouseLeave={(e) => {
                       (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--hairline)";
-                      (e.currentTarget as HTMLAnchorElement).style.color = "var(--muted)";
+                      (e.currentTarget as HTMLAnchorElement).style.color = "var(--body)";
                     }}
                   >
                     {s.display.slice(0, 2)}
@@ -138,7 +140,7 @@ export default function Footer() {
           </div>
 
           <span className="body-sm" style={{ fontSize: 11, color: "var(--muted)" }}>
-            © {year} Rey Cannavaro. Built with Next.js & a cup of americano.
+            © {year} Rey Cannavaro. Built with Next.js &amp; a cup of americano.
           </span>
 
           <span className="label-upper" style={{ fontSize: 10, color: "var(--muted)" }}>

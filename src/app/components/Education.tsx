@@ -20,7 +20,7 @@ export default function Education() {
     <section id="education" ref={ref} style={{ background: "var(--surface-soft)", padding: "var(--space-section) 0" }}>
       <div className="container">
         <div style={{ marginBottom: "var(--space-xxl)" }}>
-          <span className="label-upper" style={{ color: "var(--m-blue-dark)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
+          <span className="label-upper" style={{ color: "var(--m-blue-text)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
             07 - Background
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
@@ -67,7 +67,7 @@ export default function Education() {
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "var(--space-md)" }}>
                     <div style={{ position: "relative", width: 40, height: 40, flexShrink: 0 }}>
-                      <Image src={edu.logo} alt={edu.institution} fill style={{ objectFit: "contain" }} />
+                      <Image src={edu.logo} alt={`Logo institusi ${edu.institution}`} fill style={{ objectFit: "contain" }} />
                     </div>
                     <div>
                       <div style={{ fontSize: 20, fontWeight: 700, color: "var(--on-dark)", lineHeight: 1 }}>
@@ -84,7 +84,7 @@ export default function Education() {
                       display: "inline-block",
                       padding: "3px 10px",
                       background: edu.status === "ongoing" ? "var(--m-blue-dark)" : "transparent",
-                      border: `1px solid ${edu.status === "ongoing" ? "var(--m-blue-dark)" : "var(--hairline)"}`,
+                      border: `1px solid ${edu.status === "ongoing" ? "var(--m-blue-text)" : "var(--hairline)"}`,
                       color: edu.status === "ongoing" ? "#fff" : "var(--muted)",
                       fontSize: 10,
                       fontWeight: 700,
@@ -114,7 +114,7 @@ export default function Education() {
                   >
                     {edu.institutionShort}
                   </h3>
-                  <p className="label-upper" style={{ color: "var(--m-blue-dark)", marginBottom: "var(--space-md)", fontSize: 11 }}>
+                  <p className="label-upper" style={{ color: "var(--m-blue-text)", marginBottom: "var(--space-md)", fontSize: 11 }}>
                     {edu.degreeShort}
                   </p>
                   <p className="body-sm" style={{ marginBottom: "var(--space-lg)" }}>{edu.description}</p>
