@@ -157,7 +157,7 @@ export default function Prestasi() {
         <div style={{ marginBottom: "var(--space-xxl)" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
             <span className="label-upper" style={{ color: "var(--on-dark)", letterSpacing: "1.5px" }}>
-              ⚡ NATIONAL PODIUM HIGHLIGHTS
+              NATIONAL PODIUM HIGHLIGHTS
             </span>
             <span className="label-upper" style={{ color: "var(--m-red-text)", fontSize: 10 }}>
               {featured.length} NATIONAL AWARDS
@@ -266,7 +266,7 @@ export default function Prestasi() {
                         <BadgeIcon name={a.badge} /> {a.category}
                       </span>
                       <span style={{ fontSize: 10, fontWeight: 700, color: "var(--on-dark)", letterSpacing: "1px", textTransform: "uppercase" }}>
-                        {isSelected ? "● INSPECTED" : "VIEW DETAILS →"}
+                        {isSelected ? "[INSPECTED]" : "VIEW DETAILS →"}
                       </span>
                     </div>
                   </div>

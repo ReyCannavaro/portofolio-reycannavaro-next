@@ -309,12 +309,12 @@ const htmlContent = `<!DOCTYPE html>
       <div class="headline">Fullstack Developer & Software Engineer | Enterprise ERP & Web Solutions</div>
       
       <div class="contact-grid">
-        <span class="contact-item">📍 Sidoarjo, Indonesia</span>
-        <span class="contact-item">✉️ <a href="mailto:reyjunoalcannavaro@gmail.com">reyjunoalcannavaro@gmail.com</a></span>
-        <span class="contact-item">📞 <a href="tel:+6282139531132">+62 821 3953 1132</a></span>
-        <span class="contact-item">🌐 <a href="https://reycannavaro.dev" target="_blank">reycannavaro.dev</a></span>
-        <span class="contact-item">💼 <a href="https://linkedin.com/in/reycannavaro" target="_blank">linkedin.com/in/reycannavaro</a></span>
-        <span class="contact-item">💻 <a href="https://github.com/ReyCannavaro" target="_blank">github.com/ReyCannavaro</a></span>
+        <span class="contact-item">Sidoarjo, Indonesia</span>
+        <span class="contact-item"><a href="mailto:reyjunoalcannavaro@gmail.com">reyjunoalcannavaro@gmail.com</a></span>
+        <span class="contact-item"><a href="tel:+6282139531132">+62 821 3953 1132</a></span>
+        <span class="contact-item"><a href="https://reycannavaro.dev" target="_blank">reycannavaro.dev</a></span>
+        <span class="contact-item"><a href="https://linkedin.com/in/reycannavaro" target="_blank">linkedin.com/in/reycannavaro</a></span>
+        <span class="contact-item"><a href="https://github.com/ReyCannavaro" target="_blank">github.com/ReyCannavaro</a></span>
       </div>
     </div>
     <img src="${photoDataUri}" alt="Foto Profil Formal Reyjuno Al Cannavaro" class="header-photo">
@@ -444,13 +444,13 @@ const htmlContent = `<!DOCTYPE html>
     <!-- HONORS & AWARDS -->
     <div>
       <h2 class="section-title">Penghargaan & Prestasi</h2>
-      <div class="award-item">⭐ <strong>Top 10 Finalist IoT MAGE 12</strong> — Institut Teknologi Sepuluh Nopember (2026)</div>
-      <div class="award-item">🏆 <strong>Juara 3 Jagoan Hosting Innovation Competition</strong> — Jagoan Hosting (2026)</div>
-      <div class="award-item">🏆 <strong>Juara 2 Web Design Competition Nasional</strong> — IBIK Bogor (2026)</div>
-      <div class="award-item">🏆 <strong>Juara 1 LKTI Nasional</strong> — Telkom University (2025)</div>
-      <div class="award-item">🎖️ <strong>Pramuka Penegak Garuda</strong> — Tingkat Tertinggi, Kwarcab Sidoarjo (2025)</div>
-      <div class="award-item">🏆 <strong>Juara 2 Lomba Prestasi Penegak (LPP)</strong> — DKC Sidoarjo (2025)</div>
-      <div class="award-item">🎖️ <strong>Paskibraka Kecamatan Sidoarjo</strong> — HUT RI ke-79 (2024)</div>
+      <div class="award-item"><strong>Top 10 Finalist IoT MAGE 12</strong> — Institut Teknologi Sepuluh Nopember (2026)</div>
+      <div class="award-item"><strong>Juara 3 Jagoan Hosting Innovation Competition</strong> — Jagoan Hosting (2026)</div>
+      <div class="award-item"><strong>Juara 2 Web Design Competition Nasional</strong> — IBIK Bogor (2026)</div>
+      <div class="award-item"><strong>Juara 1 LKTI Nasional</strong> — Telkom University (2025)</div>
+      <div class="award-item"><strong>Pramuka Penegak Garuda</strong> — Tingkat Tertinggi, Kwarcab Sidoarjo (2025)</div>
+      <div class="award-item"><strong>Juara 2 Lomba Prestasi Penegak (LPP)</strong> — DKC Sidoarjo (2025)</div>
+      <div class="award-item"><strong>Paskibraka Kecamatan Sidoarjo</strong> — HUT RI ke-79 (2024)</div>
     </div>
   </div>
 

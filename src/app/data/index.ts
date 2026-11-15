@@ -412,7 +412,7 @@ export const achievements = [
     image: "/prestasi/prestasi12.jpeg",
     badge: "shield",
     color: "bg-amber-700",
-    featured: true,
+    featured: false,
   },
 ];
 
