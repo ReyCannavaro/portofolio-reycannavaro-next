@@ -178,6 +178,23 @@ export const educationHistory = [
 
 export const achievements = [
   {
+    id: 15,
+    title: "Top 10 Finalist IoT Competition MAGE 12 ITS",
+    titleShort: "Top 10 IoT MAGE 12 ITS",
+    category: "Competition",
+    organizer: "Institut Teknologi Sepuluh Nopember (ITS)",
+    year: 2026,
+    date: "2026-11",
+    type: "competition",
+    level: "national",
+    rank: 10,
+    description: "Berperan sebagai Fullstack Developer dalam merancang dan membangun sistem Aquaponik Cerdas terintegrasi IoT dan AI, menghubungkan telemetri sensor mikrokontroler dengan dashboard analitik web real-time hingga sukses menembus Top 10 Finalis Nasional MAGE 12 ITS.",
+    image: "/prestasi/prestasi15.jpeg",
+    badge: "star",
+    color: "bg-cyan-600",
+    featured: false,
+  },
+  {
     id: 14,
     title: "Juara 3 Jagoan Hosting Innovation Competition",
     titleShort: "3rd Jagoan Hosting Innovation",
