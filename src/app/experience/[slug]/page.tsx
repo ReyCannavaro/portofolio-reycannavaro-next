@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { experienceHistory } from "../../data/index";
@@ -17,7 +16,7 @@ export function generateStaticParams() {
 export default async function ExperienceDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  const experience = experienceHistory.find((e) => (e as any).slug === slug);
+  const experience = experienceHistory.find((e) => e.slug === slug);
   if (!experience) {
     notFound();
   }
