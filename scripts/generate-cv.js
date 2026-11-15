@@ -444,6 +444,7 @@ const htmlContent = `<!DOCTYPE html>
     <!-- HONORS & AWARDS -->
     <div>
       <h2 class="section-title">Penghargaan & Prestasi</h2>
+      <div class="award-item">🏆 <strong>Juara 3 Jagoan Hosting Innovation Competition</strong> — Jagoan Hosting (2026)</div>
       <div class="award-item">🏆 <strong>Juara 2 Web Design Competition Nasional</strong> — IBIK Bogor (2026)</div>
       <div class="award-item">🏆 <strong>Juara 1 LKTI Nasional</strong> — Telkom University (2025)</div>
       <div class="award-item">🎖️ <strong>Pramuka Penegak Garuda</strong> — Tingkat Tertinggi, Kwarcab Sidoarjo (2025)</div>

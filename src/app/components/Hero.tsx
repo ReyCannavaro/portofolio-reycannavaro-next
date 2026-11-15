@@ -197,7 +197,7 @@ export default function Hero() {
           {[
             { value: `${personalInfo.yearsExperience}+`, label: "Years Exp" },
             { value: "6+", label: "Projects" },
-            { value: "12+", label: "Achievements" },
+            { value: "14+", label: "Achievements" },
             { value: personalInfo.age.toString(), label: "Years Old" },
           ].map((s) => (
             <div key={s.label}>

@@ -86,21 +86,24 @@ const LEVEL_COLOR: Record<string, string> = {
   school: "var(--muted)",
 };
 
-const LEVEL_BORDER: Record<string, string> = {
-  national: "var(--m-red)",
-  district: "var(--m-blue-dark)",
-  school: "var(--hairline)",
+const PODIUM_ACCENTS: Record<number, { border: string; label: string; tagColor: string }> = {
+  1: { border: "var(--m-red)", label: "1ST PLACE · NATIONAL", tagColor: "#f59e0b" },
+  2: { border: "var(--m-blue-light)", label: "2ND PLACE · NATIONAL", tagColor: "#93c5fd" },
+  3: { border: "var(--m-blue-dark)", label: "3RD PLACE · NATIONAL", tagColor: "#60a5fa" },
 };
 
-const FEATURED_IDS = new Set([13, 11]);
-const RELEVANT_IDS = new Set([13, 11, 8, 2, 9, 1, 7, 6, 10]);
-const DEFAULT_SELECTED = achievements.find((a) => FEATURED_IDS.has(a.id)) ?? achievements[0] ?? null;
+type FilterCategory = "all" | "tech" | "leadership";
 
 export default function Prestasi() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const [selected, setSelected] = useState<(typeof achievements)[0] | null>(DEFAULT_SELECTED);
+  const [filter, setFilter] = useState<FilterCategory>("all");
+
+  const featured = achievements.filter((a) => a.featured);
+  const [selected, setSelected] = useState<(typeof achievements)[0] | null>(
+    featured[0] ?? achievements[0] ?? null
+  );
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -111,175 +114,386 @@ export default function Prestasi() {
     return () => obs.disconnect();
   }, []);
 
-  const featured = achievements.filter((a) => FEATURED_IDS.has(a.id));
-  const relevantList = achievements.filter((a) => RELEVANT_IDS.has(a.id) && !FEATURED_IDS.has(a.id));
-  const restList = achievements.filter((a) => !RELEVANT_IDS.has(a.id) && !FEATURED_IDS.has(a.id));
-  const listItems = showMore ? [...relevantList, ...restList] : relevantList;
+  // Filter lists
+  const isTech = (a: (typeof achievements)[0]) =>
+    a.category === "Competition" || a.type === "competition";
+  const isLeadership = (a: (typeof achievements)[0]) =>
+    a.category === "Leadership" || a.category === "Honor" || a.category === "Organization" || a.type === "position";
+
+  const nonFeatured = achievements.filter((a) => !a.featured);
+
+  const getFilteredItems = () => {
+    let items = nonFeatured;
+    if (filter === "tech") {
+      items = achievements.filter(isTech);
+    } else if (filter === "leadership") {
+      items = achievements.filter(isLeadership);
+    }
+    return items;
+  };
+
+  const filteredItems = getFilteredItems();
+  const initialLimit = 6;
+  const listItems = showMore ? filteredItems : filteredItems.slice(0, initialLimit);
 
   return (
     <section id="achievements" ref={ref} style={{ background: "var(--canvas)", padding: "var(--space-section) 0" }}>
       <div className="container">
+        {/* Section Header */}
         <div style={{ marginBottom: "var(--space-xxl)" }}>
           <span className="label-upper" style={{ color: "var(--m-blue-text)", opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
-            06 - Recognition
+            06 - Recognition & Honors
           </span>
           <div className="m-stripe" style={{ width: 48, marginTop: 12, marginBottom: 16 }} />
           <h2 className="display-lg" style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease 0.1s" }}>
-            ACHIEVEMENTS &<br />RECOGNITION
+            ACHIEVEMENTS &<br />HALL OF FAME
           </h2>
+          <p className="body-md" style={{ color: "var(--muted)", maxWidth: 640, marginTop: 12 }}>
+            Rekam jejak kompetisi teknologi tingkat nasional, inovasi digital, serta pembuktian dedikasi kepemimpinan organisasi.
+          </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 1, background: "var(--hairline)", marginBottom: 1 }} className="feat-grid">
-          {featured.map((a, i) => (
-            <div
-              key={a.id}
-              style={{
-                background: "var(--surface-card)",
-                padding: "var(--space-xl)",
-                display: "flex",
-                gap: "var(--space-lg)",
-                borderTop: `3px solid ${LEVEL_BORDER[a.level]}`,
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(20px)",
-                transition: `all 0.7s ease ${0.2 + i * 0.1}s`,
-              }}
-            >
-              <div style={{ position: "relative", width: 80, height: 80, flexShrink: 0, overflow: "hidden" }}>
-                <Image src={a.image} alt={a.title} fill style={{ objectFit: "cover" }} />
-              </div>
-              <div>
-                <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8, flexWrap: "wrap" }}>
-                  <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: LEVEL_COLOR[a.level] }}>
-                    {LEVEL_LABEL[a.level]}
-                  </span>
-                  <span className="label-upper" style={{ color: "var(--muted)", fontSize: 9 }}>
-                    <BadgeIcon name={a.badge} /> {a.category}
-                  </span>
-                </div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--on-dark)", lineHeight: 1.3, marginBottom: 8, textTransform: "uppercase" }}>
-                  {a.titleShort}
-                </h3>
-                <p className="body-sm" style={{ fontSize: 12 }}>{a.organizer} · {a.year}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 1, background: "var(--hairline)" }} className="detail-grid">
-          <div style={{ background: "var(--surface-soft)" }}>
-            {listItems.map((a) => (
-              <div
-                key={a.id}
-                role="button"
-                tabIndex={0}
-                aria-pressed={selected?.id === a.id}
-                aria-label={`Pilih prestasi: ${a.titleShort}`}
-                onClick={() => setSelected(a)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setSelected(a);
-                  }
-                }}
-                style={{
-                  padding: "var(--space-lg) var(--space-xl)",
-                  borderBottom: "1px solid var(--hairline)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "var(--space-md)",
-                  cursor: "pointer",
-                  background: selected?.id === a.id ? "var(--surface-card)" : "transparent",
-                  borderLeft: selected?.id === a.id ? "3px solid var(--on-dark)" : "3px solid transparent",
-                  transition: "all 0.2s",
-                  opacity: visible ? 1 : 0,
-                  transform: visible ? "translateX(0)" : "translateX(-12px)",
-                } as React.CSSProperties}
-              >
-                <span style={{ display: "inline-flex", alignItems: "center", color: "var(--on-dark)" }}><BadgeIcon name={a.badge} size={20} /></span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-                    <h4 style={{ fontSize: 13, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase" } as React.CSSProperties}>
-                      {a.titleShort}
-                    </h4>
-                    <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: LEVEL_COLOR[a.level], flexShrink: 0 }}>
-                      {LEVEL_LABEL[a.level]}
-                    </span>
-                  </div>
-                  <p className="body-sm" style={{ fontSize: 11, marginTop: 2 }}>
-                    {a.organizer} · {a.year}
-                  </p>
-                </div>
-              </div>
-            ))}
-
-            <div style={{ padding: "var(--space-lg) var(--space-xl)", borderTop: "1px solid var(--hairline)" }}>
-              <button
-                onClick={() => setShowMore((v) => !v)}
-                aria-expanded={showMore}
-                aria-label={showMore ? "Tampilkan lebih sedikit prestasi" : `Tampilkan lebih banyak prestasi (${restList.length} prestasi lainnya)`}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "none",
-                  border: "1px solid var(--hairline)",
-                  color: "var(--on-dark)",
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "1px",
-                  textTransform: "uppercase",
-                  cursor: "pointer",
-                  padding: "8px 16px",
-                  transition: "all 0.2s",
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.background = "var(--surface-card)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.background = "none";
-                }}
-              >
-                {showMore ? (
-                  <>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polyline points="18 15 12 9 6 15"/>
-                    </svg>
-                    See Less
-                  </>
-                ) : (
-                  <>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polyline points="6 9 12 15 18 9"/>
-                    </svg>
-                    See More ({restList.length} more achievements)
-                  </>
-                )}
-              </button>
-            </div>
+        {/* TOP PODIUM: Featured National Highlights */}
+        <div style={{ marginBottom: "var(--space-xxl)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+            <span className="label-upper" style={{ color: "var(--on-dark)", letterSpacing: "1.5px" }}>
+              ⚡ NATIONAL PODIUM HIGHLIGHTS
+            </span>
+            <span className="label-upper" style={{ color: "var(--m-red-text)", fontSize: 10 }}>
+              {featured.length} NATIONAL AWARDS
+            </span>
           </div>
 
-          <div style={{ background: "var(--surface-card)", padding: "var(--space-xl)", position: "sticky", top: 80 }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: 1,
+              background: "var(--hairline)",
+            }}
+            className="podium-grid"
+          >
+            {featured.map((a, i) => {
+              const accent = PODIUM_ACCENTS[a.rank ?? (i + 1)] ?? {
+                border: "var(--m-red)",
+                label: "NATIONAL COMPETITION",
+                tagColor: "var(--m-red-text)",
+              };
+              const isSelected = selected?.id === a.id;
+
+              return (
+                <div
+                  key={a.id}
+                  onClick={() => setSelected(a)}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  aria-label={`Lihat detail: ${a.title}`}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelected(a);
+                    }
+                  }}
+                  style={{
+                    background: isSelected ? "var(--surface-elevated)" : "var(--surface-card)",
+                    padding: "var(--space-lg)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "var(--space-md)",
+                    borderTop: `3px solid ${accent.border}`,
+                    cursor: "pointer",
+                    position: "relative",
+                    transition: "all 0.25s ease",
+                    opacity: visible ? 1 : 0,
+                    transform: visible ? "translateY(0)" : "translateY(20px)",
+                    transitionDelay: `${0.15 + i * 0.1}s`,
+                  }}
+                >
+                  {/* Photo & Badges */}
+                  <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden", background: "var(--surface-soft)" }}>
+                    <Image
+                      src={a.image}
+                      alt={a.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      style={{ objectFit: "cover" }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        padding: "6px 10px",
+                        background: "linear-gradient(to top, rgba(0,0,0,0.85), transparent)",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: accent.tagColor }}>
+                        {accent.label}
+                      </span>
+                      <span className="label-upper" style={{ fontSize: 9, color: "var(--on-dark)" }}>
+                        {a.year}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Title & Info */}
+                  <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                    <div>
+                      <h3
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 700,
+                          color: "var(--on-dark)",
+                          lineHeight: 1.35,
+                          marginBottom: 8,
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {a.title}
+                      </h3>
+                      <p className="body-sm" style={{ fontSize: 11, color: "var(--body)" }}>
+                        {a.organizer}
+                      </p>
+                    </div>
+
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 12, paddingTop: 8, borderTop: "1px solid var(--hairline)" }}>
+                      <span className="label-upper" style={{ color: "var(--muted)", fontSize: 9 }}>
+                        <BadgeIcon name={a.badge} /> {a.category}
+                      </span>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: "var(--on-dark)", letterSpacing: "1px", textTransform: "uppercase" }}>
+                        {isSelected ? "● INSPECTED" : "VIEW DETAILS →"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* COCKPIT SWITCHER: Category Tabs */}
+        <div
+          style={{
+            display: "flex",
+            gap: 1,
+            background: "var(--hairline)",
+            marginBottom: 1,
+            flexWrap: "wrap",
+          }}
+        >
+          {[
+            { id: "all", label: "ALL AWARDS", count: achievements.length },
+            { id: "tech", label: "TECH & INNOVATION", count: achievements.filter(isTech).length },
+            { id: "leadership", label: "LEADERSHIP & HONORS", count: achievements.filter(isLeadership).length },
+          ].map((tab) => {
+            const isActive = filter === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setFilter(tab.id as FilterCategory);
+                  setShowMore(false);
+                }}
+                style={{
+                  background: isActive ? "var(--surface-card)" : "var(--surface-soft)",
+                  border: "none",
+                  borderTop: isActive ? "2px solid var(--m-red)" : "2px solid transparent",
+                  color: isActive ? "var(--on-dark)" : "var(--muted)",
+                  padding: "12px 20px",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "1.5px",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 10,
+                  transition: "all 0.2s",
+                }}
+              >
+                <span>{tab.label}</span>
+                <span
+                  style={{
+                    fontSize: 9,
+                    padding: "2px 6px",
+                    background: isActive ? "var(--surface-elevated)" : "var(--canvas)",
+                    color: isActive ? "var(--m-red-text)" : "var(--muted)",
+                    fontFamily: "var(--font-mono)",
+                    fontWeight: 700,
+                  }}
+                >
+                  {tab.count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* MASTER-DETAIL GRID */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 380px",
+            gap: 1,
+            background: "var(--hairline)",
+          }}
+          className="detail-grid"
+        >
+          {/* Left Column: Achievement List */}
+          <div style={{ background: "var(--surface-soft)" }}>
+            {listItems.map((a) => {
+              const isSelected = selected?.id === a.id;
+              return (
+                <div key={a.id} style={{ borderBottom: "1px solid var(--hairline)" }}>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={isSelected}
+                    aria-label={`Pilih prestasi: ${a.titleShort}`}
+                    onClick={() => setSelected(a)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelected(a);
+                      }
+                    }}
+                    style={{
+                      padding: "var(--space-md) var(--space-xl)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "var(--space-md)",
+                      cursor: "pointer",
+                      background: isSelected ? "var(--surface-card)" : "transparent",
+                      borderLeft: isSelected ? "3px solid var(--m-red)" : "3px solid transparent",
+                      transition: "all 0.2s",
+                    } as React.CSSProperties}
+                  >
+                    <span style={{ display: "inline-flex", alignItems: "center", color: isSelected ? "var(--m-red-text)" : "var(--on-dark)" }}>
+                      <BadgeIcon name={a.badge} size={20} />
+                    </span>
+
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                        <h4 style={{ fontSize: 13, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase" }}>
+                          {a.titleShort}
+                        </h4>
+                        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: LEVEL_COLOR[a.level], flexShrink: 0 }}>
+                          {LEVEL_LABEL[a.level]}
+                        </span>
+                      </div>
+                      <p className="body-sm" style={{ fontSize: 11, marginTop: 2, color: "var(--muted)" }}>
+                        {a.organizer} · {a.year}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Mobile Inline Expander: Visible on mobile when selected */}
+                  {isSelected && (
+                    <div className="mobile-detail-card" style={{ padding: "0 var(--space-xl) var(--space-lg) var(--space-xl)", background: "var(--surface-card)" }}>
+                      <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden", margin: "10px 0" }}>
+                        <Image src={a.image} alt={a.title} fill sizes="100vw" style={{ objectFit: "cover" }} />
+                      </div>
+                      <p style={{ fontSize: 12, lineHeight: 1.6, color: "var(--body-strong)" }}>
+                        {a.description}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* See More Toggle */}
+            {filteredItems.length > initialLimit && (
+              <div style={{ padding: "var(--space-md) var(--space-xl)" }}>
+                <button
+                  onClick={() => setShowMore((v) => !v)}
+                  aria-expanded={showMore}
+                  aria-label={showMore ? "Tampilkan lebih sedikit" : "Tampilkan semua prestasi"}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: "none",
+                    border: "1px solid var(--hairline)",
+                    color: "var(--on-dark)",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                    padding: "10px 16px",
+                    transition: "all 0.2s",
+                    width: "100%",
+                    justifyContent: "center",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background = "var(--surface-card)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background = "none";
+                  }}
+                >
+                  {showMore ? (
+                    <>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <polyline points="18 15 12 9 6 15"/>
+                      </svg>
+                      SHOW LESS
+                    </>
+                  ) : (
+                    <>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"/>
+                      </svg>
+                      SEE ALL ({filteredItems.length - initialLimit} MORE AWARDS)
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Right Column: Sticky Inspector (Desktop) */}
+          <div className="desktop-inspector" style={{ background: "var(--surface-card)", padding: "var(--space-xl)", position: "sticky", top: 80, alignSelf: "start" }}>
             {selected ? (
               <>
-                <div style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden", marginBottom: "var(--space-lg)" }}>
-                  <Image src={selected.image} alt={selected.title} fill style={{ objectFit: "cover" }} />
+                <div style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden", marginBottom: "var(--space-lg)", background: "var(--surface-soft)" }}>
+                  <Image src={selected.image} alt={selected.title} fill sizes="380px" style={{ objectFit: "cover" }} />
                 </div>
-                <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: LEVEL_COLOR[selected.level] }}>
-                  {LEVEL_LABEL[selected.level]} · {selected.category}
-                </span>
-                <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase", marginTop: 8, marginBottom: 12, lineHeight: 1.3 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                  <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: LEVEL_COLOR[selected.level] }}>
+                    {LEVEL_LABEL[selected.level]} · {selected.category}
+                  </span>
+                  <span className="label-upper" style={{ fontSize: 9, color: "var(--muted)" }}>
+                    {selected.year}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--on-dark)", textTransform: "uppercase", marginTop: 4, marginBottom: 12, lineHeight: 1.35 }}>
                   {selected.title}
                 </h3>
-                <p className="body-sm" style={{ fontSize: 12, lineHeight: 1.6 }}>{selected.description}</p>
-                <div className="hairline" style={{ margin: "var(--space-lg) 0" }} />
-                <p className="label-upper" style={{ fontSize: 10 }}>{selected.organizer}</p>
-                <p className="label-upper" style={{ fontSize: 10, marginTop: 4 }}>{selected.year}</p>
+                <p className="body-sm" style={{ fontSize: 12, lineHeight: 1.6, color: "var(--body-strong)" }}>
+                  {selected.description}
+                </p>
+                <div className="hairline" style={{ margin: "var(--space-lg) 0", height: 1, background: "var(--hairline)" }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <div>
+                    <span className="label-upper" style={{ fontSize: 9, color: "var(--muted)", display: "block" }}>ORGANIZER</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: "var(--on-dark)" }}>{selected.organizer}</span>
+                  </div>
+                  <div>
+                    <span className="label-upper" style={{ fontSize: 9, color: "var(--muted)", display: "block" }}>TYPE / LEVEL</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: "var(--on-dark)", textTransform: "uppercase" }}>{selected.type} · {selected.level}</span>
+                  </div>
+                </div>
               </>
             ) : (
               <div style={{ color: "var(--muted)", textAlign: "center", paddingTop: "var(--space-xxl)" }}>
-                <p className="label-upper">Select an achievement</p>
+                <p className="label-upper">SELECT AN ACHIEVEMENT</p>
               </div>
             )}
           </div>
@@ -287,10 +501,21 @@ export default function Prestasi() {
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .feat-grid { grid-template-columns: 1fr !important; }
-          .detail-grid { grid-template-columns: 1fr !important; }
-          .detail-grid > div:last-child { display: none; }
+        @media (min-width: 901px) {
+          .mobile-detail-card {
+            display: none !important;
+          }
+        }
+        @media (max-width: 900px) {
+          .detail-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .desktop-inspector {
+            display: none !important;
+          }
+          .mobile-detail-card {
+            display: block;
+          }
         }
       `}</style>
     </section>

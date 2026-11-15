@@ -178,6 +178,23 @@ export const educationHistory = [
 
 export const achievements = [
   {
+    id: 14,
+    title: "Juara 3 Jagoan Hosting Innovation Competition",
+    titleShort: "3rd Jagoan Hosting Innovation",
+    category: "Competition",
+    organizer: "Jagoan Hosting",
+    year: 2026,
+    date: "2026-11",
+    type: "competition",
+    level: "national",
+    rank: 3,
+    description: "Bertindak sebagai Project Manager dan Frontend Developer dalam merancang serta mengimplementasikan produk inovasi digital hingga berhasil mengamankan gelar Juara 3 Nasional pada ajang Jagoan Hosting Innovation Competition.",
+    image: "/prestasi/prestasi14.jpg",
+    badge: "trophy",
+    color: "bg-amber-600",
+    featured: true,
+  },
+  {
     id: 13,
     title: "Juara 2 Web Design Competition Nasional",
     titleShort: "2nd Web Design National",
