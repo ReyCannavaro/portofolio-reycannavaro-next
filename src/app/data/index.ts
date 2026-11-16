@@ -418,6 +418,26 @@ export const achievements = [
 
 export const projects = [
   {
+    id: "skomda-gateway",
+    name: "SKOMDA Digital Gateway",
+    tagline: "Interactive Web Ecosystem & Official Institutional Portal",
+    description: "Memimpin tim sebagai Project Manager sekaligus Lead Frontend Developer dalam merancang ulang portal resmi SMK Telkom Sidoarjo (SKOMDA). Mengembangkan arsitektur antarmuka modern yang modular, interaktif, dan berkinerja tinggi—dilengkapi integrasi AI Assistant dan showcase kejuruan—hingga berhasil meraih Juara 3 Nasional pada ajang Jagoan Hosting Innovation Competition (JHIC 2026) dan resmi diimplementasikan oleh pihak sekolah.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Vite", "Framer Motion", "REST API"],
+    status: "completed",
+    duration: "3 months",
+    category: "Web Development",
+    images: {
+      thumbnail: "/projects/skomda1.png",
+      gallery: ["/projects/skomda1.png"],
+    },
+    links: {
+      github: "https://github.com/vaiozaffana/jhic.git",
+      live: "https://chevron.smktelkom-sda.sch.id/",
+    },
+    tags: ["Web Dev", "React", "TypeScript", "Tailwind CSS", "JHIC 2026", "Award Winning"],
+    featured: true,
+  },
+  {
     id: "techsphere",
     name: "TechSphere",
     tagline: "Gadget Review & Rating Platform",

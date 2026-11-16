@@ -196,7 +196,7 @@ export default function Hero() {
         >
           {[
             { value: `${personalInfo.yearsExperience}+`, label: "Years Exp" },
-            { value: "6+", label: "Projects" },
+            { value: "10+", label: "Projects" },
             { value: "15+", label: "Achievements" },
             { value: personalInfo.age.toString(), label: "Years Old" },
           ].map((s) => (
