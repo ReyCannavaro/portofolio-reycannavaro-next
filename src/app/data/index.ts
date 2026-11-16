@@ -74,22 +74,22 @@ export const skillCategories = [
   {
     id: "backend",
     label: "Backend",
-    skills: ["Laravel 11", "PHP 8.2", "Node.js", "Hono.js", "REST API", "Express.js"],
+    skills: ["Laravel 11", "PHP 8.2", "Node.js", "ElysiaJS", "Bun", "Hono.js", "REST API", "Express.js"],
   },
   {
     id: "database",
     label: "Database",
-    skills: ["MySQL", "PostgreSQL", "Prisma", "Supabase", "MongoDB", "Firebase"],
+    skills: ["MySQL", "PostgreSQL", "TimescaleDB", "Prisma", "Supabase", "MongoDB"],
   },
   {
     id: "ai-ml",
     label: "AI / ML",
-    skills: ["Google Gemini API", "RAG System", "Scikit-learn", "Pandas", "NumPy"],
+    skills: ["Google Gemini API", "RAG System", "XGBoost", "Scikit-learn", "Pandas", "NumPy"],
   },
   {
     id: "iot",
     label: "IoT",
-    skills: ["ESP32", "MicroPython", "MQTT", "Thonny IDE"],
+    skills: ["ESP32", "FreeRTOS", "MicroPython", "MQTT", "Thonny IDE"],
   },
   {
     id: "tools",
@@ -491,22 +491,22 @@ export const projects = [
   },
   {
     id: "urbangrow",
-    name: "UrbanGrow",
-    tagline: "IoT Smart Urban Farming",
-    description: "Mengimplementasikan sistem IoT untuk pertanian urban. Sensor membaca suhu, kelembapan, dan cahaya secara real-time, lalu mengirimkan data ke web dashboard untuk pengawasan tanaman dari jarak jauh nonstop.",
-    technologies: ["React", "Google Gemini API", "MicroPython", "Thonny", "Tailwind CSS"],
+    name: "UrbanGrow Smart Aquaponic",
+    tagline: "Climate-Adaptive IoT & Predictive AI Ecosystem",
+    description: "Ekosistem akuaponik bertingkat adaptif iklim berbasis IoT dan Predictive AI. Mengintegrasikan telemetri 6 sensor mikrokontroler ESP32 FreeRTOS, microservice analitik FastAPI XGBoost untuk prediksi biomassa dan estimasi panen (GDD), backend Bun & ElysiaJS berkinerja tinggi dengan database time-series TimescaleDB, serta dashboard web Next.js 16 dan aplikasi mobile Flutter 3.",
+    technologies: ["Next.js 16", "Flutter 3", "ElysiaJS", "Bun", "FastAPI", "XGBoost", "TimescaleDB", "ESP32 FreeRTOS"],
     status: "completed",
     duration: "6+ months",
     category: "IoT",
     images: {
-      thumbnail: "/projects/urbangrow1.png",
-      gallery: ["/projects/urbangrow1.png"],
+      thumbnail: "/projects/urbangrow-dashboard.png",
+      gallery: ["/projects/urbangrow-dashboard.png", "/projects/urbangrow-ai.png"],
     },
     links: {
-      github: "https://github.com/ReyCannavaro/urbangrow.git",
+      github: "https://github.com/ReyCannavaro/urbangrow-eng.git",
       live: null,
     },
-    tags: ["IoT", "React", "MicroPython", "Smart Farming"],
+    tags: ["IoT", "Next.js 16", "ElysiaJS", "FastAPI", "Flutter", "TimescaleDB", "ESP32", "Smart Farming"],
     featured: true,
   },
   {
