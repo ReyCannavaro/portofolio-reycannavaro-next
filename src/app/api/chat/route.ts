@@ -6,7 +6,7 @@ type ChatMessage = {
   content: string;
 };
 
-type GroqResponseBody = {
+type ChatResponseBody = {
   choices?: {
     message?: {
       content?: string;
@@ -18,7 +18,7 @@ type GroqResponseBody = {
 };
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = process.env.GROQ_MODEL || "llama-3.1-8b-instant";
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
 const MAX_MESSAGES = 10;
 
 function isChatMessage(message: unknown): message is ChatMessage {
@@ -32,19 +32,40 @@ function isChatMessage(message: unknown): message is ChatMessage {
   );
 }
 
-function extractOutputText(data: GroqResponseBody) {
+function extractOutputText(data: ChatResponseBody) {
   return data.choices?.[0]?.message?.content?.trim();
 }
 
 export async function POST(request: Request) {
+  const isGeminiOnly = !process.env.GROQ_API_KEY && Boolean(process.env.GEMINI_API_KEY);
   const apiKey = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
     return NextResponse.json(
-      { error: "GROQ_API_KEY belum tersedia di environment server." },
+      { error: "GROQ_API_KEY atau GEMINI_API_KEY belum tersedia di environment server." },
       { status: 500 }
     );
   }
+
+  const endpointUrl = isGeminiOnly ? GEMINI_API_URL : GROQ_API_URL;
+  const candidateModels = isGeminiOnly
+    ? Array.from(
+        new Set(
+          [process.env.GEMINI_MODEL, "gemini-2.0-flash", "gemini-1.5-flash"].filter(
+            Boolean
+          ) as string[]
+        )
+      )
+    : Array.from(
+        new Set(
+          [
+            process.env.GROQ_MODEL,
+            "openai/gpt-oss-20b",
+            "openai/gpt-oss-120b",
+            "qwen/qwen3.8-27b",
+          ].filter(Boolean) as string[]
+        )
+      );
 
   try {
     const body = (await request.json()) as { messages?: unknown };
@@ -74,53 +95,81 @@ export async function POST(request: Request) {
       `Data portofolio Rey:\n${getPortfolioContext()}`,
     ].join("\n\n");
 
-    const response = await fetch(GROQ_API_URL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [
-          {
-            role: "system",
-            content: systemPrompt,
+    let lastError: { status: number; message: string } | null = null;
+
+    for (const model of candidateModels) {
+      try {
+        const response = await fetch(endpointUrl, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
           },
-          ...messages.map((message) => ({
-            role: message.role,
-            content: message.content.slice(0, 2000),
-          })),
-        ],
-        temperature: 0.7,
-        max_completion_tokens: 700,
-      }),
-    });
+          body: JSON.stringify({
+            model,
+            messages: [
+              {
+                role: "system",
+                content: systemPrompt,
+              },
+              ...messages.map((message) => ({
+                role: message.role,
+                content: message.content.slice(0, 2000),
+              })),
+            ],
+            temperature: 0.7,
+            max_completion_tokens: 700,
+          }),
+        });
 
-    const data = (await response.json()) as GroqResponseBody;
+        const data = (await response.json()) as ChatResponseBody;
 
-    if (!response.ok) {
-      const message = data.error?.message || "Gagal menghubungi model AI.";
-      const isRateLimitError = response.status === 429;
+        if (response.ok) {
+          const reply = extractOutputText(data);
+          if (reply) {
+            return NextResponse.json({ reply });
+          }
+        }
+
+        const message = data.error?.message || "Gagal menghubungi model AI.";
+        lastError = { status: response.status, message };
+
+        // If model doesn't exist, try next candidate model in list
+        if (/does not exist|not found|access|model_not_found/i.test(message)) {
+          console.warn(`Model ${model} unavailable, trying fallback...`);
+          continue;
+        }
+
+        // Fatal auth or rate limit error -> break and return
+        break;
+      } catch (fetchErr) {
+        lastError = {
+          status: 500,
+          message: fetchErr instanceof Error ? fetchErr.message : "Network error",
+        };
+      }
+    }
+
+    if (lastError) {
+      const isRateLimitError = lastError.status === 429;
       const isInvalidApiKeyError =
-        response.status === 401 || /invalid api key|unauthorized|api key/i.test(message);
+        lastError.status === 401 ||
+        /invalid api key|unauthorized|api key/i.test(lastError.message);
 
       return NextResponse.json(
         {
           error: isRateLimitError
-            ? "Rate limit Groq sedang tercapai. Coba lagi sebentar lagi."
+            ? "Rate limit AI sedang tercapai. Coba lagi sebentar lagi."
             : isInvalidApiKeyError
-            ? "GROQ_API_KEY belum valid. Pakai API key dari console.groq.com."
-            : message,
+            ? "API Key belum valid. Mohon periksa kembali di environment server."
+            : lastError.message,
         },
-        { status: response.status }
+        { status: lastError.status }
       );
     }
 
-    const reply = extractOutputText(data);
-
     return NextResponse.json({
-      reply: reply || "Maaf, saya belum bisa membuat jawaban untuk pertanyaan itu.",
+      reply: "Maaf, saya belum bisa membuat jawaban untuk pertanyaan itu.",
     });
   } catch (error) {
     console.error("[/api/chat]", error);
