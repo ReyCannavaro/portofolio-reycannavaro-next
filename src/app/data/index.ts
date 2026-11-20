@@ -107,32 +107,104 @@ export const techStats = [
 
 export const currentlyLearning = ["Next.js 15", "Express.js", "AI Integration"];
 
-export const experienceHistory = [
+export interface ExperienceSubRole {
+  id: string;
+  role: string;
+  type: string;
+  period: string;
+  status: "current" | "completed";
+  badge: string;
+  scope: string;
+  summary: string;
+  responsibilities: string[];
+  technologies: string[];
+}
+
+export interface ExperienceHistoryItem {
+  id: number;
+  company: string;
+  companyFull?: string;
+  slug: string;
+  role: string;
+  type: string;
+  status: string;
+  startYear: number;
+  endYear: number | null;
+  period: string;
+  location: string;
+  industry: string;
+  scope: string;
+  summary: string;
+  description: string;
+  roles?: ExperienceSubRole[];
+  responsibilities: string[];
+  technologies: string[];
+  highlights: string[];
+}
+
+export const experienceHistory: ExperienceHistoryItem[] = [
   {
     id: 1,
     company: "Quantum Leap",
+    companyFull: "PT Qlcom Solusi Bisnis (Quantum Leap)",
     slug: "quantum-leap",
-    role: "Fullstack Developer Intern & HRIS Team Lead",
-    type: "Internship",
+    role: "Lead Tim HRIS & Fullstack Developer Intern",
+    type: "Internship & Contract",
     status: "ongoing",
     startYear: 2026,
-    endYear: null,
-    period: "2026 - Present",
-    location: "Indonesia",
-    industry: "Custom ERP & HRIS Solutions",
-    scope: "Enterprise HRIS & Client Systems",
+    endYear: 2027,
+    period: "Mei 2026 – Feb 2027",
+    location: "Sidoarjo, Indonesia",
+    industry: "Enterprise ERP & HRIS",
+    scope: "Enterprise Systems & Multi-Client Maintenance",
     summary:
-      "Fullstack Developer Intern di Quantum Leap dengan akselerasi tanggung jawab: dipercaya memimpin tim teknis dalam pengembangan (development) dan pemeliharaan (maintenance) sistem HRIS untuk berbagai perusahaan klien enterprise.",
+      "Perjalanan profesional di Quantum Leap dengan akselerasi tanggung jawab: bermula dari magang reguler sebagai developer modul internal, kemudian resmi dikontrak berbayar dan diangkat menjadi Lead Tim yang memegang development serta maintenance sistem HRIS untuk 6 perusahaan klien enterprise.",
     description:
-      "Berawal dari kontribusi teknis sebagai developer intern, kemudian dipercaya memperluas tanggung jawab dengan memimpin tim dalam mengawal stabilitas, kustomisasi modul, dan pemeliharaan harian sistem HRIS produksi yang digunakan perusahaan klien.",
+      "Menunjukkan rekam jejak kepemimpinan teknis dan kepercayaan tinggi dalam mengelola siklus hidup perangkat lunak produksi skala enterprise.",
+    roles: [
+      {
+        id: "lead-hris",
+        role: "Lead Tim HRIS (Development & Maintenance)",
+        type: "Paid Internship / Contract",
+        period: "Agu 2026 – Feb 2027",
+        status: "current",
+        badge: "PROMOTED TO LEAD",
+        scope: "6 Enterprise HRIS Clients",
+        summary:
+          "Resmi dikontrak berbayar untuk memimpin tim teknis dalam pengembangan modul baru dan pemeliharaan harian (maintenance) sistem HRIS yang digunakan oleh 6 perusahaan klien enterprise luar.",
+        responsibilities: [
+          "Memimpin tim development dan maintenance harian sistem HRIS untuk 6 perusahaan klien enterprise aktif (Temprina - Jawa Pos Group, MSC, Pabrik Kilang Padi, PT Budi Jaya, MIA, BBS)",
+          "Mengoptimalkan query database relasional dan arsitektur absensi dinamis serta payroll karyawan berskala besar dengan komitmen zero downtime",
+          "Menyesuaikan modul administrasi HR, aturan shift kerja pabrik dinamis, dan kalkulasi lembur sesuai regulasi operasional masing-masing mitra klien",
+        ],
+        technologies: ["Laravel", "Vue.js", "PostgreSQL", "MySQL", "REST API", "Database Optimization"],
+      },
+      {
+        id: "intern-fullstack",
+        role: "Fullstack Developer Intern",
+        type: "Regular Internship",
+        period: "Mei 2026 – Jul 2026",
+        status: "completed",
+        badge: "MAGANG AWAL",
+        scope: "Internal ERP & Real Estate Platforms",
+        summary:
+          "Memulai masa magang dengan berkontribusi langsung pada tim developer dalam rekayasa modul operasional ERP ritel dan platform real estate internal kantor.",
+        responsibilities: [
+          "Membangun modul operasional utama pada ERP inventori ritel PT Hutomo Baut Indonesia (ERP Bos Baut) menggunakan Vue.js, Express.js, dan PostgreSQL",
+          "Mengembangkan platform manajemen data klien dan pelacakan progres konstruksi proyek real estate Mansion Nine (Nuxt.js, Express.js)",
+          "Berkolaborasi dengan developer senior dalam merancang arsitektur database dan integrasi REST API yang modular",
+        ],
+        technologies: ["Vue.js", "Nuxt.js", "Express.js", "PostgreSQL", "REST API"],
+      },
+    ],
     responsibilities: [
       "Memimpin tim development dan maintenance harian sistem HRIS untuk 6 perusahaan klien enterprise aktif (Temprina - Jawa Pos Group, MSC, Pabrik Kilang Padi, PT Budi Jaya, MIA, BBS)",
       "Mengoptimalkan query database relasional dan arsitektur absensi dinamis serta payroll karyawan berskala besar dengan komitmen zero downtime",
       "Menyesuaikan modul administrasi HR, aturan shift kerja pabrik dinamis, dan kalkulasi lembur sesuai regulasi operasional masing-masing mitra klien",
       "Mengembangkan modul operasional utama pada ERP inventori ritel (ERP Bos Baut) dan platform manajemen progres proyek real estate (Mansion Nine)",
     ],
-    technologies: ["Vue.js", "TypeScript", "Laravel", "PostgreSQL", "REST API", "HRIS Architecture"],
-    highlights: ["Team Lead Responsibility", "6 Enterprise HRIS Clients", "Zero Downtime SLA", "Fullstack Engineering"],
+    technologies: ["Vue.js", "Nuxt.js", "Laravel", "Express.js", "PostgreSQL", "MySQL", "REST API", "HRIS Architecture"],
+    highlights: ["2-Stage Role Progression", "Promoted to Team Lead", "Paid Contract", "6 Enterprise HRIS Clients", "Zero Downtime SLA"],
   },
 ];
 

@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
-import { experienceHistory } from "../data/index";
+import { experienceHistory, type ExperienceSubRole } from "../data/index";
 
 export default function Experience() {
   const ref = useRef<HTMLElement>(null);
@@ -162,32 +162,147 @@ export default function Experience() {
                   {item.description}
                 </p>
 
+                {/* LinkedIn-style Role Progression Timeline */}
+                {Boolean(item.roles && item.roles.length > 0) && (
+                  <div style={{ marginTop: "var(--space-lg)", marginBottom: "var(--space-xl)" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        marginBottom: "var(--space-lg)",
+                        paddingBottom: 8,
+                        borderBottom: "1px solid var(--hairline)",
+                      }}
+                    >
+                      <span className="label-upper" style={{ color: "var(--m-blue-text)", fontSize: 10, letterSpacing: "1.5px" }}>
+                        ROLE PROGRESSION &middot; 2 STAGES
+                      </span>
+                      <div className="m-stripe" style={{ width: 36, height: 2 }} />
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 28,
+                        position: "relative",
+                        paddingLeft: 24,
+                        borderLeft: "2px solid var(--hairline)",
+                        marginLeft: 6,
+                      }}
+                    >
+                      {item.roles?.map((r: ExperienceSubRole) => {
+                        const isCurrent = r.status === "current";
+                        return (
+                          <div key={r.id} style={{ position: "relative" }}>
+                            {/* Timeline node */}
+                            <div
+                              style={{
+                                position: "absolute",
+                                left: -31,
+                                top: 4,
+                                width: 12,
+                                height: 12,
+                                background: isCurrent ? "var(--m-red)" : "var(--canvas)",
+                                border: isCurrent ? "2px solid #fff" : "2px solid var(--m-blue-text)",
+                                boxShadow: isCurrent ? "0 0 10px rgba(224, 0, 0, 0.5)" : "none",
+                              }}
+                            />
+
+                            {/* Role meta & header */}
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 10,
+                                flexWrap: "wrap",
+                                marginBottom: 6,
+                              }}
+                            >
+                              <span
+                                style={{
+                                  fontSize: 10,
+                                  fontWeight: 700,
+                                  letterSpacing: "1px",
+                                  textTransform: "uppercase",
+                                  padding: "3px 8px",
+                                  background: isCurrent ? "rgba(224, 0, 0, 0.15)" : "rgba(0, 102, 177, 0.15)",
+                                  color: isCurrent ? "var(--m-red)" : "var(--m-blue-text)",
+                                  border: `1px solid ${isCurrent ? "var(--m-red)" : "var(--m-blue-text)"}`,
+                                }}
+                              >
+                                {r.badge}
+                              </span>
+                              <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>
+                                {r.period} &middot; {r.type}
+                              </span>
+                            </div>
+
+                            <h5
+                              style={{
+                                fontSize: 18,
+                                fontWeight: 700,
+                                textTransform: "uppercase",
+                                color: "var(--on-dark)",
+                                marginBottom: 6,
+                              }}
+                            >
+                              {r.role}
+                            </h5>
+
+                            <p className="body-sm" style={{ color: "var(--body-strong)", marginBottom: 12, maxWidth: 720 }}>
+                              {r.summary}
+                            </p>
+
+                            {/* What I do in this stage */}
+                            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
+                              {r.responsibilities.map((resp: string, idx: number) => (
+                                <div key={resp} style={{ display: "grid", gridTemplateColumns: "24px 1fr", gap: 8, alignItems: "start" }}>
+                                  <span
+                                    style={{
+                                      color: isCurrent ? "var(--m-red)" : "var(--m-blue-text)",
+                                      fontSize: 10,
+                                      fontWeight: 700,
+                                      letterSpacing: "1px",
+                                    }}
+                                  >
+                                    {String(idx + 1).padStart(2, "0")}
+                                  </span>
+                                  <p className="body-sm" style={{ fontSize: 13, color: "var(--body)" }}>{resp}</p>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Tech pills for this stage */}
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                              {r.technologies.map((t: string) => (
+                                <span
+                                  key={t}
+                                  style={{
+                                    padding: "2px 8px",
+                                    fontSize: 10,
+                                    border: "1px solid var(--hairline)",
+                                    color: "var(--muted)",
+                                    background: "var(--canvas)",
+                                  }}
+                                >
+                                  {t}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 <div className="hairline" style={{ marginBottom: "var(--space-lg)" }} />
 
                 <div className="experience-detail-grid" style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "var(--space-xl)" }}>
                   <div>
-                    <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>What I do</span>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: "var(--space-md)" }}>
-                      {item.responsibilities.map((responsibility, index) => (
-                        <div key={responsibility} style={{ display: "grid", gridTemplateColumns: "32px 1fr", gap: 12, alignItems: "start" }}>
-                          <span
-                            style={{
-                              color: "var(--m-blue-text)",
-                              fontSize: 11,
-                              fontWeight: 700,
-                              letterSpacing: "1.5px",
-                            }}
-                          >
-                            {String(index + 1).padStart(2, "0")}
-                          </span>
-                          <p className="body-sm">{responsibility}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>Stack &amp; Focus</span>
+                    <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>Overall Stack</span>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: "var(--space-md)", marginBottom: "var(--space-lg)" }}>
                       {item.technologies.map((tech) => (
                         <span
@@ -204,7 +319,11 @@ export default function Experience() {
                         </span>
                       ))}
                     </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 1, background: "var(--hairline)" }}>
+                  </div>
+
+                  <div>
+                    <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>Tenure Highlights</span>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 1, background: "var(--hairline)", marginTop: "var(--space-md)" }}>
                       {item.highlights.map((highlight) => (
                         <div key={highlight} style={{ background: "var(--surface-soft)", padding: "12px 14px" }}>
                           <span className="label-upper" style={{ color: "var(--body-strong)", fontSize: 10 }}>

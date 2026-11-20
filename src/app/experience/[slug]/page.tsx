@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { experienceHistory } from "../../data/index";
+import { experienceHistory, type ExperienceSubRole } from "../../data/index";
 import { quantumLeapProjects } from "../../data/experience-ql";
 import CaseStudyProjects from "../../components/CaseStudyProjects";
 import Sidebar from "../../components/Sidebar";
@@ -118,6 +118,108 @@ export default async function ExperienceDetail({ params }: { params: Promise<{ s
             </div>
           </div>
         </section>
+
+        {/* Role Progression Section */}
+        {Boolean(experience.roles && experience.roles.length > 0) && (
+          <section style={{ padding: "0 0 var(--space-xl) 0" }}>
+            <div className="container">
+              <div style={{ marginBottom: "var(--space-lg)" }}>
+                <span className="label-upper" style={{ color: "var(--m-blue-text)", letterSpacing: "2px" }}>
+                  CAREER &amp; TENURE TIMELINE
+                </span>
+                <h2 className="display-md" style={{ marginTop: 8 }}>
+                  ROLE PROGRESSION
+                </h2>
+                <p className="body-sm" style={{ color: "var(--muted)", maxWidth: 640, marginTop: 8 }}>
+                  Rekam jejak akselerasi tanggung jawab dari program magang reguler hingga resmi dikontrak memimpin tim teknis HRIS klien enterprise.
+                </p>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 28,
+                  position: "relative",
+                  paddingLeft: 28,
+                  borderLeft: "2px solid var(--hairline)",
+                  marginLeft: 8,
+                }}
+              >
+                {experience.roles?.map((r: ExperienceSubRole) => {
+                  const isCurrent = r.status === "current";
+                  return (
+                    <div key={r.id} style={{ position: "relative" }}>
+                      <div
+                        style={{
+                          position: "absolute",
+                          left: -35,
+                          top: 4,
+                          width: 12,
+                          height: 12,
+                          background: isCurrent ? "var(--m-red)" : "var(--canvas)",
+                          border: isCurrent ? "2px solid #fff" : "2px solid var(--m-blue-text)",
+                          boxShadow: isCurrent ? "0 0 10px rgba(224, 0, 0, 0.5)" : "none",
+                        }}
+                      />
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
+                        <span
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 700,
+                            letterSpacing: "1px",
+                            textTransform: "uppercase",
+                            padding: "3px 8px",
+                            background: isCurrent ? "rgba(224, 0, 0, 0.15)" : "rgba(0, 102, 177, 0.15)",
+                            color: isCurrent ? "var(--m-red)" : "var(--m-blue-text)",
+                            border: `1px solid ${isCurrent ? "var(--m-red)" : "var(--m-blue-text)"}`,
+                          }}
+                        >
+                          {r.badge}
+                        </span>
+                        <span className="label-upper" style={{ color: "var(--muted)", fontSize: 10 }}>
+                          {r.period} &middot; {r.type}
+                        </span>
+                      </div>
+                      <h4 style={{ fontSize: 20, fontWeight: 700, textTransform: "uppercase", color: "var(--on-dark)", marginBottom: 6 }}>
+                        {r.role}
+                      </h4>
+                      <p className="body-sm" style={{ color: "var(--body-strong)", maxWidth: 760, marginBottom: 12 }}>
+                        {r.summary}
+                      </p>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 }}>
+                        {r.responsibilities.map((resp: string, idx: number) => (
+                          <div key={resp} style={{ display: "grid", gridTemplateColumns: "24px 1fr", gap: 8, alignItems: "start" }}>
+                            <span style={{ color: isCurrent ? "var(--m-red)" : "var(--m-blue-text)", fontSize: 10, fontWeight: 700 }}>
+                              {String(idx + 1).padStart(2, "0")}
+                            </span>
+                            <p className="body-sm" style={{ fontSize: 13 }}>{resp}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                        {r.technologies.map((t: string) => (
+                          <span
+                            key={t}
+                            style={{
+                              padding: "2px 8px",
+                              fontSize: 10,
+                              border: "1px solid var(--hairline)",
+                              color: "var(--muted)",
+                              background: "var(--canvas)",
+                            }}
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Projects 3-Up Grid */}
         <section style={{ padding: "0 0 var(--space-section) 0" }}>

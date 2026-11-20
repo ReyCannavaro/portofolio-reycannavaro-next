@@ -335,18 +335,17 @@ const htmlContent = `<!DOCTYPE html>
     <div class="entry">
       <div class="entry-header">
         <span class="entry-title"><span class="company">Quantum Leap</span> (PT Qlcom Solusi Bisnis)</span>
-        <span class="entry-date">Januari 2026 – Sekarang</span>
+        <span class="entry-date">Mei 2026 – Februari 2027</span>
       </div>
       <div class="entry-sub">
-        <span class="role">Fullstack Developer & Maintenance Team Lead</span>
+        <span class="role">Lead Tim HRIS (Contracted) & Fullstack Developer Intern</span>
         <span class="location">Sidoarjo, Indonesia</span>
       </div>
       <ul class="bullet-list">
-        <li><strong>Memimpin Tim Maintenance 6 HRIS Aktif:</strong> Mengoordinasikan tim teknis dalam pemeliharaan harian sistem Human Resource Information System (HRIS) untuk 6 perusahaan klien enterprise aktif (antara lain: Temprina - Jawa Pos Group, MSC, Pabrik Kilang Padi, PT Budi Jaya, dll.).</li>
-        <li><strong>Stabilitas & Optimasi Query Database:</strong> Mengoptimalkan query database relasional yang menangani ribuan entri data karyawan, memastikan proses absensi dinamis dan payroll bulanan berjalan akurat dengan <em>zero downtime</em>.</li>
-        <li><strong>Kustomisasi Modul Operasional:</strong> Mengadaptasi aturan shift kerja pabrik dinamis, validasi lembur, dan manajemen cuti sesuai regulasi ketenagakerjaan internal masing-masing mitra industri.</li>
-        <li><strong>Pengembangan ERP Bos Baut:</strong> Membangun modul operasional utama pada sistem ERP ritel & inventori PT Hutomo Baut Indonesia menggunakan Vue.js, Express.js, dan PostgreSQL.</li>
-        <li><strong>Platform Real Estate Mansion Nine:</strong> Mengembangkan platform operasional digital untuk pelacakan progres konstruksi proyek dan manajemen serah terima unit (Nuxt.js, Express.js).</li>
+        <li><strong>Agustus 2026 – Februari 2027 (Lead Tim HRIS - Magang Berbayar / Kontrak):</strong> Resmi dikontrak berbayar dan dipercaya memimpin tim teknis dalam pengembangan serta pemeliharaan harian (maintenance) sistem HRIS untuk 6 perusahaan klien enterprise aktif (Temprina - Jawa Pos Group, MSC, Pabrik Kilang Padi, PT Budi Jaya, MIA, BBS).</li>
+        <li><strong>Stabilitas & Database Optimization:</strong> Mengoptimalkan query database relasional yang menangani ribuan entri data karyawan, memastikan proses absensi dinamis dan payroll bulanan berjalan akurat dengan <em>zero downtime</em>.</li>
+        <li><strong>Kustomisasi Modul Klien:</strong> Menyesuaikan aturan shift kerja pabrik dinamis, validasi lembur, dan manajemen cuti sesuai regulasi ketenagakerjaan internal masing-masing mitra industri.</li>
+        <li><strong>Mei 2026 – Juli 2026 (Fullstack Developer Intern - Magang Reguler):</strong> Terlibat dalam rekayasa modul operasional utama pada ERP Bos Baut (PT Hutomo Baut Indonesia) menggunakan Vue.js, Express.js, PostgreSQL, serta platform operasional real estate Mansion Nine (Nuxt.js).</li>
       </ul>
     </div>
   </section>

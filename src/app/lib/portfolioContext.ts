@@ -7,6 +7,8 @@ import {
   projects,
   skillCategories,
   socialLinks,
+  type ExperienceSubRole,
+  type ExperienceHistoryItem,
 } from "../data";
 
 export function getPortfolioContext() {
@@ -46,21 +48,34 @@ export function getPortfolioContext() {
     .join("\n\n");
 
   const experience = experienceHistory
-    .map((item) =>
-      [
+    .map((item: ExperienceHistoryItem) => {
+      const rolesInfo =
+        item.roles && item.roles.length > 0
+          ? item.roles
+              .map(
+                (r: ExperienceSubRole) =>
+                  `    * Fase: ${r.role} (${r.period}) [${r.badge} - ${r.type}]\n      Scope: ${r.scope}\n      Ringkasan: ${r.summary}\n      Tanggung jawab: ${r.responsibilities.join("; ")}`
+              )
+              .join("\n")
+          : "";
+
+      return [
         `- ${item.company} (${item.period})`,
-        `  Role: ${item.role}`,
-        `  Tipe: ${item.type}`,
+        `  Role Utama: ${item.role}`,
+        `  Tipe Kontrak: ${item.type}`,
         `  Status: ${item.status}`,
         `  Industri: ${item.industry}`,
         `  Scope: ${item.scope}`,
         `  Lokasi: ${item.location}`,
         `  Ringkasan: ${item.summary}`,
+        rolesInfo ? `  Tahapan Peran (Progresi Karir ala LinkedIn):\n${rolesInfo}` : "",
         `  Deskripsi: ${item.description}`,
-        `  Tanggung jawab: ${item.responsibilities.join(", ")}`,
-        `  Teknologi/fokus: ${item.technologies.join(", ")}`,
-      ].join("\n")
-    )
+        `  Tanggung jawab umum: ${item.responsibilities.join(", ")}`,
+        `  Teknologi: ${item.technologies.join(", ")}`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+    })
     .join("\n\n");
 
   const achievementList = achievements
