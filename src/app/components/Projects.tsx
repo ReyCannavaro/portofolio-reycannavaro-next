@@ -1,9 +1,10 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { projects } from "../data/index";
 
-const HERO_PROJECT_IDS = ["findor", "sira", "pt-rizza-jaya-abadi"];
+const HERO_PROJECT_IDS = ["skomda-gateway", "urbangrow", "sira"];
 
 export default function Projects() {
   const ref = useRef<HTMLElement>(null);
@@ -310,7 +311,35 @@ export default function Projects() {
                           </span>
                         ))}
                       </div>
-                      <div style={{ display: "flex", gap: 8 }}>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                        {(p.id === "urbangrow" || p.id === "skomda-gateway") && (
+                          <Link
+                            href={`/projects/${p.id}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                              fontSize: 10,
+                              fontWeight: 700,
+                              letterSpacing: "1.2px",
+                              textTransform: "uppercase",
+                              color: "#fff",
+                              background: "rgba(0, 102, 177, 0.22)",
+                              border: "1px solid var(--m-blue-text)",
+                              textDecoration: "none",
+                              padding: "5px 12px",
+                              transition: "all 0.2s",
+                            }}
+                            onMouseEnter={(e) => {
+                              (e.currentTarget as HTMLAnchorElement).style.background = "var(--m-blue-dark)";
+                              (e.currentTarget as HTMLAnchorElement).style.borderColor = "#fff";
+                            }}
+                            onMouseLeave={(e) => {
+                              (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0, 102, 177, 0.22)";
+                              (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--m-blue-text)";
+                            }}
+                          >
+                            CASE STUDY →
+                          </Link>
+                        )}
                         {p.links.github && (
                           <a
                             href={p.links.github}
@@ -573,7 +602,32 @@ export default function Projects() {
 
                   <div style={{ height: 1, background: "var(--hairline)", marginTop: 8 }} />
 
-                  <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                  <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+                    {(project.id === "urbangrow" || project.id === "skomda-gateway") && (
+                      <Link
+                        href={`/projects/${project.id}`}
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 700,
+                          letterSpacing: "1px",
+                          textTransform: "uppercase",
+                          color: "#fff",
+                          textDecoration: "none",
+                          border: "1px solid var(--m-blue-text)",
+                          background: "rgba(0, 102, 177, 0.18)",
+                          padding: "2px 8px",
+                          transition: "all 0.2s",
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLAnchorElement).style.background = "var(--m-blue-dark)";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0, 102, 177, 0.18)";
+                        }}
+                      >
+                        Case Study →
+                      </Link>
+                    )}
                     {project.links.github && (
                       <a
                         href={project.links.github}

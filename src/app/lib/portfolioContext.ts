@@ -20,6 +20,10 @@ export function getPortfolioContext() {
     .map((project) => {
       const live = project.links.live ? `Live: ${project.links.live}` : "Live: belum tersedia";
       const github = project.links.github ? `GitHub: ${project.links.github}` : "GitHub: belum tersedia";
+      const caseStudy =
+        project.id === "urbangrow" || project.id === "skomda-gateway"
+          ? `  Studi Kasus Rekayasa Arsitektur: Tersedia lengkap di https://reycannavaro.dev/projects/${project.id}`
+          : "";
 
       return [
         `- ${project.name} (${project.category})`,
@@ -30,7 +34,10 @@ export function getPortfolioContext() {
         `  Durasi: ${project.duration}`,
         `  ${github}`,
         `  ${live}`,
-      ].join("\n");
+        caseStudy,
+      ]
+        .filter(Boolean)
+        .join("\n");
     })
     .join("\n\n");
 
