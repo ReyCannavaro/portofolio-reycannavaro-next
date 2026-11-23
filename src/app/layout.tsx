@@ -56,10 +56,10 @@ export const metadata: Metadata = {
     type: "profile",
     images: [
       {
-        url: "https://reycannavaro.dev/images/profile.png",
+        url: "https://reycannavaro.dev/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Reyjuno Al Cannavaro (Rey Cannavaro) - Fullstack Developer & Software Engineer",
+        alt: "Reyjuno Al Cannavaro (Rey Cannavaro) - Fullstack Developer & Software Engineer Official Portfolio",
       },
     ],
   },
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     description:
       "Website portfolio resmi Reyjuno Al Cannavaro (Rey Cannavaro) — Fullstack Developer & Software Engineer berbasis di Sidoarjo, Indonesia.",
     creator: "@reycannavaro",
-    images: ["https://reycannavaro.dev/images/profile.png"],
+    images: ["https://reycannavaro.dev/og-image.png"],
   },
   robots: {
     index: true,
