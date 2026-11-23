@@ -88,6 +88,88 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://reycannavaro.dev" },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://reycannavaro.dev/#person",
+      name: "Reyjuno Al Cannavaro",
+      alternateName: ["Rey Cannavaro", "Reyjuno Cannavaro", "Reyjuno"],
+      jobTitle: "Fullstack Developer & Software Engineer",
+      description:
+        "Fullstack Developer and Technical Lead specializing in enterprise ERP/HRIS systems, climate-adaptive IoT, and predictive AI integration.",
+      url: "https://reycannavaro.dev",
+      image: "https://reycannavaro.dev/images/profile.png",
+      email: "mailto:reyjunoalcannavaro@gmail.com",
+      telephone: "+6282139531132",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Sidoarjo",
+        addressRegion: "Jawa Timur",
+        addressCountry: "ID",
+      },
+      worksFor: {
+        "@type": "Organization",
+        name: "Quantum Leap (PT Qlcom Solusi Bisnis)",
+        url: "https://qlcom.co.id",
+      },
+      alumniOf: [
+        {
+          "@type": "EducationalOrganization",
+          name: "SMK Telkom Sidoarjo",
+          url: "https://smktelkom-sda.sch.id",
+        },
+      ],
+      sameAs: [
+        "https://www.linkedin.com/in/reycannavaro",
+        "https://github.com/ReyCannavaro",
+        "https://instagram.com/reycannavaro",
+      ],
+      knowsAbout: [
+        "Full-Stack Development",
+        "Laravel 11",
+        "Next.js",
+        "React",
+        "Vue.js",
+        "TypeScript",
+        "PostgreSQL",
+        "MySQL",
+        "TimescaleDB",
+        "IoT ESP32 FreeRTOS",
+        "Predictive AI & Machine Learning",
+      ],
+      award: [
+        "Juara 3 Jagoan Hosting Innovation Competition (JHIC 2026)",
+        "Top 10 Finalist IoT MAGE 12 ITS (2026)",
+        "Juara 2 Web Design Competition Nasional IBIK Bogor (2026)",
+        "Juara 1 LKTI Nasional Telkom University (2025)",
+        "Pramuka Penegak Garuda Kwartir Cabang Sidoarjo (2025)",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://reycannavaro.dev/#website",
+      url: "https://reycannavaro.dev",
+      name: "Reyjuno Al Cannavaro Official Portfolio",
+      description:
+        "Official engineering portfolio of Reyjuno Al Cannavaro (Rey Cannavaro) — Fullstack Developer & Software Engineer.",
+      publisher: { "@id": "https://reycannavaro.dev/#person" },
+      inLanguage: "id-ID",
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://reycannavaro.dev/#webpage",
+      url: "https://reycannavaro.dev",
+      name: "Reyjuno Al Cannavaro (Rey Cannavaro) | Fullstack Developer & Software Engineer",
+      isPartOf: { "@id": "https://reycannavaro.dev/#website" },
+      about: { "@id": "https://reycannavaro.dev/#person" },
+      mainEntity: { "@id": "https://reycannavaro.dev/#person" },
+      inLanguage: "id-ID",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -95,6 +177,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="antialiased">
         {children}
       </body>
