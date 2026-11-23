@@ -217,10 +217,20 @@ export default function Hero() {
             gap: "var(--space-md)",
             marginTop: "var(--space-xl)",
             flexWrap: "wrap",
+            alignItems: "center",
           }}
         >
           <a href="#projects" className="btn-primary" aria-label="Lihat pilihan proyek Rey Cannavaro">
             View Projects →
+          </a>
+          <a
+            href="/Reyjuno_Al_Cannavaro_CV.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-m-blue"
+            aria-label="Download Curriculum Vitae Reyjuno Al Cannavaro PDF"
+          >
+            Download CV ↓
           </a>
           <a href={`mailto:${personalInfo.email}`} className="btn-ghost" aria-label={`Kirim email kerja sama ke ${personalInfo.email}`}>
             Get in Touch

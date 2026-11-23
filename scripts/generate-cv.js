@@ -324,7 +324,7 @@ const htmlContent = `<!DOCTYPE html>
   <section class="section">
     <h2 class="section-title">Ringkasan Profesional</h2>
     <p class="summary-text">
-      <strong>Fullstack Developer & Software Engineer</strong> dengan keahlian praktis dalam rekayasa perangkat lunak berskala enterprise, arsitektur ERP & HRIS, serta sistem berbasis web modern. Berpengalaman memimpin tim <em>maintenance</em> untuk <strong>6 sistem HRIS aktif</strong> di berbagai perusahaan klien enterprise serta mengembangkan sistem ERP inventori dan platform real estate. Berorientasi pada <em>clean code</em>, performa database tinggi, dan pemecahan masalah end-to-end yang terbukti lewat pencapaian Juara 2 Web Design Nasional dan Juara 1 LKTI Nasional.
+      <strong>Fullstack Developer & Software Engineer</strong> dengan keahlian praktis dalam rekayasa perangkat lunak berskala enterprise, arsitektur ERP & HRIS, serta sistem web dan IoT/AI modern. Berpengalaman memimpin tim teknis dalam <em>development</em> dan <em>maintenance</em> untuk <strong>6 sistem HRIS aktif</strong> di berbagai perusahaan klien enterprise serta merancang sistem ERP inventori ritel dan platform real estate. Berorientasi pada <em>clean architecture</em>, performa database tinggi, dan pemecahan masalah end-to-end yang terbukti lewat pencapaian Juara 3 Nasional JHIC 2026, Top 10 Finalist IoT MAGE 12 ITS, Juara 2 Web Design Nasional, dan Juara 1 LKTI Nasional.
     </p>
   </section>
 
@@ -378,41 +378,41 @@ const htmlContent = `<!DOCTYPE html>
 
       <div class="entry">
         <div class="project-header">
+          <span class="project-name">UrbanGrow Smart Aquaponic — IoT &amp; Predictive AI Ecosystem</span>
+          <span class="project-tech">Next.js 16, Flutter 3, Bun, ElysiaJS, FastAPI, XGBoost, TimescaleDB, ESP32 FreeRTOS</span>
+        </div>
+        <p class="project-desc">
+          Ekosistem akuaponik adaptif iklim berbasis IoT mikrokontroler ESP32 FreeRTOS dan microservice analitik FastAPI XGBoost untuk prediksi biomassa dan estimasi panen. Backend Bun &amp; ElysiaJS terintegrasi basis data time-series TimescaleDB, dashboard Next.js 16, serta aplikasi mobile Flutter 3. Meraih Top 10 Finalist MAGE 12 ITS.
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="project-header">
+          <span class="project-name">SKOMDA Digital Gateway — Official Institutional Portal</span>
+          <span class="project-tech">React, TypeScript, Tailwind CSS, Vite, AI Assistant, Framer Motion</span>
+        </div>
+        <p class="project-desc">
+          Memimpin tim sebagai Project Manager &amp; Lead Frontend Developer dalam merancang ulang portal ekosistem resmi SMK Telkom Sidoarjo. Mengembangkan arsitektur antarmuka modular, cepat, dan terintegrasi asisten AI. Meraih Juara 3 Nasional JHIC 2026 dan resmi diimplementasikan pihak sekolah. <em>(chevron.smktelkom-sda.sch.id)</em>
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="project-header">
+          <span class="project-name">Medibot — AI-Powered Healthcare Assistant</span>
+          <span class="project-tech">Laravel 11, Google Gemini API, RAG Architecture, PostgreSQL</span>
+        </div>
+        <p class="project-desc">
+          Chatbot konsultasi kesehatan cerdas berbasis Retrieval-Augmented Generation (RAG). Mengekstraksi dokumen panduan medis statis menjadi basis pengetahuan dinamis untuk menyajikan respons medis awal yang akurat dan berbasis rujukan ilmiah terpercaya.
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="project-header">
           <span class="project-name">SIRA — Socratic Interactive RPG Academy</span>
           <span class="project-tech">Next.js, TypeScript, Supabase, Tailwind CSS</span>
         </div>
         <p class="project-desc">
-          Game RPG edukasional berbasis web yang memadukan studi kasus pemecahan masalah interaktif dengan metode dialog Sokrates. Terintegrasi dengan Supabase untuk sinkronisasi state dan progres pemain secara real-time. <em>(Live: sira-wine.vercel.app)</em>
-        </p>
-      </div>
-
-      <div class="entry">
-        <div class="project-header">
-          <span class="project-name">FINDOR — Platform Pencarian & Penyedia Jasa</span>
-          <span class="project-tech">Next.js, TypeScript, Supabase, Tailwind CSS</span>
-        </div>
-        <p class="project-desc">
-          Marketplace penyedia jasa lokal dengan registrasi mitra terverifikasi, pencarian berbasis kategori multi-level yang responsif, serta manajemen pencatatan transaksi terintegrasi.
-        </p>
-      </div>
-
-      <div class="entry">
-        <div class="project-header">
-          <span class="project-name">Medibot — AI-Powered Health Chatbot</span>
-          <span class="project-tech">Laravel 11, Google Gemini API, RAG, MySQL/PostgreSQL</span>
-        </div>
-        <p class="project-desc">
-          Chatbot konsultasi kesehatan cerdas berbasis Retrieval-Augmented Generation (RAG). Mengekstraksi dokumen medis statis menjadi basis pengetahuan dinamis untuk menyajikan respons medis awal yang akurat.
-        </p>
-      </div>
-
-      <div class="entry">
-        <div class="project-header">
-          <span class="project-name">TechSphere — Gadget Review & Rating Platform</span>
-          <span class="project-tech">Laravel 11, Filament Admin, MySQL, Tailwind CSS</span>
-        </div>
-        <p class="project-desc">
-          Platform ulasan gadget interaktif dengan sistem rating pengguna terverifikasi dan panel admin berbasis Filament untuk manajemen katalog ratusan spesifikasi perangkat secara terpusat.
+          Game RPG edukasional berbasis web yang memadukan studi kasus pemecahan masalah interaktif dengan metode dialog Sokrates. Terintegrasi dengan Supabase untuk sinkronisasi state dan progres pemain secara real-time. <em>(sira-wine.vercel.app)</em>
         </p>
       </div>
 

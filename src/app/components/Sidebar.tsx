@@ -228,6 +228,74 @@ export default function Sidebar() {
             );
           })}
 
+          {/* Hairline Divider */}
+          <div style={{ width: 24, height: 1, background: "var(--hairline)", margin: "4px 0" }} />
+
+          {/* Download Resume / CV Link */}
+          <div style={{ position: "relative" }}>
+            <a
+              href="/Reyjuno_Al_Cannavaro_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={() => setHovered("resume-cv")}
+              onMouseLeave={() => setHovered(null)}
+              aria-label="Download Curriculum Vitae PDF"
+              title="Download Resume / CV (PDF)"
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                border: "1px solid var(--m-blue-text)",
+                background: hovered === "resume-cv" ? "var(--m-blue-dark)" : "rgba(0, 102, 177, 0.15)",
+                color: "#fff",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.2s ease",
+                textDecoration: "none",
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="12" y1="18" x2="12" y2="12"/>
+                <polyline points="9 15 12 18 15 15"/>
+              </svg>
+            </a>
+
+            {hovered === "resume-cv" && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: "calc(100% + 12px)",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "rgba(26, 26, 26, 0.95)",
+                  backdropFilter: "blur(8px)",
+                  border: "1px solid var(--m-blue-text)",
+                  padding: "5px 12px",
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                  zIndex: 100,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "1.5px",
+                    textTransform: "uppercase",
+                    color: "#fff",
+                    fontFamily: "var(--font-inter)",
+                  }}
+                >
+                  DOWNLOAD CV (PDF)
+                </span>
+              </div>
+            )}
+          </div>
+
           <div
             style={{
               width: 3,
@@ -287,6 +355,37 @@ export default function Sidebar() {
             </button>
           );
         })}
+
+        <div style={{ width: 1, height: 20, background: "rgba(255,255,255,0.2)", margin: "0 2px" }} />
+
+        <a
+          href="/Reyjuno_Al_Cannavaro_CV.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Download Curriculum Vitae PDF"
+          title="Download CV (PDF)"
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            border: "1px solid var(--m-blue-text)",
+            background: "rgba(0, 102, 177, 0.2)",
+            color: "#fff",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textDecoration: "none",
+            transition: "all 0.2s ease",
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <polyline points="9 15 12 18 15 15"/>
+          </svg>
+        </a>
       </nav>
 
       <style>{`

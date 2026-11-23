@@ -159,6 +159,32 @@ body {
 }
 .btn-primary:hover { background: var(--on-dark); color: var(--canvas); }
 
+.btn-m-blue {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: rgba(0, 102, 177, 0.08);
+  border: 1px solid var(--m-blue-text);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 0;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.btn-m-blue:hover {
+  background: var(--m-blue-dark);
+  border-color: #fff;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(0, 102, 177, 0.4);
+}
+
 .btn-ghost {
   display: inline-flex;
   align-items: center;
