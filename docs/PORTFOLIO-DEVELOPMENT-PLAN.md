@@ -6,13 +6,13 @@ Dokumen perencanaan teknis dan pengembangan strategis untuk ekosistem website po
 
 ## 1. DEVELOPMENT MATRIX & PRIORITIZATION
 
-| Kode | Inisiatif Pengembangan | Kategori | Prioritas | Estimasi Effort | Estimasi Dampak |
+| Kode | Inisiatif Pengembangan | Kategori | Prioritas | Status | Dampak |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **P1** | Instant CV Download CTA & Automated Generator | Conversion & UX | P0 (Kritis) | Ringan (1-2 jam) | Sangat Tinggi |
-| **P2** | Schema.org JSON-LD (Google Knowledge Graph) | Advanced SEO | P0 (Kritis) | Ringan (1 jam) | Sangat Tinggi |
-| **P3** | Dedicated OpenGraph Social Banner (1200x630) | Brand Identity | P1 (Tinggi) | Sedang (2 jam) | Tinggi |
-| **P4** | Flagship Architecture Deep-Dives (Case Studies)| Engineering Depth | P2 (Menengah) | Sedang (3-4 jam) | Tinggi |
-| **P5** | Privacy-First Web Analytics & Speed Insights | Monitoring | P2 (Menengah) | Ringan (30 menit) | Menengah |
+| **P1** | Instant CV Download CTA & Automated Generator | Conversion & UX | P0 (Kritis) | COMPLETED | Sangat Tinggi |
+| **P2** | Schema.org JSON-LD (Google Knowledge Graph) | Advanced SEO | P0 (Kritis) | COMPLETED | Sangat Tinggi |
+| **P3** | Dedicated OpenGraph Social Banner (1200x630) | Brand Identity | P1 (Tinggi) | COMPLETED | Tinggi |
+| **P4** | Flagship Architecture Deep-Dives (Case Studies)| Engineering Depth | P2 (Menengah) | COMPLETED | Tinggi |
+| **P5** | Privacy-First Web Analytics & Speed Insights | Monitoring | P2 (Menengah) | COMPLETED | Menengah |
 
 ---
 
