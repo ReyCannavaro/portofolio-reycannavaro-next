@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "cv:generate": "node scripts/generate-cv.js",
+    "cv:volunteer": "node scripts/generate-cv-volunteer.js",
     "og:generate": "node scripts/generate-og.js"
   },
   "dependencies": {
